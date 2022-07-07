@@ -9,7 +9,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://kit.fontawesome.com/1bcd94c135.js" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-latest.js"></script>
+    <script src="https://code.jquery.com/jquery-latest.js"></script>                                
     <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
     <script src="{{ asset('js/main.js') }}"></script>
 </head>
@@ -99,12 +99,13 @@
                 </div>
                 <div class="category-exit"><i class="fas fa-times-circle"></i></div>
             </div>
-            <div class="row" style="width:100%;margin-left:12px">
+            <div class="row row-category" style="width:100%;margin-left:12px">
                 <div class="badge bg-danger col-3 mx-3 my-3">Beverage <img
                         src="{{ asset('img/alcohol-beer-beverage-drink-mug-pub-svgrepo-com.svg') }}"
-                        class="icon-transaction"></div>
+                        class="icon-transaction">
+                </div>
             </div>
-            <form action="" method="POST" enctype="multipart/form-data" class="form-icon-trans">
+            <form method="POST" enctype="multipart/form-data" class="form-icon-trans">
                 @csrf
                 <div class="row">
                     <div class="form-outline control-group col-5 mb-3">
@@ -116,7 +117,7 @@
                             style="width: 100px">
                     </div>
                     <div class="form-outline control-group col-2">
-                        <input type="submit" class="btn btn-primary" style="height: 31px">
+                        <input type="submit" class="btn btn-primary btn-category" style="height: 31px">
                     </div>
                 </div>
             </form>

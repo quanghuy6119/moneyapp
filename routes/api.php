@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\transaction;
+use App\Http\Controllers\TransactionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -16,4 +18,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+
+Route::prefix('/moneyapp')->group(function () {
+    Route::post('/category', [TransactionController::class, 'upCategoryTrans']);
 });
