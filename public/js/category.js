@@ -1,33 +1,40 @@
 $(document).ready(function() {
 
-
     /////////////////// Chức năng của Category Transaction ////////////
 
     /// bật layout modal category
+
     $('.list-group-item-category').click(function() {
-        $.ajax({
-            type: "GET",
-            url: "/api/moneyapp/category",
-            processData: false,
-            mimeType: "multipart/form-data",
-            contentType: false,
-            success: function(response) {
-                let result = JSON.parse(response);
-                for (let i = 0; i < result.length; i++) {
-                    $('.row-category').append(
-                        `
-                        <div class="badge badge-category bg-danger col-3 mx-3 my-3">${result[i].name}
-                            <img src="${window.location.origin}/${result[i].symbol}" class="icon-transaction">
-                        </div>
-                    `)
+        $('#load').toggle("unactive");
+
+        const getCategory = async() => {
+            await $.ajax({
+                type: "GET",
+                url: "/api/moneyapp/category",
+                processData: false,
+                mimeType: "multipart/form-data",
+                contentType: false,
+                success: function(response) {
+                    let result = JSON.parse(response);
+                    for (let i = 0; i < result.length; i++) {
+                        $('.row-category').append(
+                            `
+                                    <div class="badge badge-category bg-danger col-3 mx-3 my-3">${result[i].name}
+                                        <img src="${window.location.origin}/${result[i].symbol}" class="icon-transaction">
+                                    </div>
+                                `)
+                    }
+                },
+                error: function(e) {
+                    console.log(e);
                 }
-            },
-            error: function(e) {
-                console.log(e);
-            }
-        });
-        // hiển thị layout modal
-        $('.layout-modal').removeClass('unactive');
+            });
+            // hiển thị layout modal
+            await $('#load').toggle("unactive");
+            await $('.layout-modal').removeClass('unactive');
+            await $('.box-modal-category').removeClass('unactive');
+        };
+        getCategory();
     });
 
 
@@ -39,6 +46,7 @@ $(document).ready(function() {
     $('.category-exit').click(function() {
         $('.badge-category').remove();
         $('.layout-modal').addClass('unactive');
+        $('.box-modal-category').addClass('unactive');
     });
 
 
@@ -72,7 +80,5 @@ $(document).ready(function() {
             }
         });
     });
-
-
 
 });

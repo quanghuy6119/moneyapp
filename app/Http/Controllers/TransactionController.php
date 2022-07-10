@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Transaction;
+use App\Models\Wallet;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class TransactionController extends Controller
 {
@@ -37,5 +39,13 @@ class TransactionController extends Controller
     {
         $transIcon = Transaction::all();
         return response()->json($transIcon);
+    }
+
+    public function showWalletBox(){
+        $wallet = DB::table('wallets')
+            ->select('wallets.id','wallets.name','wallets.parent_id','transactions.symbol')
+            ->join('transactions', 'wallets.transaction_id', '=', 'transactions.id')
+            ->get();
+        return response()->json($wallet);
     }
 }

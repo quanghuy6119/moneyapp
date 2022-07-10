@@ -24,4 +24,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::prefix('/moneyapp')->group(function () {
     Route::get('/category', [TransactionController::class, 'showCategoryTrans']);
     Route::post('/category', [TransactionController::class, 'upCategoryTrans']);
+    Route::get('/walletBox', [TransactionController::class, 'showWalletBox']);
 });

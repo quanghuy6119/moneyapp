@@ -1,0 +1,55 @@
+﻿.box-modal-category {
+    position: fixed;
+    /* vị trí cố định */
+    z-index: 50;
+    /* Ưu tiên hiển thị trên cùng */
+    padding-top: 100px;
+    background-color: rgba(255, 255, 255);
+    left: 40%;
+    width: 500px;
+    height: 400px;
+    border-radius: 10px;
+    box-shadow: 10px 10px 20px 10px rgba(0, 0, 0, 0.3);
+    background-color: rgb(215, 252, 252);
+}
+
+.box-modal-category .badge:hover {
+    opacity: 0.5;
+    cursor: pointer;
+}
+
+.form-icon-trans {
+    position: absolute;
+    bottom: 0;
+    left: 25px;
+}
+
+.category-title {
+    position: absolute;
+    top: 10px;
+    left: 35%;
+    text-align: center;
+    font-size: 30px;
+    color: #c90043;
+    display: inline-block;
+}
+
+.category-exit {
+    display: inline-block;
+    position: absolute;
+    top: -9px;
+    right: -2px;
+    text-align: center;
+    font-size: 30px;
+    color: #ff0000;
+    display: inline-block;
+}
+
+.category-exit:hover {
+    cursor: pointer;
+    opacity: 0.5;
+}
+
+.category-title img {
+    height: 60px;
+}
