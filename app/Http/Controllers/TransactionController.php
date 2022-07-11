@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 
 class TransactionController extends Controller
 {
-    public function upCategoryTrans(Request $request)
+    public function createCategoryTrans(Request $request)
     {
         $request->validate([
             'file' => ['required', 'file'],
@@ -17,7 +17,7 @@ class TransactionController extends Controller
         ]);
 
         if ($request->hasFile('file')) {
-            // Nếu có thì thục hiện lưu trữ file vào public/img
+            // Nếu có thì lưu trữ file vào public/img
             $file = $request->File('file');
             // trả về 1 object file sử dụng các hàm get để lấy attribute
             $path = $file->move('img', $file->getClientOriginalName());
@@ -46,6 +46,36 @@ class TransactionController extends Controller
             ->select('wallets.id','wallets.name','wallets.parent_id','transactions.symbol')
             ->join('transactions', 'wallets.transaction_id', '=', 'transactions.id')
             ->get();
+        return response()->json($wallet);
+    }
+
+    public function createWallet(Request $request){
+        $request->validate([
+            'transactionId' => 'required',
+            'name' => 'required',
+            'budgetInit' => 'required',
+            'budgetReal' => 'required',
+        ]);
+
+        $budgetInit = str_replace(',','',$request->budgetInit);
+
+        if(isset($request->walletParentId)){
+            $wallet = Wallet::create([
+                'name' => $request->name,
+                'parent_id' => $request->walletParentId,
+                'budget_init' => $budgetInit,
+                'budget_real' => $budgetInit,
+                'transaction_id' => $request->transactionId,
+            ]);
+        }else{
+            $wallet = Wallet::create([
+                'name' => $request->name,
+                'budget_init' => $budgetInit,
+                'budget_real' => $budgetInit,
+                'transaction_id' => $request->transactionId,
+            ]);
+        }
+
         return response()->json($wallet);
     }
 }

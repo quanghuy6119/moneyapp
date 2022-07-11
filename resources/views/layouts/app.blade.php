@@ -20,6 +20,7 @@
     <link rel="stylesheet" href="{{ asset('css/base.css') }}">
     <link rel="stylesheet" href="{{ asset('css/category.css') }}">
     <link rel="stylesheet" href="{{ asset('css/wallet.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/walletlayout.css') }}">
 
     {{-- file js --}}
     <script src="{{ asset('js/category.js') }}"></script>
@@ -43,13 +44,13 @@
     </div>
 
     {{-- modal box --}}
-    <div class="layout-modal unactive">
+    <div class="layout-modal inactive">
             <x-CategoryModal> </x-CategoryModal>
             <x-WalletModal> </x-WalletModal>
     </div>
 
     {{-- loader --}}
-    <div class="modal1 unactive" id="load">
+    <div class="modal1 inactive" id="load">
         <div class="modal-overlay"></div>
 
         <div class="load-2">
