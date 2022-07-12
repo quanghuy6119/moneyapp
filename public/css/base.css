@@ -16,6 +16,10 @@
     text-align: center;
 }
 
+.list-group a {
+    text-decoration: none;
+}
+
 .list-group-item {
     border: 0px;
     padding: 20px 20px;
@@ -111,7 +115,7 @@
     background-color: rgba(0, 0, 0, 0.3);
 }
 
-.unactive {
+.inactive {
     display: none;
 }
 

@@ -1,4 +1,4 @@
-﻿<div class="box-modal-category unactive">
+﻿<div class="box-modal-category inactive">
     <div class="item-category container-fluid">
         <div class="category-header">
             <div class="category-title">Category <img src="{{ asset('img/activity-svgrepo-com.svg') }}">

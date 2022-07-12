@@ -54,6 +54,7 @@
     background-color: rgb(255, 255, 255);
 }
 
+
 .item-wallet {
     padding: 0;
 }
@@ -129,8 +130,21 @@
     width: 100px;
     height: 70px;
     background-color: #fff;
-    border-radius: 5px;
+    border-radius: 10px;
     border: 1px solid rgb(172, 167, 167);
+}
+
+
+.wallet-parent{
+    width: 100%;
+    padding-top: 15px;
+    text-align: left;
+}
+
+.wallet-parent span{
+    font-size: 16px;
+    padding: 0 10px 15px 0px;
+    font-weight: bold;
 }
 
 .wallet-name {

@@ -5,12 +5,12 @@ $(document).ready(function() {
     /// bật layout modal category
 
     $('.list-group-item-category').click(function() {
-        $('#load').toggle("unactive");
+        $('#load').toggle("inactive");
 
         const getCategory = async() => {
             await $.ajax({
                 type: "GET",
-                url: "/api/moneyapp/category",
+                url: "/api/moneyApp/category",
                 processData: false,
                 mimeType: "multipart/form-data",
                 contentType: false,
@@ -30,9 +30,9 @@ $(document).ready(function() {
                 }
             });
             // hiển thị layout modal
-            await $('#load').toggle("unactive");
-            await $('.layout-modal').removeClass('unactive');
-            await $('.box-modal-category').removeClass('unactive');
+            await $('#load').toggle("inactive");
+            await $('.layout-modal').removeClass('inactive');
+            await $('.box-modal-category').removeClass('inactive');
         };
         getCategory();
     });
@@ -40,13 +40,15 @@ $(document).ready(function() {
 
     /// xóa layout modal
     // $('.layout-modal').click(function () {
-    //     $('.layout-modal').addClass('unactive');
+    //     $('.layout-modal').addClass('inactive');
     // });
 
     $('.category-exit').click(function() {
         $('.badge-category').remove();
-        $('.layout-modal').addClass('unactive');
-        $('.box-modal-category').addClass('unactive');
+        $('.layout-modal').addClass('inactive');
+        $('.box-modal-category').addClass('inactive');
+        $('input[name="file"]').val("");
+        $('input[name="title"]').val("");
     });
 
 
@@ -57,7 +59,7 @@ $(document).ready(function() {
         //Post to server
         $.ajax({
             type: "POST",
-            url: "/api/moneyapp/category",
+            url: "/api/moneyApp/category",
             processData: false,
             mimeType: "multipart/form-data",
             contentType: false,
