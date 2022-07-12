@@ -3,7 +3,7 @@ figure {
     height: 6em;
     margin: 1.5em;
     width: 12em;
-    transform:perspective(500);
+    transform:perspective(500px);
     -webkit-transform: perspective(500);
     transform-style: preserve-3d;;
     -webkit-transform-style: preserve-3d;
@@ -13,11 +13,14 @@ figure {
 figure:hover {
     transform: perspective(500) rotateX(90deg) translateY(-3em) translateZ(3em);
     -webkit-transform: perspective(500) rotateX(90deg) translateY(-3em) translateZ(3em);
+    cursor: pointer;
 }
 .wallet-layouts img {
+    border-radius: 5px;
     background-color: #222;
     box-shadow: 0 20px 15px -10px hsla(0,0%,0%,.25);
     display: block;
+    width: 100%;
     height: 100%;
     transition:.5s; 
     -webkit-transition: .5s;
@@ -26,7 +29,8 @@ figure:hover img {
     box-shadow: none;
 }
 figcaption {
-    background-color: #222;
+    border-radius: 5px;
+    background-color: rgb(255, 0, 0);
     color: #fff;
     padding: 1.5em;
     transform:rotateX(-90deg);
@@ -39,6 +43,7 @@ figcaption {
 
 figure:hover figcaption {
     box-shadow: 0 20px 15px -10px hsla(0,0%,0%,.25);
+    cursor: pointer;
 }
 
 h3 {

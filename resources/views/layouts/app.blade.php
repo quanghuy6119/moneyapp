@@ -24,6 +24,7 @@
 
     {{-- file js --}}
     <script src="{{ asset('js/category.js') }}"></script>
+    <script src="{{ asset('js/walletBox/walletBox.js') }}"></script>
     <script src="{{ asset('js/wallet.js') }}"></script>
 </head>
 

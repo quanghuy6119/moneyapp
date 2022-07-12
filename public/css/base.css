@@ -16,6 +16,10 @@
     text-align: center;
 }
 
+.list-group a {
+    text-decoration: none;
+}
+
 .list-group-item {
     border: 0px;
     padding: 20px 20px;
