@@ -41,9 +41,9 @@ class TransactionController extends Controller
         return response()->json($transIcon);
     }
 
-    public function showWalletBox(){
+    public function showWallet(){
         $wallet = DB::table('wallets')
-            ->select('wallets.id','wallets.name','wallets.parent_id','transactions.symbol')
+            ->select('wallets.id','wallets.name','wallets.parent_id','transactions.symbol','wallets.budget_init','wallets.budget_real')
             ->join('transactions', 'wallets.transaction_id', '=', 'transactions.id')
             ->get();
         return response()->json($wallet);
