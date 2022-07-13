@@ -1,11 +1,11 @@
-$(document).ready(function () {
+$(document).ready(function() {
     //chọn wallet icon
 
     function selectWalletBadge() {
         let length = $('.wallet-parent-length').val();
         if (length != 0) {
             for (let i = 0; i < length; i++) {
-                $(`.badge-wallet-parent${i}`).click(function () {
+                $(`.badge-wallet-parent${i}`).click(function() {
                     //gan src icon chon cho box
                     let srcAttr = $(`.badge-wallet-parent-img${i}`).attr('src')
                     $('.wallet-parent-img').attr('src', srcAttr);
@@ -28,7 +28,7 @@ $(document).ready(function () {
             }
         }
         // chọn origin wallet
-        $('.badge-wallet-parent').click(function () {
+        $('.badge-wallet-parent').click(function() {
             //gan src icon chon cho box
             let srcAttr = $(`.badge-wallet-parent-img`).attr('src')
             $('.wallet-parent-img').attr('src', srcAttr);

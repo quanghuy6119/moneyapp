@@ -13,53 +13,102 @@
 figure {
     float: left;
     height: 6em;
-    margin: 1.5em;
-    width: 12em;
-    transform:perspective(500px);
+    margin: 20px 30px 100px;
+    width: 250px;
+    transform: perspective(500px);
     -webkit-transform: perspective(500);
-    transform-style: preserve-3d;;
+    transform-style: preserve-3d;
+    ;
     -webkit-transform-style: preserve-3d;
-    transition:.5s; 
+    transition: .5s;
     -webkit-transition: .5s;
 }
+
 figure:hover {
     transform: perspective(500) rotateX(90deg) translateY(-3em) translateZ(3em);
     -webkit-transform: perspective(500) rotateX(90deg) translateY(-3em) translateZ(3em);
     cursor: pointer;
 }
-.wallet-layouts img {
+
+.wallet-layouts .img {
     border-radius: 5px;
     /* background-color: rgb(83, 202, 238); */
     background-image: linear-gradient(#40e0d0, #ff8c00, #ff0080);
-    box-shadow: 0 20px 15px -10px hsla(0,0%,0%,.25);
+    box-shadow: 0 20px 15px -10px hsla(0, 0%, 0%, .25);
     display: block;
     width: 100%;
     height: 100%;
-    transition:.5s; 
+    transition: .5s;
     -webkit-transition: .5s;
 }
-figure:hover img {
+
+figure:hover .img {
     box-shadow: none;
 }
+
+.img img {
+    width: 100%;
+    height: 66px;
+}
+
+.img h3 {
+    height: 30px;
+    text-align: center;
+    color: #f35461;
+    font-weight: bold;
+}
+
 figcaption {
+    width: 250px;
     border-radius: 5px;
     /* background-color: rgb(255, 0, 0); */
     background-image: linear-gradient(#355c7d, #6c5b7b, #c06c84);
     color: #fff;
     padding: 1.5em;
-    transform:rotateX(-90deg);
+    transform: rotateX(-90deg);
     -webkit-transform: rotateX(-90deg);
-    transform-origin:100% 0; ;
+    transform-origin: 100% 0;
+    ;
     -webkit-transform-origin: 100% 0;
-    transition:.5s; 
+    transition: .5s;
     -webkit-transition: .5s;
 }
 
 figure:hover figcaption {
-    box-shadow: 0 20px 15px -10px hsla(0,0%,0%,.25);
+    box-shadow: 0 20px 15px -10px hsla(0, 0%, 0%, .25);
     cursor: pointer;
 }
 
-h3 {
+figcaption h3 {
     font-weight: bold;
+    font-size: 16px;
+}
+
+figcaption p {
+    font-weight: bold;
+    font-size: 13px;
+}
+
+.wallet-child {
+    height: 5em;
+}
+
+.wallet-child .img {
+    background-image: linear-gradient(#c6ffdd, #fbd786, #f7797d);
+}
+
+.wallet-child img {
+    width: 100%;
+    height: 55px;
+}
+
+.wallet-child h4 {
+    height: 25px;
+    text-align: center;
+    color: #045a6a;
+    font-weight: bold;
+}
+
+.btn-wallet-layouts {
+    width: 100%;
 }

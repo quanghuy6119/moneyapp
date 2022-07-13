@@ -1,4 +1,8 @@
-﻿.container-fluid {
+﻿* {
+    font-family: 'Playfair Display', serif;
+}
+
+.container-fluid {
     background-color: rgb(240, 240, 239);
 }
 
