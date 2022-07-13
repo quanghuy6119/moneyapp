@@ -19,7 +19,7 @@
     {{-- file css --}}
     <link rel="stylesheet" href="{{ asset('css/base.css') }}">
     <link rel="stylesheet" href="{{ asset('css/category.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/wallet.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/walletBoxModal.css') }}">
     <link rel="stylesheet" href="{{ asset('css/walletlayout.css') }}">
 
     {{-- file js --}}
