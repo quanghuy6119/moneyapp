@@ -32,6 +32,7 @@ $(document).ready(function() {
             //gan src icon chon cho box
             let srcAttr = $(`.badge-wallet-parent-img`).attr('src')
             $('.wallet-parent-img').attr('src', srcAttr);
+            $('.walletIconShow').val(srcAttr);
 
             // gan id wallet vo the input
             let idWallet = $(`.badge-wallet-parent-id`).val();
@@ -40,6 +41,7 @@ $(document).ready(function() {
             // gan name vo button
             let nameWallet = $(`.badge-wallet-parent-name`).text();
             $('.wallet-parent-name').text(nameWallet);
+            $('.wallet-parent-name-input').val(nameWallet);
 
             //chon wallet xong tat
             $('.badge-wallet').remove();

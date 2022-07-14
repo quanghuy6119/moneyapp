@@ -18,6 +18,7 @@
                     <i class="fas fa-arrow-alt-circle-down" style="height: 15px"></i>
                 </button>
                 <input type="hidden" class="wallet-icon-input" name="transactionId" value="1">
+                <input type="hidden" class="wallet-icon-show" name="walletIconShow" value="{{ asset('img/wallet-svgrepo-com.svg') }}">
             </div>
 
             <div class="col-9 mb-3">
@@ -45,6 +46,7 @@
                         style="padding-bottom: 10px" class="wallet-parent-img">
                     <span class="wallet-parent-name"> Origin Wallet</span>
                     <input type="hidden" class="wallet-parent-id" name="walletParentId">
+                    <input type="hidden" class="wallet-parent-name-input" name="walletParentName" value="Origin Wallet">
                 </button>
             </div>
             <div class="col-6 mb-3">

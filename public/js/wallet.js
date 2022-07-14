@@ -1,5 +1,9 @@
 $(document).ready(function() {
 
+    if(window.location.hash == '' || window.location.hash == '#wallet'){
+        getWallets('/wallet');
+    }
+
     jQuery(window).on("hashchange", function() {
         var router = window.location.hash.trim();
         var url;
@@ -8,7 +12,6 @@ $(document).ready(function() {
         } else {
             url = '/' + router.slice(1, router.length);
         }
-        console.log(url);
 
         if (url == '/wallet') {
             getWallets(url);
@@ -42,10 +45,10 @@ function getWallets(url) {
                                 <img src="${window.location.origin}/${result[i].symbol}" alt="Portfolio Item">
                             </div>
                             <figcaption>
-                                <h3>Loại: ví gốc </h3>
+                                <h3>Loại: Ví gốc </h3>
                                 <p>Số tiền ban đầu: <span class="money">${result[i].budget_init}</span> <br>
                                     Số tiền hiện tại: <span class="money">${result[i].budget_real}</span></p>
-                                <div class="btn btn-success btn-wallet-layouts">Chọn ví</div>
+                                <div class="btn btn-success btn-wallet-layouts${result[i].id}">Chọn ví</div>
                             </figcaption>
                     </figure>
                         `);
@@ -57,11 +60,11 @@ function getWallets(url) {
                                 <img src="${window.location.origin}/${result[i].symbol}" alt="Portfolio Item">
                             </div>
                             <figcaption>
-                                <h3>Loại: ví con </h3>
-                                <h3>Thuộc ví: Ví ${result[i].id}</h3>
+                                <h3>Loại: Ví con </h3>
+                                <h3>Thuộc ví: Ví ${result[i].parent_name}</h3>
                                 <p>Số tiền ban đầu: <span class="money">${result[i].budget_init}</span> <br>
                                     Số tiền hiện tại: <span class="money">${result[i].budget_real}</span></p>
-                                <div class="btn btn-success btn-wallet-layouts">Chọn ví</div>
+                                <div class="btn btn-success btn-wallet-layouts${result[i].id}">Chọn ví</div>
                             </figcaption>
                         </figure>
                         `);

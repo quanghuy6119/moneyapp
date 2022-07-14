@@ -41,15 +41,18 @@ class TransactionController extends Controller
         return response()->json($transIcon);
     }
 
-    public function showWallet(){
+    public function showWallet()
+    {
         $wallet = DB::table('wallets')
-            ->select('wallets.id','wallets.name','wallets.parent_id','transactions.symbol','wallets.budget_init','wallets.budget_real')
+            ->select('wallets.*', 'transactions.symbol', 'W.name as parent_name')
             ->join('transactions', 'wallets.transaction_id', '=', 'transactions.id')
+            ->leftJoin('wallets as W', 'wallets.parent_id', '=', 'W.id')
             ->get();
         return response()->json($wallet);
     }
 
-    public function createWallet(Request $request){
+    public function createWallet(Request $request)
+    {
         $request->validate([
             'transactionId' => 'required',
             'name' => 'required',
@@ -57,9 +60,9 @@ class TransactionController extends Controller
             'budgetReal' => 'required',
         ]);
 
-        $budgetInit = str_replace(',','',$request->budgetInit);
+        $budgetInit = str_replace(',', '', $request->budgetInit);
 
-        if(isset($request->walletParentId)){
+        if (isset($request->walletParentId)) {
             $wallet = Wallet::create([
                 'name' => $request->name,
                 'parent_id' => $request->walletParentId,
@@ -67,7 +70,7 @@ class TransactionController extends Controller
                 'budget_real' => $budgetInit,
                 'transaction_id' => $request->transactionId,
             ]);
-        }else{
+        } else {
             $wallet = Wallet::create([
                 'name' => $request->name,
                 'budget_init' => $budgetInit,
@@ -76,6 +79,12 @@ class TransactionController extends Controller
             ]);
         }
 
-        return response()->json($wallet);
+        $data = [
+            $wallet,
+            $request->walletParentName,
+            $request->walletIconShow,
+        ];
+
+        return response()->json($data);
     }
 }

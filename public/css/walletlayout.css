@@ -90,7 +90,7 @@ figcaption p {
 }
 
 .wallet-child {
-    height: 5em;
+    height: 80px;
 }
 
 .wallet-child .img {
@@ -99,11 +99,11 @@ figcaption p {
 
 .wallet-child img {
     width: 100%;
-    height: 55px;
+    height: 51px;
 }
 
 .wallet-child h4 {
-    height: 25px;
+    height: 21px;
     text-align: center;
     color: #045a6a;
     font-weight: bold;
