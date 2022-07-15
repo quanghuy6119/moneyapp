@@ -25,7 +25,7 @@
     {{-- file js --}}
     <script src="{{ asset('js/category.js') }}"></script>
     <script src="{{ asset('js/walletBox/walletBox.js') }}"></script>
-    <script src="{{ asset('js/wallet.js') }}"></script>
+    <script src="{{ asset('js/base.js') }}"></script>
 </head>
 
 <body>
@@ -34,20 +34,20 @@
             <div class="col-1" style="padding: 0;">
                 <x-Sidebar> </x-Sidebar>
             </div>
-            <div class="col-11" style="padding: 0;">
+            <div class="col-11 app-content" style="padding: 0;">
                 <x-Navbar> </x-Navbar>
 
                 {{-- content --}}
-                {{-- @yield('content') --}}
                 <x-Wallet> </x-Wallet>
+                <x-Transaction> </x-Transaction>
             </div>
         </div>
     </div>
 
     {{-- modal box --}}
     <div class="layout-modal inactive">
-            <x-CategoryModal> </x-CategoryModal>
-            <x-WalletModal> </x-WalletModal>
+        <x-CategoryModal> </x-CategoryModal>
+        <x-WalletModal> </x-WalletModal>
     </div>
 
     {{-- loader --}}

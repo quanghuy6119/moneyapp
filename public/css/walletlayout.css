@@ -32,8 +32,11 @@ figure:hover {
 
 .wallet-layouts .img {
     border-radius: 5px;
-    /* background-color: rgb(83, 202, 238); */
-    background-image: linear-gradient(#40e0d0, #ff8c00, #ff0080);
+    /* background-image: linear-gradient(#40e0d0, #ff8c00, #ff0080); */
+    background-image: url('https://cdn3d.iconscout.com/3d/premium/thumb/wallet-5654701-4712957.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
     box-shadow: 0 20px 15px -10px hsla(0, 0%, 0%, .25);
     display: block;
     width: 100%;
@@ -54,7 +57,7 @@ figure:hover .img {
 .img h3 {
     height: 30px;
     text-align: center;
-    color: #f35461;
+    color: hwb(140 15% 0%);
     font-weight: bold;
 }
 
@@ -94,7 +97,9 @@ figcaption p {
 }
 
 .wallet-child .img {
-    background-image: linear-gradient(#c6ffdd, #fbd786, #f7797d);
+    /* background-image: linear-gradient(#c6ffdd, #fbd786, #f7797d); */
+    /* background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTzv_c6uo1ZaLBer3ICob6ZH85H-ZdHQT9JIA&usqp=CAU'); */
+    background-image: url('https://cdn3d.iconscout.com/3d/premium/thumb/wallet-4454360-3718869.png');
 }
 
 .wallet-child img {
@@ -105,7 +110,7 @@ figcaption p {
 .wallet-child h4 {
     height: 21px;
     text-align: center;
-    color: #045a6a;
+    color: #dd096c;
     font-weight: bold;
 }
 

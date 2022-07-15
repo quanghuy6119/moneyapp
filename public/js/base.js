@@ -1,10 +1,11 @@
-$(document).ready(function() {
+$(document).ready(function () {
 
-    if(window.location.hash == '' || window.location.hash == '#wallet'){
+    if (window.location.hash == '' || window.location.hash == '#wallet') {
+        addWalletLayouts();
         getWallets('/wallet');
     }
 
-    jQuery(window).on("hashchange", function() {
+    jQuery(window).on("hashchange", function () {
         var router = window.location.hash.trim();
         var url;
         if (router == '') {
@@ -14,12 +15,52 @@ $(document).ready(function() {
         }
 
         if (url == '/wallet') {
+            addWalletLayouts();
             getWallets(url);
+        } else {
+            delWalletLayouts();
         }
     });
 });
 
 
+//add row wallet
+
+function addWalletLayouts() {
+    $('.wallet-layouts').append(`    
+    <div class="container h-100 container-wallet-layouts">
+        <div class="row d-flex justify-content-center align-items-center">
+            <div class="col-md-12 col-xl-12 row-layouts-wallet">   
+            </div>
+        </div>
+    </div>`)
+    $('.wallet-layouts').removeClass('inactive');
+}
+
+function addTransactionLayouts() {
+    $('.transaction-layouts').append(`    
+    <div class="container h-100">
+        <div class="row d-flex justify-content-center h-100">
+            <div class="col-md-12 col-xl-10 mt-5">
+            </div>
+        </div>
+    </div>`)
+    $('.transaction-layouts').removeClass('inactive');
+}
+
+
+function delWalletLayouts() {
+    $('.container-wallet-layouts').remove();
+    $('.wallet-layouts').addClass('inactive');
+}
+
+function delTransactionLayouts() {
+    $('.container-transaction-layouts').remove();
+    $('.transaction-layouts').addClass('inactive');
+}
+
+
+// get wallet in database
 function getWallets(url) {
 
     $.ajax({
@@ -28,7 +69,7 @@ function getWallets(url) {
         processData: false,
         mimeType: "multipart/form-data",
         contentType: false,
-        success: function(response) {
+        success: function (response) {
             let result = JSON.parse(response);
             //cần check xem có thay đổi nội dung hay không
             //khi thay đổi ở 1 máy khác thì máy hiện tại xử lí thế nào
@@ -46,9 +87,9 @@ function getWallets(url) {
                             </div>
                             <figcaption>
                                 <h3>Loại: Ví gốc </h3>
-                                <p>Số tiền ban đầu: <span class="money">${result[i].budget_init}</span> <br>
-                                    Số tiền hiện tại: <span class="money">${result[i].budget_real}</span></p>
-                                <div class="btn btn-success btn-wallet-layouts${result[i].id}">Chọn ví</div>
+                                <p>Số tiền ban đầu: <span class="money">${result[i].budget_init}</span>  <span> VND </span> <br>
+                                    Số tiền hiện tại: <span class="money">${result[i].budget_real}</span><span> VND </span></p>
+                                <div class="btn btn-success btn-wallet-layouts btn-wallet-layouts${result[i].id}">Chọn ví</div>
                             </figcaption>
                     </figure>
                         `);
@@ -56,15 +97,15 @@ function getWallets(url) {
                         $('.row-layouts-wallet').append(`
                         <figure class="wallet-child">
                             <div class="img">
-                                <h4>${result[i].name}</h4>
+                                <h4>Ví ${result[i].name}</h4>
                                 <img src="${window.location.origin}/${result[i].symbol}" alt="Portfolio Item">
                             </div>
                             <figcaption>
                                 <h3>Loại: Ví con </h3>
                                 <h3>Thuộc ví: Ví ${result[i].parent_name}</h3>
-                                <p>Số tiền ban đầu: <span class="money">${result[i].budget_init}</span> <br>
-                                    Số tiền hiện tại: <span class="money">${result[i].budget_real}</span></p>
-                                <div class="btn btn-success btn-wallet-layouts${result[i].id}">Chọn ví</div>
+                                <p>Số tiền ban đầu: <span class="money">${result[i].budget_init}</span> <span> VND </span> <br>
+                                    Số tiền hiện tại: <span class="money">${result[i].budget_real}</span> <span> VND </span></p>
+                                <div class="btn btn-success btn-wallet-layouts btn-wallet-layouts${result[i].id}">Chọn ví</div>
                             </figcaption>
                         </figure>
                         `);
@@ -73,7 +114,7 @@ function getWallets(url) {
 
             }
         },
-        error: function(e) {
+        error: function (e) {
             console.log(e);
         }
     })

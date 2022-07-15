@@ -87,4 +87,11 @@ class TransactionController extends Controller
 
         return response()->json($data);
     }
+
+    public function idWallet() {
+            $wallet = DB::table('wallets')
+                ->select('wallets.id')
+                ->get();
+            return response()->json($wallet);
+    }
 }

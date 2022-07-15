@@ -26,4 +26,5 @@ Route::prefix('/moneyApp')->group(function () {
     Route::post('/category', [TransactionController::class, 'createCategoryTrans']);
     Route::get('/wallet', [TransactionController::class, 'showWallet']);
     Route::post('/wallet', [TransactionController::class, 'createWallet']);
+    Route::get('/idWallet', [TransactionController::class, 'idWallet']);
 });

@@ -18,6 +18,14 @@ Route::get('/', function () {
 });
 
 Route::get('/test', function () {
-    return view('layouts.app');
+    return view('app');
+});
+
+Route::get('/test1', function () {
+    return view('login');
+});
+
+Route::get('/test2', function () {
+    return view('register');
 });
 
