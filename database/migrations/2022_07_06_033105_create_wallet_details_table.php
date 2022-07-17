@@ -16,7 +16,6 @@ class CreateWalletDetailsTable extends Migration
         Schema::create('wallet_details', function (Blueprint $table) {
             $table->id();
             $table->integer('wallet_id');
-            $table->integer('parent_id');
             $table->integer('transaction_id');
             $table->double('amount');
             $table->string('description');

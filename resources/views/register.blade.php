@@ -28,37 +28,37 @@
                                     <img src="{{ asset('img/panda-bear-panda-svgrepo-com.svg') }}" height="30px"> Register Money App
                                 </div>
                             </p>
-                            <form>
+                            <form action="/moneyApp/register" method="POST"> 
+                                @csrf
                                 <div class="form-group input-group my-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"> <i class="fa fa-user"></i> </span>
                                     </div>
-                                    <input name="" class="form-control" placeholder="Full name" type="text">
+                                    <input name="name" class="form-control" placeholder="Full name" type="text" required>
                                 </div>
                                 <div class="form-group input-group my-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"> <i class="fa fa-envelope"></i> </span>
                                     </div>
-                                    <input name="" class="form-control" placeholder="Email address"
-                                        type="email">
+                                    <input name="email" class="form-control" placeholder="Email address" type="email" required>
                                 </div>
                                 <div class="form-group input-group my-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
                                     </div>
-                                    <input class="form-control" placeholder="Create password" type="password">
+                                    <input class="form-control" placeholder="Create password" type="password" name="password" required>
                                 </div>
                                 <div class="form-group input-group my-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
                                     </div>
-                                    <input class="form-control" placeholder="Repeat password" type="password">
+                                    <input class="form-control" placeholder="Repeat password" type="password" name="password_confirmation" required>
                                 </div>
                                 <div class="form-group">
                                     <button type="submit" class="btn btn-primary btn-block"> Create Account </button>
                                 </div>
                                 <p class="text-center">Have an account?
-                                    <a href="">Log In</a>
+                                    <a href="/moneyApp/login">Log In</a>
                                 </p>
                             </form>
                         </div>

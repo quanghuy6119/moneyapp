@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthenticatedController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,19 +14,27 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
-Route::get('/test', function () {
-    return view('app');
-});
 
-Route::get('/test1', function () {
-    return view('login');
-});
+Route::prefix('/moneyApp')->group(function () {
+    Route::get('/', function () {
+        return view('app');
+    })->middleware('auth');
+    
+    Route::get('/login', function () {
+        return view('login');
+    })->name('login');
 
-Route::get('/test2', function () {
-    return view('register');
-});
+    Route::post('/login', [AuthenticatedController::class,'login']);
 
+    Route::get('/register', function () {
+        return view('register');
+    });
+
+    Route::post('/register', [AuthenticatedController::class,'register']);
+
+    Route::get('/logout', [AuthenticatedController::class,'logout']);
+});

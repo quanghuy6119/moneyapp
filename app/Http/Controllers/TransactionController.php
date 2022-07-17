@@ -43,10 +43,12 @@ class TransactionController extends Controller
 
     public function showWallet()
     {
+        $user_id = auth()->user()->id;
         $wallet = DB::table('wallets')
             ->select('wallets.*', 'transactions.symbol', 'W.name as parent_name')
             ->join('transactions', 'wallets.transaction_id', '=', 'transactions.id')
             ->leftJoin('wallets as W', 'wallets.parent_id', '=', 'W.id')
+            ->where('wallets.user_id', '=', $user_id)
             ->get();
         return response()->json($wallet);
     }
@@ -61,10 +63,12 @@ class TransactionController extends Controller
         ]);
 
         $budgetInit = str_replace(',', '', $request->budgetInit);
+        $user_id = auth()->user()->id;
 
         if (isset($request->walletParentId)) {
             $wallet = Wallet::create([
                 'name' => $request->name,
+                'user_id' => $user_id,
                 'parent_id' => $request->walletParentId,
                 'budget_init' => $budgetInit,
                 'budget_real' => $budgetInit,
@@ -73,6 +77,7 @@ class TransactionController extends Controller
         } else {
             $wallet = Wallet::create([
                 'name' => $request->name,
+                'user_id' => $user_id,
                 'budget_init' => $budgetInit,
                 'budget_real' => $budgetInit,
                 'transaction_id' => $request->transactionId,
@@ -88,10 +93,13 @@ class TransactionController extends Controller
         return response()->json($data);
     }
 
-    public function idWallet() {
-            $wallet = DB::table('wallets')
-                ->select('wallets.id')
-                ->get();
-            return response()->json($wallet);
+    public function idWallet()
+    {
+        $user_id = auth()->user()->id;
+        $wallet = DB::table('wallets')
+            ->select('wallets.id')
+            ->where('wallets.user_id', '=', $user_id)
+            ->get();
+        return response()->json($wallet);
     }
 }

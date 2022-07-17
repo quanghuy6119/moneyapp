@@ -1,11 +1,11 @@
-$(document).ready(function () {
+$(document).ready(function() {
 
     if (window.location.hash == '' || window.location.hash == '#wallet') {
         addWalletLayouts();
         getWallets('/wallet');
     }
 
-    jQuery(window).on("hashchange", function () {
+    jQuery(window).on("hashchange", function() {
         var router = window.location.hash.trim();
         var url;
         if (router == '') {
@@ -24,8 +24,12 @@ $(document).ready(function () {
 });
 
 
-//add row wallet
 
+
+
+
+
+//add row wallet
 function addWalletLayouts() {
     $('.wallet-layouts').append(`    
     <div class="container h-100 container-wallet-layouts">
@@ -37,6 +41,7 @@ function addWalletLayouts() {
     $('.wallet-layouts').removeClass('inactive');
 }
 
+//add Transaction wallet
 function addTransactionLayouts() {
     $('.transaction-layouts').append(`    
     <div class="container h-100">
@@ -48,12 +53,14 @@ function addTransactionLayouts() {
     $('.transaction-layouts').removeClass('inactive');
 }
 
-
+//del wallet layouts
 function delWalletLayouts() {
     $('.container-wallet-layouts').remove();
     $('.wallet-layouts').addClass('inactive');
 }
 
+
+//del Transaction wallet
 function delTransactionLayouts() {
     $('.container-transaction-layouts').remove();
     $('.transaction-layouts').addClass('inactive');
@@ -69,7 +76,7 @@ function getWallets(url) {
         processData: false,
         mimeType: "multipart/form-data",
         contentType: false,
-        success: function (response) {
+        success: function(response) {
             let result = JSON.parse(response);
             //cần check xem có thay đổi nội dung hay không
             //khi thay đổi ở 1 máy khác thì máy hiện tại xử lí thế nào
@@ -111,10 +118,10 @@ function getWallets(url) {
                         `);
                     }
                 }
-
+                $('.row-layouts-wallet').append(`<script src="${window.location.origin}/js/walletLayouts/walletLayouts.js" class="wallet-layouts-script"></script>`);
             }
         },
-        error: function (e) {
+        error: function(e) {
             console.log(e);
         }
     })

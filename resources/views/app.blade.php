@@ -23,9 +23,10 @@
     <link rel="stylesheet" href="{{ asset('css/walletlayout.css') }}">
 
     {{-- file js --}}
-    <script src="{{ asset('js/category.js') }}"></script>
+    <script src="{{ asset('js/categoryBox/category.js') }}"></script>
     <script src="{{ asset('js/walletBox/walletBox.js') }}"></script>
     <script src="{{ asset('js/base.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 
 <body>
