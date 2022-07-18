@@ -8,6 +8,7 @@
                 //gan src icon chon cho box
                 let srcAttr = $(`.badge-wallet-img${i}`).attr('src')
                 $('.wallet-icon-img').attr('src', srcAttr);
+                $('.wallet-icon-show').val(srcAttr);
 
                 // gan id transaction icon vo the
                 let idTrans = $(`.wallet-icon-id${i}`).val();

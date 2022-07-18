@@ -15,14 +15,15 @@ $(document).ready(function() {
         }
 
         if (url == '/wallet') {
+            delTransactionLayouts()
             addWalletLayouts();
             getWallets(url);
         } else {
             delWalletLayouts();
+            addTransactionLayouts();
         }
     });
 });
-
 
 
 
@@ -44,9 +45,9 @@ function addWalletLayouts() {
 //add Transaction wallet
 function addTransactionLayouts() {
     $('.transaction-layouts').append(`    
-    <div class="container h-100">
-        <div class="row d-flex justify-content-center h-100">
-            <div class="col-md-12 col-xl-10 mt-5">
+    <div class="container h-100 container-transaction-layouts">
+        <div class="row d-flex justify-content-center">
+            <div class="col-md-12 col-xl-10 mt-5 row-transactions-layouts">
             </div>
         </div>
     </div>`)
@@ -126,3 +127,7 @@ function getWallets(url) {
         }
     })
 };
+
+// get wallet detail 
+
+function getWallets(url) {}

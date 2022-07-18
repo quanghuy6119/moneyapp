@@ -35,7 +35,7 @@ class AuthenticatedController extends Controller
         if (Auth::attempt($fields,$request->remember!=null)) {
             $request->session()->regenerate();
             // $user = User::where('email', $fields['email'])->first();
-            // $token = $user->createToken('myapptoken')->plainTextToken;
+            // $token = $user->createToken('myAppToken')->plainTextToken;
             return redirect('/moneyApp');
         } else {
             return response([

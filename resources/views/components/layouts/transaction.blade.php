@@ -1,9 +1,6 @@
 <section class="vh-100 gradient-custom-2 transaction-layouts inactive">
-    <div class="container h-100 container-transaction-layouts">
-        <div class="row d-flex justify-content-center h-100">
-            <div class="col-md-12 col-xl-10 mt-5">
 
-                <div class="card mask-custom">
+    {{-- <div class="card mask-custom">
                     <div class="card-body p-4 text-white">
 
                         <div class="text-center pt-3 pb-2">
@@ -48,9 +45,7 @@
                                 </tr>
                             </tbody>
                         </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+                    </div> --}}
+    {{-- </div> --}}
+
 </section>

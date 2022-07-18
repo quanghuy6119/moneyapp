@@ -1,7 +1,7 @@
 .wallet-layouts {
     background-color: rgb(33, 31, 35);
     background-repeat: no-repeat;
-    background-image: radial-gradient(circle at top, rgb(243, 229, 252) 0, rgb(229, 195, 252) 70%);
+    background-image: radial-gradient(circle at top, rgb(255, 255, 255) 0, rgb(241, 219, 255) 70%);
     color: #fff;
     font-family: 'Lato', sans-serif;
     font-size: 100%;

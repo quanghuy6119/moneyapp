@@ -21,7 +21,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 
-Route::prefix('/moneyApp')->group(function () {
+Route::prefix('/moneyApp')->middleware('auth:sanctum')->group(function () {
     Route::get('/category', [TransactionController::class, 'showCategoryTrans']);
     Route::post('/category', [TransactionController::class, 'createCategoryTrans']);
     Route::get('/wallet', [TransactionController::class, 'showWallet']);
@@ -29,4 +29,3 @@ Route::prefix('/moneyApp')->group(function () {
     Route::get('/idWallet', [TransactionController::class, 'idWallet']);
 });
 
-// ->middleware('auth:sanctum')

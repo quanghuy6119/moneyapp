@@ -10,23 +10,19 @@
     {{-- boostrap --}}
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-
-    {{-- awesome/jquery --}}
+    {{-- awesome/jquery/axios --}}
     <script src="https://kit.fontawesome.com/1bcd94c135.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-latest.js"></script>
     <script src="https://cdn.baotrongit.com/Money-Format-Plugin/money_format.js"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     {{-- file css --}}
     <link rel="stylesheet" href="{{ asset('css/base.css') }}">
     <link rel="stylesheet" href="{{ asset('css/category.css') }}">
     <link rel="stylesheet" href="{{ asset('css/walletBoxModal.css') }}">
     <link rel="stylesheet" href="{{ asset('css/walletlayout.css') }}">
-
     {{-- file js --}}
-    <script src="{{ asset('js/categoryBox/category.js') }}"></script>
-    <script src="{{ asset('js/walletBox/walletBox.js') }}"></script>
-    <script src="{{ asset('js/base.js') }}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="{{ asset('js/js.js') }}"></script>
+
 </head>
 
 <body>
@@ -61,7 +57,5 @@
             <div class="line"></div>
         </div>
     </div>
-
 </body>
-
 </html>
