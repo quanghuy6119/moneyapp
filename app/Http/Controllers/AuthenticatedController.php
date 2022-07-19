@@ -16,7 +16,7 @@ class AuthenticatedController extends Controller
             'password' => 'required|string|confirmed',
         ]);
 
-        $user = User::create([
+        User::create([
             'name' => $fields['name'],
             'email' => $fields['email'],
             'password' => bcrypt($fields['password']),
@@ -32,7 +32,7 @@ class AuthenticatedController extends Controller
             'password' => 'required|string',
         ]);
 
-        if (Auth::attempt($fields,$request->remember!=null)) {
+        if (Auth::attempt($fields, $request->remember != null)) {
             $request->session()->regenerate();
             // $user = User::where('email', $fields['email'])->first();
             // $token = $user->createToken('myAppToken')->plainTextToken;
@@ -57,5 +57,4 @@ class AuthenticatedController extends Controller
 
         return redirect('/moneyApp/login');
     }
-
 }

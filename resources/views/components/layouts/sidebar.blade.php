@@ -8,7 +8,7 @@
                 <div>Wallet</div>
             </li>
         </a>
-        <a href="#trasaction">
+        <a href="#transaction">
             <li class="list-group-item"><i class="fas fa-comments-dollar"></i>
                 <div>Transaction</div>
             </li>

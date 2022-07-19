@@ -102,4 +102,17 @@ class TransactionController extends Controller
             ->get();
         return response()->json($wallet);
     }
+
+    public function showWalletDetails()
+    {
+        $user_id = auth()->user()->id;
+
+        $wallet = DB::table('wallets')
+            ->select('wallets.*', 'transactions.symbol', 'W.name as parent_name')
+            ->join('transactions', 'wallets.transaction_id', '=', 'transactions.id')
+            ->where('wallets.user_id', '=', $user_id) // wallets.id = id
+            ->get();
+        return response()->json($wallet);
+    }
 }
+

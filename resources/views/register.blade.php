@@ -54,6 +54,18 @@
                                     </div>
                                     <input class="form-control" placeholder="Repeat password" type="password" name="password_confirmation" required>
                                 </div>
+
+                                @error('email')
+                                <div class="form-group">
+                                    <p style="color: red;font-weight: bold">{{$message}}</p>
+                                 </div> 
+                                @enderror
+                                @error('password')
+                                <div class="form-group">
+                                    <p style="color: red;font-weight: bold">{{$message}}</p>
+                                 </div> 
+                                @enderror
+
                                 <div class="form-group">
                                     <button type="submit" class="btn btn-primary btn-block"> Create Account </button>
                                 </div>

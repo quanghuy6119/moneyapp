@@ -1,11 +1,11 @@
-$(document).ready(function() {
+$(document).ready(function () {
 
     if (window.location.hash == '' || window.location.hash == '#wallet') {
         addWalletLayouts();
         getWallets('/wallet');
     }
 
-    jQuery(window).on("hashchange", function() {
+    jQuery(window).on("hashchange", function () {
         var router = window.location.hash.trim();
         var url;
         if (router == '') {
@@ -18,9 +18,10 @@ $(document).ready(function() {
             delTransactionLayouts()
             addWalletLayouts();
             getWallets(url);
-        } else {
+        } else if(url == '/transaction') {
             delWalletLayouts();
             addTransactionLayouts();
+            getWalletDetails();
         }
     });
 });
@@ -77,7 +78,7 @@ function getWallets(url) {
         processData: false,
         mimeType: "multipart/form-data",
         contentType: false,
-        success: function(response) {
+        success: function (response) {
             let result = JSON.parse(response);
             //cần check xem có thay đổi nội dung hay không
             //khi thay đổi ở 1 máy khác thì máy hiện tại xử lí thế nào
@@ -95,8 +96,8 @@ function getWallets(url) {
                             </div>
                             <figcaption>
                                 <h3>Loại: Ví gốc </h3>
-                                <p>Số tiền ban đầu: <span class="money">${result[i].budget_init}</span>  <span> VND </span> <br>
-                                    Số tiền hiện tại: <span class="money">${result[i].budget_real}</span><span> VND </span></p>
+                                <p>Số tiền ban đầu: <span class="money">${formatCash(result[i].budget_init)}</span>  <span> VND </span> <br>
+                                    Số tiền hiện tại: <span class="money">${formatCash(result[i].budget_real)}</span> <span> VND </span></p>
                                 <div class="btn btn-success btn-wallet-layouts btn-wallet-layouts${result[i].id}">Chọn ví</div>
                             </figcaption>
                     </figure>
@@ -111,8 +112,8 @@ function getWallets(url) {
                             <figcaption>
                                 <h3>Loại: Ví con </h3>
                                 <h3>Thuộc ví: Ví ${result[i].parent_name}</h3>
-                                <p>Số tiền ban đầu: <span class="money">${result[i].budget_init}</span> <span> VND </span> <br>
-                                    Số tiền hiện tại: <span class="money">${result[i].budget_real}</span> <span> VND </span></p>
+                                <p>Số tiền ban đầu: <span class="money">${formatCash(result[i].budget_init)}</span> <span> VND </span> <br>
+                                    Số tiền hiện tại: <span class="money">${formatCash(result[i].budget_real)}</span> <span> VND </span></p>
                                 <div class="btn btn-success btn-wallet-layouts btn-wallet-layouts${result[i].id}">Chọn ví</div>
                             </figcaption>
                         </figure>
@@ -122,12 +123,89 @@ function getWallets(url) {
                 $('.row-layouts-wallet').append(`<script src="${window.location.origin}/js/walletLayouts/walletLayouts.js" class="wallet-layouts-script"></script>`);
             }
         },
-        error: function(e) {
+        error: function (e) {
             console.log(e);
         }
     })
 };
 
-// get wallet detail 
 
-function getWallets(url) {}
+// add table display detail wallet
+function addCardDetailWalletLayouts() {
+    $('.row-transactions-layouts').append(`    
+    <div class="card mask-custom">
+        <div class="card-body p-4 text-white">
+            <div class="text-center pt-3 pb-2">
+                <h2 class="my-4">Wallet Transaction Details</h2>
+                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-todo-list/check1.webp"  width="60">
+            </div>
+
+            <table class="table text-white mb-0">
+                <thead>
+                    <tr>
+                        <th scope="col">Money Cash</th>
+                        <th scope="col">Surplus</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Transaction</th>
+                        <th scope="col">Day</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody class="transactions-wallet-details">
+                </tbody>
+            </table>
+        </div>
+    </div>
+    `)
+}
+
+// get wallet detail 
+function getWalletDetails() {
+    addCardDetailWalletLayouts();
+    $('.transactions-wallet-details').append(`
+    <tr class="fw-normal">
+        <td class="align-middle">
+            <h6 class="mb-0">
+                <span class="badge bg-danger money"> <i class="fas fa-dollar-sign"></i>100000000 </span>
+            </h6>
+        </td>
+    
+        <td class="align-middle">
+            <h6 class="mb-0">
+                <span class="badge bg-danger"> <i class="fas fa-dollar-sign"></i> 1.100.000</span>
+            </h6>
+        </td>
+    
+        <td class="align-middle">
+            <span>Call Sam For payments</span>
+        </td>
+    
+        <td class="align-middle">
+            <h6 class="mb-0"><span class="badge bg-danger">Beverage 
+            <img src="{{ asset('img/alcohol-beer-beverage-drink-mug-pub-svgrepo-com.svg') }}" class="icon-transaction"></span></h6>
+        </td>
+    
+    <td class="align-middle">
+        <h6 class="mb-0"><span class="badge bg-info">7/6/2022</span></h6>
+    </td>
+    
+    <td class="align-middle">
+        <a href="#!" data-mdb-toggle="tooltip" title="Done"><i
+                class="fas fa-user-edit fa-lg text-success me-3"></i></a>
+        <a href="#!" data-mdb-toggle="tooltip" title="Remove"><i
+                class="fas fa-trash-alt fa-lg text-warning"></i></a>
+    </td>
+</tr>
+    `)
+}
+
+
+//format currency vnd
+function formatCash(str) {
+    return str.split('').reverse().reduce((prev, next, index) => {
+        return ((index % 3) ? next : (next + ',')) + prev
+    })
+}
+
+
+
