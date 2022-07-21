@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-lg-12 mx-auto">
                 <!-- Credit card form tabs -->
-                <ul role="tablist" class="nav bg-light nav-pills rounded-pill nav-fill mb-3">
+                <ul role="tablist" class="nav bg-light nav-pills rounded-pill nav-fill mb-3" style="font-weight: bold">
                     <li class="nav-item">
                         <a data-toggle="pill" href="#payment" class="nav-link active rounded-pill">
                             <img src="{{ asset('img/discount-svgrepo-com.svg') }}" height="20px" width="30px">
@@ -33,25 +33,41 @@
                     <div id="nav-tab-card" class="tab-pane fade show active">
                         <form role="form" class="form-transaction" method="POST" action="/walletDetails">
                             @csrf
-                            <div class="form-group form-group-check my-3">
+                            <div class="form-group form-group-check my-3 mb-4">
                                 <input type="hidden" name="typeTrans" class="typeTrans-details" value="">
 
-                                <button class="wallet-form-input wallet-details-origin">
+                                <button class="wallet-form-input wallet-details-origin bg-danger">
                                     <img src="{{ asset('img/wallet-svgrepo-com.svg') }}" height="40px" width="60px"
                                         style="padding-bottom: 10px" class="wallet-details-origin-img">
                                     <span class="wallet-details-origin-name">Chọn Ví</span>
                                     <i class="fas fa-arrow-alt-circle-down" style="height: 15px; margin-left:5px"></i>
                                     <input type="hidden" name="walletID" class="wallet-details-origin-id">
+                                    <input type="hidden" class="wallet-details-origin-budget">
                                 </button>
 
 
-                                <button class="wallet-form-input wallet-details-transaction">
+                                <button class="wallet-form-input wallet-details-transaction inactive">
                                     <img src="{{ asset('img/wallet-svgrepo-com.svg') }}" height="40px" width="60px"
                                         style="padding-bottom: 10px" class="wallet-icon-details-img">
                                     <span class="wallet-details-icon-name">Chọn Icon</span>
                                     <i class="fas fa-arrow-alt-circle-down" style="height: 15px; margin-left:5px"></i>
                                     <input type="hidden" name="transactionID" class="wallet-icon-details-id">
                                 </button>
+
+                                <button class="wallet-form-input wallet-details-transfer">
+                                    <img src="{{ asset('img/wallet-svgrepo-com.svg') }}" height="40px" width="60px"
+                                        style="padding-bottom: 10px" class="wallet-details-transfer-img">
+                                    <span class="wallet-details-transfer-name">Chọn Ví</span>
+                                    <i class="fas fa-arrow-alt-circle-down" style="height: 15px; margin-left:5px"></i>
+                                    <input type="hidden" name="walletTransferID" class="wallet-details-transfer-id">
+                                    <input type="hidden" class="wallet-details-transfer-budget">
+                                </button>
+
+                                <div class="swap-wallet">
+                                    <div class="swap-text">Ví Chuyển</div>
+                                    <div class="button-swap"><img src="{{ asset('img/swap.png') }}"></div>
+                                    <div class="swap-text">Ví Nhận</div>
+                                </div>
                             </div>
                             <div class="form-group my-3">
                                 <label for="username">Description</label>
@@ -60,29 +76,31 @@
                             </div>
                             <div class="form-group my-3">
                                 <label>Amount of money</label>
+                                <span style="margin-left:50%">Current money</span>
                                 <div class="input-group">
                                     <input type="text" name="amount" placeholder="Nhập Số tiền"
                                         class="form-control money" required>
                                     <div class="input-group-append">
-                                        <span class="input-group-text bg-info">
-                                            VND <img src='{{ asset('img/vietnam-svgrepo-com.svg') }}' height="40px"
+                                        <span class="input-group-text input-group-text-details">
+                                            <span class="wallet-details-budget-real"></span> VND
+                                            <img src='{{ asset('img/vietnam-svgrepo-com.svg') }}' height="40px"
                                                 width="60px">
                                         </span>
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group my-3">
+                            <div class="form-group my-2">
                                 <label>Time Spent</label>
                                 <div class="input-group">
                                     <input type="dateTime-local" name="daySpending" class="form-control" required>
                                 </div>
                             </div>
-                            <div class="form-group my-3 text-center" style="font-size: 18px">
+                            <div class="form-group my-2 text-center" style="font-size: 18px">
                                 <label style="font-weight: bold">Noted The Transaction</label>
                                 <input type="checkbox" name="noted" class="form-check-input" value="1">
                             </div>
                             <button type="submit" class="subscribe btn btn-primary btn-block rounded-pill shadow-sm"
-                                style="margin-left: 45%;margin-top:5px"> Confirm
+                                style="margin-left: 45%"> Confirm
                             </button>
                         </form>
                     </div>

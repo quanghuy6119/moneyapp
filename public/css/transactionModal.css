@@ -32,6 +32,10 @@
     width: 500px;
 }
 
+.wallet-details-transfer {
+    width: 500px;
+}
+
 .wallet-details-origin {
     width: 100%;
     text-align: left;
@@ -58,7 +62,7 @@ input[type='dateTime-local'] {
     background-color: rgb(255, 255, 255);
 }
 
-.box-modal-icon-details{
+.box-modal-icon-details {
     position: fixed;
     /* vị trí cố định */
     z-index: 51;
@@ -105,3 +109,41 @@ input[type='dateTime-local'] {
     opacity: 0.5;
 }
 
+.button-swap {
+    cursor: pointer;
+    width: 30px;
+    height: 25px;
+    margin-top: 5px;
+    margin-right: 16px;
+}
+
+.button-swap img {
+    width: 45px;
+    height: 40px;
+    position: absolute;
+    top: -2px;
+    left: 225px;
+}
+
+.button-swap:hover {
+    background-color: rgb(102, 8, 79);
+}
+
+.swap-wallet {
+    position: absolute;
+    top: 28%;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0px 30px
+}
+
+.swap-text {
+    color: #ff0000;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.transfer-color {
+    background-image: linear-gradient(to right, #2bc9b4 0%, #866bfe 100%);
+}
