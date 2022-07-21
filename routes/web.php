@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthenticatedController;
+use App\Http\Controllers\TransactionController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -38,3 +39,5 @@ Route::prefix('/moneyApp')->group(function () {
 
     Route::get('/logout', [AuthenticatedController::class,'logout']);
 });
+
+Route::post('/walletDetails', [TransactionController::class, 'createWalletDetails']);

@@ -8,7 +8,7 @@
     </div>
     <div class="row row-category" style="width:100%;margin-left:12px">
     </div>
-    <form method="POST" enctype="multipart/form-data" class="form-icon-trans">
+    <form enctype="multipart/form-data" class="form-icon-trans">
         @csrf
         <div class="row">
             <div class="form-outline control-group col-5 mb-3">

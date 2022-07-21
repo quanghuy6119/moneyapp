@@ -103,6 +103,14 @@ class TransactionController extends Controller
         return response()->json($wallet);
     }
 
+    public function idCategory()
+    {
+        $id = DB::table('transactions')
+            ->select('transactions.id')
+            ->get();
+        return response()->json($id);
+    }
+
     public function showWalletDetails($walletID)
     {
         $user_id = auth()->user()->id;
@@ -116,6 +124,12 @@ class TransactionController extends Controller
             ->orderByDesc('wallet_details.day_spending')
             ->get();
         return response()->json($wallet);
+    }
+
+    public function createWalletDetails(Request $request)
+    {
+        $input = $request->all();
+        dd($input);
     }
 }
 

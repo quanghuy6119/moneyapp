@@ -8,7 +8,7 @@
         </div>
         <div class="wallet-exit"><i class="fas fa-times-circle"></i></div>
     </div>
-    <form method="POST" class="form-wallet">
+    <form class="form-wallet">
         @csrf
         <div class="row row-add-wallet">
             <div class="col-3 mb-3 ">

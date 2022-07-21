@@ -52,7 +52,22 @@ input[type='dateTime-local'] {
     top: 120px;
     left: 38%;
     width: 550px;
-    height: 450px;
+    height: 550px;
+    border-radius: 5px;
+    box-shadow: 10px 10px 20px 10px rgba(0, 0, 0, 0.3);
+    background-color: rgb(255, 255, 255);
+}
+
+.box-modal-icon-details{
+    position: fixed;
+    /* vị trí cố định */
+    z-index: 51;
+    /* Ưu tiên hiển thị trên cùng */
+    padding-top: 10px;
+    top: 120px;
+    left: 38%;
+    width: 550px;
+    height: 550px;
     border-radius: 5px;
     box-shadow: 10px 10px 20px 10px rgba(0, 0, 0, 0.3);
     background-color: rgb(255, 255, 255);
@@ -73,3 +88,20 @@ input[type='dateTime-local'] {
     cursor: pointer;
     opacity: 0.5;
 }
+
+.icon-details-exit {
+    display: inline-block;
+    position: absolute;
+    top: -10px;
+    right: -5px;
+    text-align: center;
+    font-size: 30px;
+    color: #ff0000;
+    display: inline-block;
+}
+
+.icon-details-exit:hover {
+    cursor: pointer;
+    opacity: 0.5;
+}
+

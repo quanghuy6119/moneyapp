@@ -24,9 +24,13 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::prefix('/moneyApp')->middleware('auth:sanctum')->group(function () {
     Route::get('/category', [TransactionController::class, 'showCategoryTrans']);
     Route::post('/category', [TransactionController::class, 'createCategoryTrans']);
+    Route::get('/idCategory', [TransactionController::class, 'idCategory']);
+
     Route::get('/wallet', [TransactionController::class, 'showWallet']);
     Route::post('/wallet', [TransactionController::class, 'createWallet']);
     Route::get('/idWallet', [TransactionController::class, 'idWallet']);
+
     Route::get('/walletDetails/{walletID}', [TransactionController::class, 'showWalletDetails']);
+    Route::post('/walletDetails', [TransactionController::class, 'createWalletDetails']);
 });
 

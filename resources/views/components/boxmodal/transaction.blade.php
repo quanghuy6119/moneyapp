@@ -31,29 +31,37 @@
 
                     <!-- credit card info-->
                     <div id="nav-tab-card" class="tab-pane fade show active">
-                        <form role="form">
+                        <form role="form" class="form-transaction" method="POST" action="/walletDetails">
+                            @csrf
                             <div class="form-group form-group-check my-3">
+                                <input type="hidden" name="typeTrans" class="typeTrans-details" value="">
+
                                 <button class="wallet-form-input wallet-details-origin">
                                     <img src="{{ asset('img/wallet-svgrepo-com.svg') }}" height="40px" width="60px"
                                         style="padding-bottom: 10px" class="wallet-details-origin-img">
                                     <span class="wallet-details-origin-name">Chọn Ví</span>
+                                    <i class="fas fa-arrow-alt-circle-down" style="height: 15px; margin-left:5px"></i>
+                                    <input type="hidden" name="walletID" class="wallet-details-origin-id">
                                 </button>
+
+
                                 <button class="wallet-form-input wallet-details-transaction">
                                     <img src="{{ asset('img/wallet-svgrepo-com.svg') }}" height="40px" width="60px"
-                                        style="padding-bottom: 10px" class="wallet-icon-img">
-                                    <span class="wallet-parent-name">Chọn Icon</span>
+                                        style="padding-bottom: 10px" class="wallet-icon-details-img">
+                                    <span class="wallet-details-icon-name">Chọn Icon</span>
                                     <i class="fas fa-arrow-alt-circle-down" style="height: 15px; margin-left:5px"></i>
+                                    <input type="hidden" name="transactionID" class="wallet-icon-details-id">
                                 </button>
                             </div>
                             <div class="form-group my-3">
                                 <label for="username">Description</label>
-                                <input type="text" name="username" placeholder="Nhập mô tả" required
+                                <input type="text" name="description" placeholder="Nhập mô tả" required
                                     class="form-control">
                             </div>
                             <div class="form-group my-3">
                                 <label>Amount of money</label>
                                 <div class="input-group">
-                                    <input type="text" name="cardNumber" placeholder="Nhập Số tiền"
+                                    <input type="text" name="amount" placeholder="Nhập Số tiền"
                                         class="form-control money" required>
                                     <div class="input-group-append">
                                         <span class="input-group-text bg-info">
@@ -66,11 +74,15 @@
                             <div class="form-group my-3">
                                 <label>Time Spent</label>
                                 <div class="input-group">
-                                    <input type="dateTime-local" name="cardNumber" class="form-control" required>
+                                    <input type="dateTime-local" name="daySpending" class="form-control" required>
                                 </div>
                             </div>
-                            <button type="button" class="subscribe btn btn-primary btn-block rounded-pill shadow-sm"
-                                style="margin-left: 45%;margin-top:40px"> Confirm
+                            <div class="form-group my-3 text-center" style="font-size: 18px">
+                                <label style="font-weight: bold">Noted The Transaction</label>
+                                <input type="checkbox" name="noted" class="form-check-input" value="1">
+                            </div>
+                            <button type="submit" class="subscribe btn btn-primary btn-block rounded-pill shadow-sm"
+                                style="margin-left: 45%;margin-top:5px"> Confirm
                             </button>
                         </form>
                     </div>
@@ -89,6 +101,18 @@
                 <div class="row row-wallet-details" style="width:100%;margin-left:12px">
                 </div>
             </div>
+            <div class="box-modal-icon-details inactive">
+                <div class="wallet-header">
+                    <div class="wallet-title">Icon
+                        <img src="{{ asset('img/black-cat-svgrepo-com.svg') }}" height="40px" width="60px"
+                            style="padding-bottom: 10px">
+                    </div>
+                </div>
+                <div class="icon-details-exit"><i class="fas fa-times-circle"></i></div>
+                <div class="row row-icon-details" style="width:100%;margin-left:12px">
+                </div>
+            </div>
+            <!-- modal-->
         </div>
     </div>
 </div>
