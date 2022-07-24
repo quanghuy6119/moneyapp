@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Action\ActionTransaction;
 use App\Models\Transaction;
 use App\Models\Wallet;
+use App\Models\WalletDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -116,11 +118,11 @@ class TransactionController extends Controller
         $user_id = auth()->user()->id;
 
         $wallet = DB::table('wallet_details')
-            ->select('wallets.name','wallets.budget_init','wallets.budget_real','wallets_details.*','transactions.name','transactions.symbol')
+            ->select('wallets.name', 'wallets.budget_init', 'wallets.budget_real', 'wallets_details.*', 'transactions.name', 'transactions.symbol')
             ->join('wallets', 'wallet_details.wallet_id', '=', 'wallets.id')
             ->join('transactions', 'wallet_details.transaction_id', '=', 'transactions.id')
             ->where('wallets.user_id', '=', $user_id) // wallets.id = id
-            ->where('wallet_details.wallet_id', '=', $walletID) 
+            ->where('wallet_details.wallet_id', '=', $walletID)
             ->orderByDesc('wallet_details.day_spending')
             ->get();
         return response()->json($wallet);
@@ -128,8 +130,122 @@ class TransactionController extends Controller
 
     public function createWalletDetails(Request $request)
     {
-        $input = $request->all();
-        dd($input);
+        $user_id = auth()->user()->id;
+        $walletID = $request->walletID;
+
+        $walletOrigin = Wallet::where('id', '=', $walletID)->where('user_id', '=', $user_id)->first();
+
+        if ($walletOrigin == null) {
+            return response()->json(['error' => 'Không phải ví của bạn']);
+        }
+
+        $typeTrans = $request->typeTrans;
+        $budgetReal = $walletOrigin->budget_real;
+
+        if ($typeTrans == ActionTransaction::PAYMENT ||  $typeTrans == ActionTransaction::INCOME) {
+            $request->validate([
+                'walletID' => 'required',
+                'transactionID' => 'required',
+                'amount' => 'required',
+                'daySpending' => 'required',
+                'description' => 'required',
+                'typeTrans' => 'required',
+            ]);
+
+            $budgetAmount = str_replace(',', '', $request->amount);
+
+            DB::beginTransaction();
+            if ($typeTrans == ActionTransaction::PAYMENT) {
+                if ($budgetReal < $budgetAmount) {
+                    return response()->json(['error' => 'Số dư không khả dụng']);
+                }
+                $money = $budgetReal - $budgetAmount;
+
+                $walletOrigin->update([
+                    'budget_real' => $money,
+                ]);
+            } else if ($typeTrans == ActionTransaction::INCOME) {
+                $money = $budgetReal + $budgetAmount;
+
+                $walletOrigin->update([
+                    'budget_real' => $money,
+                ]);
+            }
+
+            $walletDetails = WalletDetail::create([
+                'wallet_id' => $request->walletID,
+                'transaction_id' => $request->transactionID,
+                'amount' => $budgetAmount,
+                'day_spending' => $request->daySpending,
+                'description' => $request->description,
+                'type_trans' => $request->typeTrans,
+                'noted' => $request->noted,
+            ]);
+            DB::commit();
+
+            return response()->json($walletDetails);
+
+        } else if ($typeTrans == ActionTransaction::TRANSFER) {
+            $walletTranser = Wallet::where('id', '=', $request->walletTransferID)->where('user_id', '=', $user_id)->first();
+
+            if ($walletTranser == null) {
+                return response()->json(['error' => 'Không phải ví của bạn']);
+            }
+
+            $request->validate([
+                'walletID' => 'required',
+                'walletTransferID' => 'required', // icon transfer sẽ để vị trí số 1 
+                'amount' => 'required',
+                'daySpending' => 'required',
+                'description' => 'required',
+                'typeTrans' => 'required',
+            ]);
+
+            $budgetAmount = str_replace(',', '', $request->amount);
+            $budgetWalletTransfer = $walletTranser->budget_real;
+
+            $moneyOrigin = $budgetReal - $budgetAmount;
+            $moneyTransfer = $budgetWalletTransfer +  $budgetAmount;
+
+            if ($moneyOrigin < 0) {
+                return response()->json(['error' => 'Số dư không khả dụng']);
+            }
+
+            DB::beginTransaction();
+
+            $walletOrigin->update([
+                'budget_real' => $moneyOrigin,
+            ]);
+
+            $walletTranser->update([
+                'budget_real' =>  $moneyTransfer,
+            ]);
+
+            $wallet0 = WalletDetail::create([
+                'wallet_id' => $request->walletID,
+                'transaction_id' => 1,
+                'amount' => $budgetAmount,
+                'day_spending' => $request->daySpending,
+                'description' => $request->description,
+                'type_trans' => $request->typeTrans,
+                'noted' => $request->noted,
+            ]);
+
+            $wallet1 = WalletDetail::create([
+                'wallet_id' =>  $request->walletTransferID,
+                'transaction_id' => 1,
+                'amount' => $budgetAmount,
+                'day_spending' => $request->daySpending,
+                'description' => $request->description,
+                'type_trans' => 4,
+                'noted' => $request->noted,
+            ]);
+            DB::commit();
+
+            return response()->json([
+                $wallet0,
+                $wallet1,
+            ]);
+        }
     }
 }
-

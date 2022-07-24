@@ -44,7 +44,7 @@
 
     {{-- modal box --}}
     {{-- <div class="layout-modal inactive"> --}}
-    <div class="layout-modal">
+    <div class="layout-modal inactive">
         <x-CategoryModal> </x-CategoryModal>
         <x-WalletModal> </x-WalletModal>
         <x-TransactionModal> </x-TransactionModal>

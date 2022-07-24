@@ -1,52 +1,60 @@
 $(document).ready(function() {
 
-    if (window.location.hash == '' || window.location.hash == '#payment') {
+    /// mở details wallet
+    $('.add-wallet-details').click(function() {
+        $('.layout-modal').removeClass('inactive');
+        $('.box-modal-transaction').removeClass('inactive');
         activePayment();
-    } else if (window.location.hash == '#income') {
+    });
+
+    /// tắt details wallet
+    $('.wallet-modal-details-exit').click(function() {
+        $('.box-modal-transaction').addClass('inactive');
+        $('.layout-modal').addClass('inactive');
+        resetBoxDetail();
+    });
+
+    // box payment
+    $('.nav-item-payment').click(function() {
+        $('.layout-modal').removeClass('inactive');
+        $('.box-modal-transaction').removeClass('inactive');
+        activePayment();
+    });
+
+    // box income
+    $('.nav-item-income').click(function() {
+        $('.layout-modal').removeClass('inactive');
+        $('.box-modal-transaction').removeClass('inactive');
         activeIncome();
-    } else if (window.location.hash == '#transfer') {
+    });
+
+    // box transfer
+    $('.nav-item-transfer').click(function() {
+        $('.layout-modal').removeClass('inactive');
+        $('.box-modal-transaction').removeClass('inactive');
         activeTransfer();
-    };
-
-    jQuery(window).on("hashchange", function() {
-        var router = window.location.hash.trim();
-        var url;
-        if (router == '') {
-            url = '/payment';
-        } else {
-            url = '/' + router.slice(1, router.length);
-        }
-
-        if (url == '/payment') {
-            activePayment();
-
-        } else if (url == '/income') {
-            activeIncome();
-        } else if (url == '/transfer') {
-            activeTransfer();
-        }
     });
 
 
-
-    ////// thẻ modal details wallet
+    ////// thẻ  details wallet
     var checkWalletDetails = 0;
     $('.wallet-details-origin').click(async function(e) {
         e.preventDefault();
         if (checkWalletDetails == 0) {
             checkWalletDetails = 1;
-            $('#load').toggle("inactive");
+            $('#load').toggleClass("inactive");
             await getWallet();
             checkWalletDetails = 0;
         }
     });
 
+    ////// thẻ  details wallet transfer
     var checkWalletTransfer = 0;
     $('.wallet-details-transfer').click(async function(e) {
         e.preventDefault();
         if (checkWalletTransfer == 0) {
             checkWalletTransfer = 1;
-            $('#load').toggle("inactive");
+            $('#load').toggleClass("inactive");
             await getWalletTransfer();
             checkWalletTransfer = 0;
         }
@@ -65,7 +73,7 @@ $(document).ready(function() {
         e.preventDefault();
         if (checkIconDetails == 0) {
             checkIconDetails = 1;
-            $('#load').toggle("inactive");
+            $('#load').toggleClass("inactive");
             await getCategory();
             checkIconDetails = 0;
         }
@@ -78,7 +86,27 @@ $(document).ready(function() {
         $('.box-modal-icon-details').addClass('inactive');
     });
 
+    //đổi ví
+    $('.swap-wallet').click(function() {
+        swapWallet();
+    });
+
+    //submit details
+    $('.btn-wallet-details').click(function(e) {
+        e.preventDefault();
+        if (isNumeric() == true) {
+            if (isMoneyLargerAmountOrigin() == false) {
+                createWalletDetails();
+            }
+        };
+    });
+
+    //reset input money
+    $('.wallet-details-input-money').focus(function() {
+        resetInputMoney();
+    });
 });
+
 
 const getWallet = async() => {
     await $.ajax({
@@ -114,7 +142,7 @@ const getWallet = async() => {
         }
     });
     // hiển thị layout modal
-    await $('#load').toggle("inactive");
+    await $('#load').toggleClass("inactive");
     await $('.box-modal-wallet-details').removeClass('inactive');
 };
 
@@ -151,7 +179,7 @@ const getWalletTransfer = async() => {
         }
     });
     // hiển thị layout modal
-    await $('#load').toggle("inactive");
+    await $('#load').toggleClass("inactive");
     await $('.box-modal-wallet-details').removeClass('inactive');
 };
 
@@ -182,73 +210,232 @@ const getCategory = async() => {
         }
     });
     // hiển thị layout modal
-    await $('#load').toggle("inactive");
+    await $('#load').toggleClass("inactive");
     await $('.box-modal-icon-details').removeClass('inactive');
 };
 
 function activePayment() {
 
     //active
-    $('a[href="#payment"]').addClass('active');
-    $('a[href="#income"]').removeClass('active');
-    $('a[href="#transfer"]').removeClass('active');
+    $('.nav-item-payment').addClass('active');
+    $('.nav-item-transfer').removeClass('active');
+    $('.nav-item-income').removeClass('active');
     //transfer type
     $('.typeTrans-details').val(1);
 
     //color type
     $('.wallet-form-input').removeClass('transfer-color');
-    $('.wallet-details-transfer').addClass('inactive');
-    $('.wallet-form-input').removeClass('bg-success');
-    $('.input-group-text-details').removeClass('bg-success');
-    $('.input-group-text-details').removeClass('bg-info');
-    $('.wallet-form-input').addClass('bg-danger');
-    $('.input-group-text-details').addClass('bg-danger');
+    $('.wallet-form-input').removeClass('income-color');
+    $('.input-group-text-details').removeClass('transfer-color');
+    $('.input-group-text-details').removeClass('income-color');
+    $('.wallet-form-input').addClass('payment-color');
+    $('.input-group-text-details').addClass('payment-color');
 
     // button swap
+    $('.wallet-details-transfer').addClass('inactive');
     $('.swap-wallet').addClass('inactive');
     $('.wallet-details-transaction').removeClass('inactive');
 }
 
 function activeIncome() {
     //active
-    $('a[href="#income"]').addClass('active');
-    $('a[href="#payment"]').removeClass('active');
-    $('a[href="#transfer"]').removeClass('active');
+    $('.nav-item-payment').removeClass('active');
+    $('.nav-item-transfer').removeClass('active');
+    $('.nav-item-income').addClass('active');
     //transfer type
     $('.typeTrans-details').val(2);
 
     //color type
     $('.wallet-form-input').removeClass('transfer-color');
-    $('.wallet-details-transfer').addClass('inactive');
-    $('.wallet-form-input').removeClass('bg-danger');
-    $('.input-group-text-details').removeClass('bg-danger');
-    $('.input-group-text-details').removeClass('bg-info');
-    $('.wallet-form-input').addClass('bg-success');
-    $('.input-group-text-details').addClass('bg-success');
+    $('.wallet-form-input').removeClass('payment-color');
+    $('.input-group-text-details').removeClass('transfer-color');
+    $('.input-group-text-details').removeClass('payment-color');
+    $('.wallet-form-input').addClass('income-color');
+    $('.input-group-text-details').addClass('income-color');
 
     // button swap
+    $('.wallet-details-transfer').addClass('inactive');
     $('.swap-wallet').addClass('inactive');
     $('.wallet-details-transaction').removeClass('inactive');
 }
 
 function activeTransfer() {
     //active
-    $('a[href="#income"]').removeClass('active');
-    $('a[href="#payment"]').removeClass('active');
-    $('a[href="#transfer"]').addClass('active');
+    $('.nav-item-payment').removeClass('active');
+    $('.nav-item-income').removeClass('active');
+    $('.nav-item-transfer').addClass('active');
     //transfer type
     $('.typeTrans-details').val(3);
 
     //color type
-    $('.input-group-text-details').removeClass('bg-danger');
-    $('.input-group-text-details').removeClass('bg-success');
-    $('.input-group-text-details').addClass('bg-info');
-    $('.wallet-form-input').removeClass('bg-danger');
-    $('.wallet-form-input').removeClass('bg-success');
+    $('.wallet-form-input').removeClass('income-color');
+    $('.wallet-form-input').removeClass('payment-color');
+    $('.input-group-text-details').removeClass('income-color');
+    $('.input-group-text-details').removeClass('payment-color');
     $('.wallet-form-input').addClass('transfer-color');
+    $('.input-group-text-details').addClass('transfer-color');
 
     // button swap
     $('.wallet-details-transaction').addClass('inactive');
     $('.wallet-details-transfer').removeClass('inactive');
     $('.swap-wallet').removeClass('inactive');
+}
+
+function swapWallet() {
+    let a = $('.wallet-details-origin-img').attr('src');
+    let b = $('.wallet-details-origin-name').text();
+    let c = $('.wallet-details-origin-id').val();
+    let d = $('.wallet-details-origin-budget').val();
+
+    let e = $('.wallet-details-transfer-img').attr('src');
+    let g = $('.wallet-details-transfer-name').text();
+    let v = $('.wallet-details-transfer-id').val();
+    let n = $('.wallet-details-transfer-budget').val();
+
+    $('.wallet-details-origin-img').attr('src', e);
+    $('.wallet-details-transfer-img').attr('src', a);
+
+    $('.wallet-details-origin-name').text(g);
+    $('.wallet-details-transfer-name').text(b);
+
+    $('.wallet-details-transfer-id').val(c);
+    $('.wallet-details-origin-id').val(v);
+
+    $('.wallet-details-origin-budget').val(n);
+    $('.wallet-details-transfer-budget').val(d);
+
+    if ($('.wallet-details-origin-budget').val() != '') {
+        $('.wallet-details-budget-real').text(formatCash($('.wallet-details-origin-budget').val()));
+    } else {
+        $('.wallet-details-budget-real').text('');
+    }
+}
+
+function formatCash(str) {
+    if (str == '') {
+        return '';
+    } else {
+        return str.split('').reverse().reduce((prev, next, index) => {
+            return ((index % 3) ? next : (next + ',')) + prev
+        })
+    }
+}
+
+function isMoneyLargerAmountOrigin() {
+    if ($('.typeTrans-details').val() == 1) {
+        let moneyin = $('input[name="amount"]').val();
+        let moneywallet = $('.wallet-details-origin-budget').val();
+        const regex = /,/g;
+        moneyin = moneyin.replace(regex, '');
+        moneywallet = moneywallet.replace(regex, '');
+        moneyin = parseInt(moneyin, 10);
+        moneywallet = parseInt(moneywallet, 10);
+
+        if (moneyin > moneywallet) {
+            $('.wallet-details-input-money').addClass('error-color');
+            $('.wallet-details-input-money').val('');
+            $('.wallet-details-input-money').attr('placeholder', 'Số dư không khả dụng');
+            return true;
+        }
+    }
+    return false;
+};
+
+function resetInputMoney() {
+    $('.wallet-details-input-money').removeClass('error-color');
+    $('.wallet-details-input-money').attr('placeholder', 'Nhập Số tiền');
+}
+
+function isNumeric() {
+    let number = $('.wallet-details-input-money').val();
+    let init = number.length;
+    const regex = /[!@#$%^&*()_+\-=\[\]{};':"\\|.<>\/?]+/
+    const regex2 = /[a-zA-Z]+/;
+    number = number.replace(regex, '');
+    number = number.replace(regex2, '');
+
+    if (number.length != init) {
+        $('.wallet-details-input-money').addClass('error-color');
+        $('.wallet-details-input-money').val('');
+        $('.wallet-details-input-money').attr('placeholder', 'Hãy nhập đúng định dạng tiền');
+        return false;
+    }
+    return true;
+}
+
+function createWalletDetails() {
+    var formData = new FormData($('.form-transaction')[0]);
+    //Post to server
+    $.ajax({
+        type: "POST",
+        url: "/api/moneyApp/walletDetails",
+        processData: false,
+        mimeType: "multipart/form-data",
+        contentType: false,
+        data: formData,
+        success: function(response) {
+            let result = JSON.parse(response);
+            // console.log(result);
+            //error
+            if (result.error != null) {
+                alert(`Thất bại , ${result.error}`);
+            }
+
+            let a;
+            // if (window.location.hash == '#transaction' && a = ) {
+
+            // }
+
+            resetBoxDetail();
+        },
+        error: function(e) {
+            // console.log(e);
+            alert("Thất bại ,vui lòng nhập đầy đủ và đúng yêu cầu");
+        }
+    });
+}
+
+function resetBoxDetail() {
+    originButton()
+    $('.wallet-details-input-money').val('');
+    $('.wallet-details-budget-real').text('');
+    $('input[name="description"]').val('');
+    $('input[name="daySpending"]').val('');
+    $('.wallet-form-input').removeClass('payment-color');
+    $('.wallet-form-input').removeClass('income-color');
+    $('.wallet-form-input').removeClass('transfer-color');
+}
+
+function originButton() {
+    $('.wallet-details-origin').html(
+        `
+    <img src="${window.location.origin}/img/wallet-svgrepo-com.svg" height="40px" width="60px"
+        style="padding-bottom: 10px" class="wallet-details-origin-img">
+    <span class="wallet-details-origin-name">Chọn Ví</span>
+    <i class="fas fa-arrow-alt-circle-down" style="height: 15px; margin-left:5px"></i>
+    <input type="hidden" name="walletID" class="wallet-details-origin-id">
+    <input type="hidden" class="wallet-details-origin-budget">
+    `
+    );
+
+    $('.wallet-details-transaction').html(
+        `
+    <img src="${window.location.origin}/img/wallet-svgrepo-com.svg" height="40px" width="60px"
+        style="padding-bottom: 10px" class="wallet-icon-details-img">
+    <span class="wallet-details-icon-name">Chọn Icon</span>
+    <i class="fas fa-arrow-alt-circle-down" style="height: 15px; margin-left:5px"></i>
+    <input type="hidden" name="transactionID" class="wallet-icon-details-id">
+    `
+    );
+
+    $('.wallet-details-transfer').html(
+        `
+    <img src="${window.location.origin}/img/wallet-svgrepo-com.svg" height="40px" width="60px"
+        style="padding-bottom: 10px" class="wallet-details-transfer-img">
+    <span class="wallet-details-transfer-name">Chọn Ví</span>
+    <i class="fas fa-arrow-alt-circle-down" style="height: 15px; margin-left:5px"></i>
+    <input type="hidden" name="walletTransferID" class="wallet-details-transfer-id">
+    <input type="hidden" class="wallet-details-transfer-budget">
+    `
+    );
 }

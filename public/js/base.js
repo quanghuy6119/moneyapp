@@ -1,5 +1,4 @@
 $(document).ready(function() {
-
     if (window.location.hash == '' || window.location.hash == '#wallet') {
         addWalletLayouts();
         getWallets('/wallet');
@@ -15,7 +14,7 @@ $(document).ready(function() {
         }
 
         if (url == '/wallet') {
-            delTransactionLayouts()
+            delTransactionLayouts();
             addWalletLayouts();
             getWallets(url);
         } else if (url == '/transaction') {
@@ -71,9 +70,9 @@ function delTransactionLayouts() {
 
 
 // get wallet in database
-function getWallets(url) {
-
-    $.ajax({
+async function getWallets(url) {
+    $('#load').toggleClass("inactive");
+    await $.ajax({
         type: "GET",
         url: "/api/moneyApp/wallet",
         processData: false,
@@ -127,7 +126,8 @@ function getWallets(url) {
         error: function(e) {
             console.log(e);
         }
-    })
+    });
+    await $('#load').toggleClass("inactive");
 };
 
 

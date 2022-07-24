@@ -93,6 +93,22 @@ input[type='dateTime-local'] {
     opacity: 0.5;
 }
 
+.wallet-modal-details-exit {
+    display: inline-block;
+    position: absolute;
+    top: -15px;
+    right: -8px;
+    text-align: center;
+    font-size: 30px;
+    color: #ff0000;
+    display: inline-block;
+}
+
+.wallet-modal-details-exit:hover {
+    cursor: pointer;
+    opacity: 0.8;
+}
+
 .icon-details-exit {
     display: inline-block;
     position: absolute;
@@ -146,4 +162,20 @@ input[type='dateTime-local'] {
 
 .transfer-color {
     background-image: linear-gradient(to right, #2bc9b4 0%, #866bfe 100%);
+}
+
+.payment-color {
+    background-image: linear-gradient(to right, #d36868 0%, #f8c6c6 100%);
+}
+
+.income-color {
+    background-image: linear-gradient(to right, #82f7a5 0%, #4b8655 100%);
+}
+
+.error-color {
+    background-color: #ff6060;
+}
+
+.nav-link {
+    cursor: pointer;
 }

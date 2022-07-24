@@ -39,5 +39,3 @@ Route::prefix('/moneyApp')->group(function () {
 
     Route::get('/logout', [AuthenticatedController::class,'logout']);
 });
-
-Route::post('/walletDetails', [TransactionController::class, 'createWalletDetails']);

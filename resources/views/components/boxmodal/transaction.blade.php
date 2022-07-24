@@ -1,23 +1,24 @@
-<div class="box-modal-transaction">
+<div class="box-modal-transaction inactive">
+    <div class="wallet-modal-details-exit"><i class="fas fa-times-circle"></i></div>
     <div class="container p-1">
         <div class="row">
             <div class="col-lg-12 mx-auto">
                 <!-- Credit card form tabs -->
                 <ul role="tablist" class="nav bg-light nav-pills rounded-pill nav-fill mb-3" style="font-weight: bold">
                     <li class="nav-item">
-                        <a data-toggle="pill" href="#payment" class="nav-link active rounded-pill">
+                        <a data-toggle="pill" class="nav-link active rounded-pill nav-item-payment">
                             <img src="{{ asset('img/discount-svgrepo-com.svg') }}" height="20px" width="30px">
                             Payment
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a data-toggle="pill" href="#income" class="nav-link rounded-pill">
+                        <a data-toggle="pill" class="nav-link rounded-pill nav-item-income">
                             <img src="{{ asset('/img/profits-svgrepo-com.svg') }}" height="20px" width="30px">
                             Income
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a data-toggle="pill" href="#transfer" class="nav-link rounded-pill">
+                        <a data-toggle="pill" class="nav-link rounded-pill nav-item-transfer">
                             <img src="{{ asset('img/bank-svgrepo-com.svg') }}" height="20px" width="30px">
                             Wallet Transfer
                         </a>
@@ -31,12 +32,12 @@
 
                     <!-- credit card info-->
                     <div id="nav-tab-card" class="tab-pane fade show active">
-                        <form role="form" class="form-transaction" method="POST" action="/walletDetails">
+                        <form role="form" class="form-transaction">
                             @csrf
                             <div class="form-group form-group-check my-3 mb-4">
                                 <input type="hidden" name="typeTrans" class="typeTrans-details" value="">
 
-                                <button class="wallet-form-input wallet-details-origin bg-danger">
+                                <button class="wallet-form-input wallet-details-origin">
                                     <img src="{{ asset('img/wallet-svgrepo-com.svg') }}" height="40px" width="60px"
                                         style="padding-bottom: 10px" class="wallet-details-origin-img">
                                     <span class="wallet-details-origin-name">Chọn Ví</span>
@@ -46,7 +47,7 @@
                                 </button>
 
 
-                                <button class="wallet-form-input wallet-details-transaction inactive">
+                                <button class="wallet-form-input wallet-details-transaction">
                                     <img src="{{ asset('img/wallet-svgrepo-com.svg') }}" height="40px" width="60px"
                                         style="padding-bottom: 10px" class="wallet-icon-details-img">
                                     <span class="wallet-details-icon-name">Chọn Icon</span>
@@ -79,7 +80,7 @@
                                 <span style="margin-left:50%">Current money</span>
                                 <div class="input-group">
                                     <input type="text" name="amount" placeholder="Nhập Số tiền"
-                                        class="form-control money" required>
+                                        class="form-control money wallet-details-input-money" required>
                                     <div class="input-group-append">
                                         <span class="input-group-text input-group-text-details">
                                             <span class="wallet-details-budget-real"></span> VND
@@ -99,7 +100,7 @@
                                 <label style="font-weight: bold">Noted The Transaction</label>
                                 <input type="checkbox" name="noted" class="form-check-input" value="1">
                             </div>
-                            <button type="submit" class="subscribe btn btn-primary btn-block rounded-pill shadow-sm"
+                            <button type="submit" class="subscribe btn btn-primary btn-block rounded-pill shadow-sm btn-wallet-details"
                                 style="margin-left: 45%"> Confirm
                             </button>
                         </form>

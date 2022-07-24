@@ -31,7 +31,7 @@
     ////// thẻ modal icon wallet
     $('.wallet-icon').click(function(e) {
         e.preventDefault();
-        $('#load').toggle("inactive");
+        $('#load').toggleClass("inactive");
 
         const getCategory = async() => {
             await $.ajax({
@@ -64,7 +64,7 @@
                 }
             });
             // hiển thị layout modal
-            await $('#load').toggle("inactive");
+            await $('#load').toggleClass("inactive");
             await $('.box-modal-wallet-icon').removeClass('inactive');
         };
         getCategory();
@@ -88,7 +88,7 @@
     ////// thẻ modal parent wallet
     $('.wallet-parent').click(function(e) {
         e.preventDefault();
-        $('#load').toggle("inactive");
+        $('#load').toggleClass("inactive");
 
         const getWallet = async() => {
             await $.ajax({
@@ -130,7 +130,7 @@
                 }
             });
             // hiển thị layout modal
-            await $('#load').toggle("inactive");
+            await $('#load').toggleClass("inactive");
             await $('.box-modal-wallet-parent').removeClass('inactive');
         };
         getWallet();
@@ -161,7 +161,7 @@
             data: formData,
             success: function(response) {
                 let result = JSON.parse(response);
-                console.log(response);
+                // console.log(response);
                 if (result[0].parent_id == null) {
                     $('.row-layouts-wallet').append(`
                     <figure class="wallet-wallet">
@@ -171,8 +171,8 @@
                         </div>
                         <figcaption>
                             <h3>Loại: Ví gốc </h3>
-                            <p>Số tiền ban đầu: <span class="money">${result[0].budget_init}</span> <span> VND </span> <br>
-                                Số tiền hiện tại: <span class="money">${result[0].budget_real}</span> <span> VND </span></p>
+                            <p>Số tiền ban đầu: <span class="money">${formatCash(result[0].budget_init)}</span> <span> VND </span> <br>
+                                Số tiền hiện tại: <span class="money">${formatCash(result[0].budget_real)}</span> <span> VND </span></p>
                             <div class="btn btn-success btn-wallet-layouts${result[0].id}">Chọn ví</div>
                         </figcaption>
                 </figure>
@@ -187,8 +187,8 @@
                         <figcaption>
                             <h3>Loại: Ví con </h3>
                             <h3>Thuộc ví: Ví ${result[1]}</h3>
-                            <p>Số tiền ban đầu: <span class="money">${result[0].budget_init}</span> <span> VND </span>  <br>
-                                Số tiền hiện tại: <span class="money">${result[0].budget_real}</span><span> VND </span></p>
+                            <p>Số tiền ban đầu: <span class="money">${formatCash(result[0].budget_init)}</span> <span> VND </span>  <br>
+                                Số tiền hiện tại: <span class="money">${formatCash(result[0].budget_real)}</span><span> VND </span></p>
                                 <div class="btn btn-success btn-wallet-layouts${result[0].id}">Chọn ví</div>
                         </figcaption>
                     </figure>
@@ -215,5 +215,11 @@
             }
         });
     })
-
 });
+
+//format currency vnd
+function formatCash(str) {
+    return str.split('').reverse().reduce((prev, next, index) => {
+        return ((index % 3) ? next : (next + ',')) + prev
+    })
+}

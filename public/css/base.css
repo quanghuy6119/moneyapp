@@ -129,6 +129,7 @@
     bottom: 0;
     left: 0;
     right: 0;
+    z-index: 8000;
 }
 
 .modal-overlay {
@@ -136,7 +137,7 @@
     height: 100%;
     position: absolute;
     background-color: rgba(100, 94, 94, 0.3);
-    z-index: 999998;
+    z-index: 9000;
 }
 
 .line {
@@ -145,6 +146,7 @@
     height: 30px;
     border-radius: 15px;
     background-color: rgb(137, 78, 247);
+    /* position: relative; */
     position: relative;
     top: 250px;
     left: 40%;

@@ -23,7 +23,7 @@
             <li class="list-group-item"><i class="fas fa-search-dollar"></i>
                 <div>Search</div>
             </li>
-            <li class="list-group-item"><button type="button" class="btn btn-success">Add
+            <li class="list-group-item"><button type="button" class="btn btn-success add-wallet-details">Add
                     transation</button>
             </li>
         </ul>
