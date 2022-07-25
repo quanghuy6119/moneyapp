@@ -186,9 +186,9 @@ class TransactionController extends Controller
             return response()->json($walletDetails);
 
         } else if ($typeTrans == ActionTransaction::TRANSFER) {
-            $walletTranser = Wallet::where('id', '=', $request->walletTransferID)->where('user_id', '=', $user_id)->first();
+            $walletTransfer = Wallet::where('id', '=', $request->walletTransferID)->where('user_id', '=', $user_id)->first();
 
-            if ($walletTranser == null) {
+            if ($walletTransfer == null) {
                 return response()->json(['error' => 'Không phải ví của bạn']);
             }
 
@@ -202,7 +202,7 @@ class TransactionController extends Controller
             ]);
 
             $budgetAmount = str_replace(',', '', $request->amount);
-            $budgetWalletTransfer = $walletTranser->budget_real;
+            $budgetWalletTransfer = $walletTransfer->budget_real;
 
             $moneyOrigin = $budgetReal - $budgetAmount;
             $moneyTransfer = $budgetWalletTransfer +  $budgetAmount;
@@ -217,7 +217,7 @@ class TransactionController extends Controller
                 'budget_real' => $moneyOrigin,
             ]);
 
-            $walletTranser->update([
+            $walletTransfer->update([
                 'budget_real' =>  $moneyTransfer,
             ]);
 

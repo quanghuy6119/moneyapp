@@ -235,6 +235,8 @@ function activePayment() {
     $('.wallet-details-transfer').addClass('inactive');
     $('.swap-wallet').addClass('inactive');
     $('.wallet-details-transaction').removeClass('inactive');
+
+    resetInputMoney();
 }
 
 function activeIncome() {
@@ -257,6 +259,8 @@ function activeIncome() {
     $('.wallet-details-transfer').addClass('inactive');
     $('.swap-wallet').addClass('inactive');
     $('.wallet-details-transaction').removeClass('inactive');
+
+    resetInputMoney();
 }
 
 function activeTransfer() {
@@ -279,6 +283,8 @@ function activeTransfer() {
     $('.wallet-details-transaction').addClass('inactive');
     $('.wallet-details-transfer').removeClass('inactive');
     $('.swap-wallet').removeClass('inactive');
+
+    resetInputMoney();
 }
 
 function swapWallet() {
@@ -322,16 +328,16 @@ function formatCash(str) {
 }
 
 function isMoneyLargerAmountOrigin() {
-    if ($('.typeTrans-details').val() == 1) {
-        let moneyin = $('input[name="amount"]').val();
-        let moneywallet = $('.wallet-details-origin-budget').val();
+    if ($('.typeTrans-details').val() == 1 || $('.typeTrans-details').val() == 3) {
+        let moneyIn = $('input[name="amount"]').val();
+        let moneyWallet = $('.wallet-details-origin-budget').val();
         const regex = /,/g;
-        moneyin = moneyin.replace(regex, '');
-        moneywallet = moneywallet.replace(regex, '');
-        moneyin = parseInt(moneyin, 10);
-        moneywallet = parseInt(moneywallet, 10);
+        moneyIn = moneyIn.replace(regex, '');
+        moneyWallet = moneyWallet.replace(regex, '');
+        moneyIn = parseInt(moneyIn, 10);
+        moneyWallet = parseInt(moneyWallet, 10);
 
-        if (moneyin > moneywallet) {
+        if (moneyIn > moneyWallet) {
             $('.wallet-details-input-money').addClass('error-color');
             $('.wallet-details-input-money').val('');
             $('.wallet-details-input-money').attr('placeholder', 'Số dư không khả dụng');

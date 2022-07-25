@@ -21,9 +21,7 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::prefix('/moneyApp')->group(function () {
-    Route::get('/', function () {
-        return view('app');
-    })->middleware('auth');
+    Route::get('/', [AuthenticatedController::class,'index'])->middleware('auth');
     
     Route::get('/login', function () {
         return view('login');

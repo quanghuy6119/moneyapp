@@ -8,6 +8,13 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthenticatedController extends Controller
 {
+    public function index(){
+        $default_wallet = auth()->user()->wallet_default_id;
+        dd($default_wallet);
+        return view('app', ['default' => $default_wallet,]);
+    }
+
+
     public function register(Request $request)
     {
         $fields = $request->validate([

@@ -48,22 +48,33 @@
 .total {
     background-color: rgb(247, 151, 41);
     border-radius: 50%;
-    padding: 10px;
+    padding: 3px;
     width: 180px;
     height: 70px;
     margin-top: 10px;
     display: inline-block;
 }
 
-.total-img {
-    display: inline-block;
-    position: absolute;
-}
-
 .total-wallet {
     display: inline-block;
-    margin-left: 60px;
+    margin-left: 10px;
+    margin-top: 5px;
 }
+
+.total-img {
+    display: inline-block;
+
+}
+
+.total-down:hover {
+    color: white;
+    cursor: pointer;
+}
+
+.total-budget {
+    color: green;
+}
+
 
 .add-wallet {
     display: inline-block;
@@ -72,15 +83,6 @@
     color: aliceblue;
 }
 
-.total-down:hover {
-    color: white;
-    font-size: 20px;
-    cursor: pointer;
-}
-
-.total-budget {
-    color: green;
-}
 
 .gradient-custom-2 {
     /* fallback for old browsers */
