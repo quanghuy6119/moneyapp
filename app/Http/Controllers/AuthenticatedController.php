@@ -4,13 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Wallet;
 use Illuminate\Support\Facades\Auth;
 
 class AuthenticatedController extends Controller
 {
     public function index(){
-        $default_wallet = auth()->user()->wallet_default_id;
-        dd($default_wallet);
+        $default_wallet_id = auth()->user()->wallet_default_id;
+        $default_wallet = Wallet::where('id',$default_wallet_id);
         return view('app', ['default' => $default_wallet,]);
     }
 

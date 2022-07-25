@@ -2,7 +2,13 @@ $(document).ready(function() {
     if (window.location.hash == '' || window.location.hash == '#wallet') {
         addWalletLayouts();
         getWallets('/wallet');
-    }
+    } else if (window.location.hash == '#transaction') {
+        delWalletLayouts();
+        addTransactionLayouts();
+        if (isExistWalletDefault() == true) {
+            getWalletDetails();
+        }
+    };
 
     jQuery(window).on("hashchange", function() {
         var router = window.location.hash.trim();
@@ -20,11 +26,33 @@ $(document).ready(function() {
         } else if (url == '/transaction') {
             delWalletLayouts();
             addTransactionLayouts();
-            getWalletDetails();
+            if (isExistWalletDefault() == true) {
+                getWalletDetails();
+            }
         } else {
             delWalletLayouts();
             delTransactionLayouts();
         }
+    });
+
+    ////// thẻ default wallet
+    var checkWalletDefault = 0;
+    $('.total-down').click(async function(e) {
+        if (checkWalletDefault == 0) {
+            checkWalletDefault = 1;
+            $('.layout-modal').removeClass('inactive');
+            $('#load').toggleClass("inactive");
+            await getWalletDefault();
+            checkWalletDefault = 0;
+        }
+    });
+
+    /// tắt default wallet 
+    $('.wallet-default-exit').click(function() {
+        $('.badge-wallet').remove();
+        $('.wallet-default-script').remove();
+        $('.box-modal-wallet-default').addClass('inactive');
+        $('.layout-modal').addClass('inactive');
     });
 });
 
@@ -210,3 +238,45 @@ function formatCash(str) {
         return ((index % 3) ? next : (next + ',')) + prev
     })
 }
+
+function isExistWalletDefault() {
+    let walletDefault = $('.default-wallet').val();
+    if (walletDefault == "") {
+        return false;
+    }
+    return true;
+}
+
+const getWalletDefault = async() => {
+    await $.ajax({
+        type: "GET",
+        url: "/api/moneyApp/wallet",
+        processData: false,
+        mimeType: "multipart/form-data",
+        contentType: false,
+        success: function(response) {
+            let result = JSON.parse(response);
+
+            if (result.length != 0) {
+                for (let i = 0; i < result.length; i++) {
+                    $('.row-wallet-default').append(
+                        `
+                            <div class="badge badge-wallet badge-wallet-default${result[i].id} bg-danger col-3 mx-3 my-3">
+                                <img src="${window.location.origin}/${result[i].symbol}" class="icon-transaction badge-wallet-default-img${result[i].id}"> 
+                                <span class="badge-wallet-default-name${result[i].id}">${result[i].name}</span>
+                                <input type="hidden" class="badge-wallet-default-id${result[i].id}" value="${result[i].id}">
+                                <input type="hidden" class="badge-wallet-default-budget${result[i].id}" value="${result[i].budget_real}">
+                             </div>
+                        `);
+                };
+                $('.row-wallet-default').append(`<script src="${window.location.origin}/js/walletBox/defaultBox.js" class="wallet-default-script"></script>`);
+            };
+        },
+        error: function(e) {
+            console.log(e);
+        }
+    });
+    // hiển thị layout modal
+    await $('#load').toggleClass("inactive");
+    await $('.box-modal-wallet-default').removeClass('inactive');
+};

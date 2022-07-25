@@ -3,12 +3,14 @@
         <div>
             <div class="total">
                 <div class="total-img">
-                    <img src="{{ asset('img/money-bag-svgrepo-com.svg') }}"
-                     height="50" width="50">
-                    </div>
+                    <img src="{{ asset('img/money-bag-svgrepo-com.svg') }}" height="50" width="50">
+                </div>
                 <div class="total-wallet">
-                    <div class="total-down">Wallet <i class="fas fa-caret-down"></i></div>
-                    <div class="total-budget">+1.000.000</div>
+                    <div class="total-down"> 
+                        <span class="total-down-name" style="margin-right: 5px">Wallet</span><i class="fas fa-caret-down"></i>
+                    </div>
+                    <div class="total-budget"></div>
+                    <input type="hidden" class="default-wallet">
                 </div>
             </div>
             <div class="add-wallet btn btn-info"><i class="fas fa-cart-arrow-down"></i> Add Wallet

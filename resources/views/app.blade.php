@@ -48,6 +48,7 @@
         <x-CategoryModal> </x-CategoryModal>
         <x-WalletModal> </x-WalletModal>
         <x-TransactionModal> </x-TransactionModal>
+        <x-defaultWalletModal> </x-defaultWalletModal>
     </div>
 
     {{-- loader --}}
