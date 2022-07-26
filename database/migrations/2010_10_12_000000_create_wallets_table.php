@@ -18,8 +18,8 @@ class CreateWalletsTable extends Migration
             $table->string('name');
             $table->integer('user_id');
             $table->integer('parent_id')->nullable();
-            $table->double('budget_init');
-            $table->double('budget_real');
+            $table->bigInteger('budget_init');
+            $table->bigInteger('budget_real');
             $table->integer('transaction_id')->nullable();
             $table->foreign('transaction_id')->references('id')->on('transactions');
             $table->timestamps();

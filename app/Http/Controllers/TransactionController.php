@@ -116,9 +116,9 @@ class TransactionController extends Controller
     public function showWalletDetails($walletID)
     {
         $user_id = auth()->user()->id;
-
+    
         $wallet = DB::table('wallet_details')
-            ->select('wallets.name', 'wallets.budget_init', 'wallets.budget_real', 'wallets_details.*', 'transactions.name', 'transactions.symbol')
+            ->select('wallets.name', 'wallets.budget_init', 'wallets.budget_real', 'wallet_details.*', 'transactions.name', 'transactions.symbol')
             ->join('wallets', 'wallet_details.wallet_id', '=', 'wallets.id')
             ->join('transactions', 'wallet_details.transaction_id', '=', 'transactions.id')
             ->where('wallets.user_id', '=', $user_id) // wallets.id = id
@@ -180,6 +180,7 @@ class TransactionController extends Controller
                 'description' => $request->description,
                 'type_trans' => $request->typeTrans,
                 'noted' => $request->noted,
+                'surplus' => $money,
             ]);
             DB::commit();
 
@@ -229,6 +230,7 @@ class TransactionController extends Controller
                 'description' => $request->description,
                 'type_trans' => $request->typeTrans,
                 'noted' => $request->noted,
+                'surplus' => $moneyOrigin,
             ]);
 
             $wallet1 = WalletDetail::create([
@@ -239,6 +241,7 @@ class TransactionController extends Controller
                 'description' => $request->description,
                 'type_trans' => 4,
                 'noted' => $request->noted,
+                'surplus' => $moneyTransfer,
             ]);
             DB::commit();
 

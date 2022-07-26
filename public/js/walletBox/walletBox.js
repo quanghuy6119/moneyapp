@@ -1,7 +1,24 @@
 ﻿$(document).ready(function() {
 
-    //format money
-    $('.money').simpleMoneyFormat();
+    // định dạng tiền cho các hộp box
+    var checkTyping = 0;
+    $('.money-trans').keyup(function() {
+        if(checkTyping == 0) {
+            checkTyping = 1;
+            let money = $('.money-trans').val();
+            $('.money-trans').val(format(money));
+            checkTyping = 0;
+        }
+    }); 
+
+    $('.money-wallet').keyup(function() {
+        if(checkTyping == 0) {
+            checkTyping = 1;
+            let money = $('.money-wallet').val();
+            $('.money-wallet').val(format(money));
+            checkTyping = 0;
+        }
+    }); 
 
 
     // mở wallet box
@@ -171,8 +188,8 @@
                         </div>
                         <figcaption>
                             <h3>Loại: Ví gốc </h3>
-                            <p>Số tiền ban đầu: <span class="money">${formatCash(result[0].budget_init)}</span> <span> VND </span> <br>
-                                Số tiền hiện tại: <span class="money">${formatCash(result[0].budget_real)}</span> <span> VND </span></p>
+                            <p>Số tiền ban đầu: <span>${formatCash(result[0].budget_init)}</span> <span> VND </span> <br>
+                                Số tiền hiện tại: <span>${formatCash(result[0].budget_real)}</span> <span> VND </span></p>
                             <div class="btn btn-success btn-wallet-layouts${result[0].id}">Chọn ví</div>
                         </figcaption>
                 </figure>
@@ -187,8 +204,8 @@
                         <figcaption>
                             <h3>Loại: Ví con </h3>
                             <h3>Thuộc ví: Ví ${result[1]}</h3>
-                            <p>Số tiền ban đầu: <span class="money">${formatCash(result[0].budget_init)}</span> <span> VND </span>  <br>
-                                Số tiền hiện tại: <span class="money">${formatCash(result[0].budget_real)}</span><span> VND </span></p>
+                            <p>Số tiền ban đầu: <span>${formatCash(result[0].budget_init)}</span> <span> VND </span>  <br>
+                                Số tiền hiện tại: <span>${formatCash(result[0].budget_real)}</span><span> VND </span></p>
                                 <div class="btn btn-success btn-wallet-layouts${result[0].id}">Chọn ví</div>
                         </figcaption>
                     </figure>
@@ -222,4 +239,10 @@ function formatCash(str) {
     return str.split('').reverse().reduce((prev, next, index) => {
         return ((index % 3) ? next : (next + ',')) + prev
     })
+}
+
+function format(str){
+    str = str.replace(/,/g,'');
+    const format = str.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    return format;
 }

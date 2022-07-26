@@ -13,7 +13,7 @@
     {{-- awesome/jquery/axios --}}
     <script src="https://kit.fontawesome.com/1bcd94c135.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-latest.js"></script>
-    <script src="https://cdn.baotrongit.com/Money-Format-Plugin/money_format.js"></script>
+    {{-- <script src="https://cdn.baotrongit.com/Money-Format-Plugin/money_format.js"></script> --}}
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     {{-- file css --}}
     <link rel="stylesheet" href="{{ asset('css/base.css') }}">

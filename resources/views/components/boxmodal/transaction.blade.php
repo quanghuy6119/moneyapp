@@ -80,7 +80,7 @@
                                 <span style="margin-left:50%">Current money</span>
                                 <div class="input-group">
                                     <input type="text" name="amount" placeholder="Nhập Số tiền"
-                                        class="form-control money wallet-details-input-money" required>
+                                        class="form-control wallet-details-input-money money-trans" required>
                                     <div class="input-group-append">
                                         <span class="input-group-text input-group-text-details">
                                             <span class="wallet-details-budget-real"></span> VND

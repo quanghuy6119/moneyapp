@@ -29,7 +29,7 @@
 
             <div class="col-6 mb-3">
                 <label for="wallet-budget-input" class="wallet-budget-label">Init Budget</label>
-                <input type="text" id="wallet-budget-input" class="wallet-form-input wallet-budget money"
+                <input type="text" id="wallet-budget-input" class="wallet-form-input wallet-budget money-wallet"
                     name="budgetInit" placeholder="Your Init Budget" required>
                 <input type="hidden" class="wallet-budget-real" name="budgetReal" value="0">
             </div>

@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(document).ready(function () {
     if (window.location.hash == '' || window.location.hash == '#wallet') {
         addWalletLayouts();
         getWallets('/wallet');
@@ -6,11 +6,11 @@ $(document).ready(function() {
         delWalletLayouts();
         addTransactionLayouts();
         if (isExistWalletDefault() == true) {
-            getWalletDetails();
+            getWalletDetails(id_default);
         }
     };
 
-    jQuery(window).on("hashchange", function() {
+    jQuery(window).on("hashchange", function () {
         var router = window.location.hash.trim();
         var url;
         if (router == '') {
@@ -27,7 +27,9 @@ $(document).ready(function() {
             delWalletLayouts();
             addTransactionLayouts();
             if (isExistWalletDefault() == true) {
-                getWalletDetails();
+                let id_default = $('.default-wallet').val();
+                console.log(id_default);
+                getWalletDetails(id_default);
             }
         } else {
             delWalletLayouts();
@@ -37,7 +39,7 @@ $(document).ready(function() {
 
     ////// thẻ default wallet
     var checkWalletDefault = 0;
-    $('.total-down').click(async function(e) {
+    $('.total-down').click(async function (e) {
         if (checkWalletDefault == 0) {
             checkWalletDefault = 1;
             $('.layout-modal').removeClass('inactive');
@@ -48,7 +50,7 @@ $(document).ready(function() {
     });
 
     /// tắt default wallet 
-    $('.wallet-default-exit').click(function() {
+    $('.wallet-default-exit').click(function () {
         $('.badge-wallet').remove();
         $('.wallet-default-script').remove();
         $('.box-modal-wallet-default').addClass('inactive');
@@ -109,7 +111,7 @@ async function getWallets(url) {
         processData: false,
         mimeType: "multipart/form-data",
         contentType: false,
-        success: function(response) {
+        success: function (response) {
             let result = JSON.parse(response);
             //cần check xem có thay đổi nội dung hay không
             //khi thay đổi ở 1 máy khác thì máy hiện tại xử lí thế nào
@@ -127,8 +129,8 @@ async function getWallets(url) {
                             </div>
                             <figcaption>
                                 <h3>Loại: Ví gốc </h3>
-                                <p>Số tiền ban đầu: <span class="money">${formatCash(result[i].budget_init)}</span>  <span> VND </span> <br>
-                                    Số tiền hiện tại: <span class="money">${formatCash(result[i].budget_real)}</span> <span> VND </span></p>
+                                <p>Số tiền ban đầu: <span>${formatCash(result[i].budget_init)}</span>  <span> VND </span> <br>
+                                    Số tiền hiện tại: <span>${formatCash(result[i].budget_real)}</span> <span> VND </span></p>
                                 <div class="btn btn-success btn-wallet-layouts btn-wallet-layouts${result[i].id}">Chọn ví</div>
                             </figcaption>
                     </figure>
@@ -143,8 +145,8 @@ async function getWallets(url) {
                             <figcaption>
                                 <h3>Loại: Ví con </h3>
                                 <h3>Thuộc ví: Ví ${result[i].parent_name}</h3>
-                                <p>Số tiền ban đầu: <span class="money">${formatCash(result[i].budget_init)}</span> <span> VND </span> <br>
-                                    Số tiền hiện tại: <span class="money">${formatCash(result[i].budget_real)}</span> <span> VND </span></p>
+                                <p>Số tiền ban đầu: <span>${formatCash(result[i].budget_init)}</span> <span> VND </span> <br>
+                                    Số tiền hiện tại: <span>${formatCash(result[i].budget_real)}</span> <span> VND </span></p>
                                 <div class="btn btn-success btn-wallet-layouts btn-wallet-layouts${result[i].id}">Chọn ví</div>
                             </figcaption>
                         </figure>
@@ -154,7 +156,7 @@ async function getWallets(url) {
                 $('.row-layouts-wallet').append(`<script src="${window.location.origin}/js/walletLayouts/walletLayouts.js" class="wallet-layouts-script"></script>`);
             }
         },
-        error: function(e) {
+        error: function (e) {
             console.log(e);
         }
     });
@@ -194,41 +196,49 @@ function addCardDetailWalletLayouts() {
 // get wallet detail 
 function getWalletDetails(url) {
     addCardDetailWalletLayouts();
-    $('.transactions-wallet-details').append(`
-    <tr class="fw-normal">
-        <td class="align-middle">
-            <h6 class="mb-0">
-                <span class="badge bg-danger money"> <i class="fas fa-dollar-sign"></i>100000000 </span>
-            </h6>
-        </td>
+    console.log(`/api/moneyApp/walletDetails/${url}`);
+    axios.get(`/api/moneyApp/walletDetails/${url}`).then(response => {
+        let result = response.data;
+        for (let i = 0; i < result.length; i++) {
+            $('.transactions-wallet-details').append(`
+                <tr class="fw-normal">
+                    <td class="align-middle">
+                        <h6 class="mb-0">
+                        <span class="badge bg-success"> <i class="fas fa-dollar-sign"></i>${formatCash(result[i].amount)}</span>
+                        </h6>
+                    </td>
     
-        <td class="align-middle">
-            <h6 class="mb-0">
-                <span class="badge bg-danger"> <i class="fas fa-dollar-sign"></i> 1.100.000</span>
-            </h6>
-        </td>
+                    <td class="align-middle">
+                        <h6 class="mb-0">
+                            <span class="badge bg-danger"> <i class="fas fa-dollar-sign"></i>${formatCash(result[i].amount + result[i].budget_real)})}</span>
+                        </h6>
+                    </td>
     
-        <td class="align-middle">
-            <span>Call Sam For payments</span>
-        </td>
+                    <td class="align-middle">
+                        <span>${result[i].description}</span>
+                    </td>
     
-        <td class="align-middle">
-            <h6 class="mb-0"><span class="badge bg-danger">Beverage 
-            <img src="{{ asset('img/alcohol-beer-beverage-drink-mug-pub-svgrepo-com.svg') }}" class="icon-transaction"></span></h6>
-        </td>
+                    <td class="align-middle">
+                        <h6 class="mb-0"><span class="badge bg-danger">
+                        ${result[i].name}
+                            <img src="${window.location.origin}/${result[i].symbol}" class="icon-transaction"></span>
+                        </h6>
+                    </td>
     
-    <td class="align-middle">
-        <h6 class="mb-0"><span class="badge bg-info">7/6/2022</span></h6>
-    </td>
+                    <td class="align-middle">
+                         <h6 class="mb-0"><span class="badge bg-info"></span></h6>
+                    </td>
     
-    <td class="align-middle">
-        <a href="#!" data-mdb-toggle="tooltip" title="Done"><i
-                class="fas fa-user-edit fa-lg text-success me-3"></i></a>
-        <a href="#!" data-mdb-toggle="tooltip" title="Remove"><i
-                class="fas fa-trash-alt fa-lg text-warning"></i></a>
-    </td>
-</tr>
-    `)
+                    <td class="align-middle">
+                        <a href="#!" data-mdb-toggle="tooltip" title="Done"><i
+                            class="fas fa-user-edit fa-lg text-success me-3"></i></a>
+                        <a href="#!" data-mdb-toggle="tooltip" title="Remove"><i
+                            class="fas fa-trash-alt fa-lg text-warning"></i></a>
+                    </td>
+                </tr>
+            `)
+        }
+    });
 }
 
 
@@ -247,14 +257,14 @@ function isExistWalletDefault() {
     return true;
 }
 
-const getWalletDefault = async() => {
+const getWalletDefault = async () => {
     await $.ajax({
         type: "GET",
         url: "/api/moneyApp/wallet",
         processData: false,
         mimeType: "multipart/form-data",
         contentType: false,
-        success: function(response) {
+        success: function (response) {
             let result = JSON.parse(response);
 
             if (result.length != 0) {
@@ -272,7 +282,7 @@ const getWalletDefault = async() => {
                 $('.row-wallet-default').append(`<script src="${window.location.origin}/js/walletBox/defaultBox.js" class="wallet-default-script"></script>`);
             };
         },
-        error: function(e) {
+        error: function (e) {
             console.log(e);
         }
     });

@@ -1,6 +1,6 @@
 <div class="list-dashboard">
     <div style="overflow: hidden;">
-        <img src="https://contra.com/contra-homepage-2022-static/images/money.png" height="85" width="112">
+        <img src="{{ asset('img/kéké _ Photos.gif') }}" height="105" width="158">
     </div>
     <ul class="list-group">
         <a href="#wallet">
