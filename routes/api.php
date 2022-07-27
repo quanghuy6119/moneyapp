@@ -30,7 +30,7 @@ Route::prefix('/moneyApp')->middleware('auth:sanctum')->group(function () {
     Route::post('/wallet', [TransactionController::class, 'createWallet']);
     Route::get('/idWallet', [TransactionController::class, 'idWallet']);
 
-    Route::get('/walletDetails/{walletID}', [TransactionController::class, 'showWalletDetails']);
+    Route::get('/walletDetails/{walletID}/{page}', [TransactionController::class, 'showWalletDetails']);
     Route::post('/walletDetails', [TransactionController::class, 'createWalletDetails']);
 });
 

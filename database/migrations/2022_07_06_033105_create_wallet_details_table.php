@@ -18,7 +18,6 @@ class CreateWalletDetailsTable extends Migration
             $table->integer('wallet_id');
             $table->integer('transaction_id');
             $table->bigInteger('amount');
-            $table->bigInteger('surplus');
             $table->string('description');
             $table->date('day_spending');
             $table->integer('type_trans');

@@ -28,7 +28,6 @@ $(document).ready(function () {
             addTransactionLayouts();
             if (isExistWalletDefault() == true) {
                 let id_default = $('.default-wallet').val();
-                console.log(id_default);
                 getWalletDetails(id_default);
             }
         } else {
@@ -177,11 +176,12 @@ function addCardDetailWalletLayouts() {
             <table class="table text-white mb-0">
                 <thead>
                     <tr>
+                        <th scope="col">Day</th>
+                        <th scope="col">Captital</th>
                         <th scope="col">Money Cash</th>
                         <th scope="col">Surplus</th>
-                        <th scope="col">Description</th>
                         <th scope="col">Transaction</th>
-                        <th scope="col">Day</th>
+                        <th scope="col">Description</th>
                         <th scope="col">Action</th>
                     </tr>
                 </thead>
@@ -193,74 +193,111 @@ function addCardDetailWalletLayouts() {
     `)
 }
 
+function caculate(type, budget, amount){
+    if(type == 1 || type == 3){
+        return budget + amount;
+    } else if (type == 2 || type == 4){
+        return budget - amount;
+    }
+}
+
 // get wallet detail 
-function getWalletDetails(url) {
+function getWalletDetails(id,page) {
     addCardDetailWalletLayouts();
-    console.log(`/api/moneyApp/walletDetails/${url}`);
-    axios.get(`/api/moneyApp/walletDetails/${url}`).then(response => {
+    let url;
+    if(page == null || page <= 0){
+        url = `/api/moneyApp/walletDetails/${id}/1`;
+    } else {
+        url = `/api/moneyApp/walletDetails/${id}/${page}`;
+
+    }
+    axios.get(url).then(response => {
         let result = response.data;
+        console.log(result);
+        let budget = result[0].budget_real;
+
         for (let i = 0; i < result.length; i++) {
+            let surplus = budget;
+            let Captital =  caculate(result[i].type_trans, budget, result[i].amount);
+            budget = Captital;
+            
             $('.transactions-wallet-details').append(`
-                <tr class="fw-normal">
+                <tr class="fw-normal${i}">
+                    <td class="align-middle">
+                         <h6 class="mb-0"><span class="badge bg-info">${result[i].day_spending}</span></h6>
+                    </td>
+
                     <td class="align-middle">
                         <h6 class="mb-0">
-                        <span class="badge bg-success"> <i class="fas fa-dollar-sign"></i>${formatCash(result[i].amount)}</span>
+                            <span class="badge" style="background-color: #005fff"> 
+                                <i class="fas fa-dollar-sign"></i>${formatCash(Captital)}<span style="margin-left: 5px">VND</span>
+                            </span>
+                        </h6>
+                    </td>
+                </tr>    
+            `);
+
+            if(result[i].type_trans == 1 || result[i].type_trans == 3){
+                $(`.fw-normal${i}`).append(`
+                    <td class="align-middle">
+                        <h6 class="mb-0">
+                            <span class="badge" style="background-color:#fb2e2e"> 
+                                -  <i class="fas fa-dollar-sign"></i>${formatCash(result[i].amount)}<span style="margin-left: 5px">VND</span>
+                            </span>
                         </h6>
                     </td>
     
                     <td class="align-middle">
                         <h6 class="mb-0">
-                            <span class="badge bg-danger"> <i class="fas fa-dollar-sign"></i>${formatCash(result[i].amount + result[i].budget_real)})}</span>
+                            <span class="badge bg-danger"> 
+                                <i class="fas fa-dollar-sign"></i>${formatCash(surplus)}<span style="margin-left: 5px">VND</span>
+                            </span>
+                        </h6>
+                    </td>
+                `);
+            } else {
+                $(`.fw-normal${i}`).append(`
+                    <td class="align-middle">
+                        <h6 class="mb-0">
+                            <span class="badge" style="background-color:#3da13d"> 
+                                + <i class="fas fa-dollar-sign"></i>${formatCash(result[i].amount)}<span style="margin-left: 5px">VND</span>
+                            </span>
                         </h6>
                     </td>
     
                     <td class="align-middle">
-                        <span>${result[i].description}</span>
-                    </td>
-    
-                    <td class="align-middle">
-                        <h6 class="mb-0"><span class="badge bg-danger">
-                        ${result[i].name}
-                            <img src="${window.location.origin}/${result[i].symbol}" class="icon-transaction"></span>
+                        <h6 class="mb-0">
+                            <span class="badge bg-success"> 
+                                <i class="fas fa-dollar-sign"></i>${formatCash(surplus)}<span style="margin-left: 5px">VND</span>
+                            </span>
                         </h6>
                     </td>
+                `);
+            };
+
+            $(`.fw-normal${i}`).append(`
+                <td class="align-middle">
+                    <h6 class="mb-0"><span class="badge">
+                    ${result[i].name}
+                        <img src="${window.location.origin}/${result[i].symbol}" class="icon-transaction"></span>
+                    </h6>
+                </td>
+
+                 <td class="align-middle">
+                    <span>${result[i].description}</span>
+                </td>
     
-                    <td class="align-middle">
-                         <h6 class="mb-0"><span class="badge bg-info"></span></h6>
-                    </td>
-    
-                    <td class="align-middle">
-                        <a href="#!" data-mdb-toggle="tooltip" title="Done"><i
-                            class="fas fa-user-edit fa-lg text-success me-3"></i></a>
-                        <a href="#!" data-mdb-toggle="tooltip" title="Remove"><i
-                            class="fas fa-trash-alt fa-lg text-warning"></i></a>
-                    </td>
-                </tr>
-            `)
+                <td class="align-middle">
+                    <a data-mdb-toggle="tooltip" title="Remove"><i
+                        class="fas fa-trash-alt fa-lg text-warning delete-wallet-details-${result[i].id}"></i></a>
+                </td>
+            `);
         }
     });
 }
 
 
-//format currency vnd
-function formatCash(str) {
-    if(typeof(str) !== 'string'){
-        str = str.toString();
-    }
-    return str.split('').reverse().reduce((prev, next, index) => {
-        return ((index % 3) ? next : (next + ',')) + prev
-    })
-}
-
-
-function isExistWalletDefault() {
-    let walletDefault = $('.default-wallet').val();
-    if (walletDefault == "") {
-        return false;
-    }
-    return true;
-}
-
+//get wallet default box
 const getWalletDefault = async () => {
     await $.ajax({
         type: "GET",
@@ -294,3 +331,23 @@ const getWalletDefault = async () => {
     await $('#load').toggleClass("inactive");
     await $('.box-modal-wallet-default').removeClass('inactive');
 };
+
+
+//format currency vnd
+function formatCash(str) {
+    if(typeof(str) !== 'string'){
+        str = str.toString();
+    }
+    return str.split('').reverse().reduce((prev, next, index) => {
+        return ((index % 3) ? next : (next + ',')) + prev
+    })
+}
+
+
+function isExistWalletDefault() {
+    let walletDefault = $('.default-wallet').val();
+    if (walletDefault == "") {
+        return false;
+    }
+    return true;
+}
