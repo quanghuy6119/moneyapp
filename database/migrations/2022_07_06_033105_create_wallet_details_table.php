@@ -22,7 +22,7 @@ class CreateWalletDetailsTable extends Migration
             $table->string('description');
             $table->date('day_spending');
             $table->integer('type_trans');
-            $table->integer('noted');
+            $table->integer('noted')->nullable();
             $table->foreign('wallet_id')->references('id')->on('wallets');
             $table->foreign('transaction_id')->references('id')->on('transactions');
             $table->timestamps();

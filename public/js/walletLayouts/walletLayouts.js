@@ -103,6 +103,9 @@ function delWalletLayouts() {
 
 //format currency vnd
 function formatCash(str) {
+    if(typeof(str) !== 'string'){
+        str = str.toString();
+    }
     return str.split('').reverse().reduce((prev, next, index) => {
         return ((index % 3) ? next : (next + ',')) + prev
     })
