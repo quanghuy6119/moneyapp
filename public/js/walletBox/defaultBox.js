@@ -16,6 +16,13 @@
                 let budgetReal = $(`.badge-wallet-default-budget${result[i].id}`).val();
                 $('.total-budget').text(formatCash(budgetReal));
 
+                if (window.location.hash == '#transaction') {
+                    delTransactionLayouts();
+                    addTransactionLayouts();
+                    let id_default = $('.default-wallet').val();
+                    getWalletDetails(id_default);
+                }
+
                 //chon wallet xong tat
                 $('.badge-wallet').remove();
                 $('.wallet-default-script').remove();
@@ -29,10 +36,160 @@
 
 //format currency vnd
 function formatCash(str) {
-    if(typeof(str) !== 'string'){
+    if (typeof(str) !== 'string') {
         str = str.toString();
     }
     return str.split('').reverse().reduce((prev, next, index) => {
         return ((index % 3) ? next : (next + ',')) + prev
     })
+}
+
+function delTransactionLayouts() {
+    $('.container-transaction-layouts').remove();
+    $('.transaction-layouts').addClass('inactive');
+}
+
+//add Transaction wallet
+function addTransactionLayouts() {
+    $('.transaction-layouts').append(`    
+    <div class="container h-100 container-transaction-layouts">
+        <div class="row d-flex justify-content-center">
+            <div class="col-md-12 col-xl-10 mt-5 row-transactions-layouts">
+            </div>
+        </div>
+    </div>`)
+    $('.transaction-layouts').removeClass('inactive');
+}
+
+// add table display detail wallet
+function addCardDetailWalletLayouts() {
+    $('.row-transactions-layouts').append(`    
+    <div class="card mask-custom">
+        <div class="card-body p-4 text-white">
+            <div class="text-center pt-3 pb-2">
+                <h2 class="my-4">Wallet Transaction Details</h2>
+                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-todo-list/check1.webp"  width="60">
+            </div>
+
+            <table class="table text-white mb-0">
+                <thead>
+                    <tr>
+                        <th scope="col">Day</th>
+                        <th scope="col">Captital</th>
+                        <th scope="col">Money Cash</th>
+                        <th scope="col">Surplus</th>
+                        <th scope="col">Transaction</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody class="transactions-wallet-details">
+                </tbody>
+            </table>
+        </div>
+    </div>
+    `)
+}
+
+function caculate(type, budget, amount) {
+    if (type == 1 || type == 3) {
+        return budget + amount;
+    } else if (type == 2 || type == 4) {
+        return budget - amount;
+    }
+}
+
+// get wallet detail 
+function getWalletDetails(id, page) {
+    addCardDetailWalletLayouts();
+    let url;
+    if (page == null || page <= 0) {
+        url = `/api/moneyApp/walletDetails/${id}/1`;
+    } else {
+        url = `/api/moneyApp/walletDetails/${id}/${page}`;
+
+    }
+    axios.get(url).then(response => {
+        let result = response.data;
+        // console.log(result);
+        let budget = result[0].budget_real;
+
+        for (let i = 0; i < result.length; i++) {
+            let surplus = budget;
+            let Captital = caculate(result[i].type_trans, budget, result[i].amount);
+            budget = Captital;
+
+            $('.transactions-wallet-details').append(`
+                <tr class="fw-normal${i}">
+                    <td class="align-middle">
+                         <h6 class="mb-0"><span class="badge bg-info">${result[i].day_spending}</span></h6>
+                    </td>
+
+                    <td class="align-middle">
+                        <h6 class="mb-0">
+                            <span class="badge" style="background-color: #005fff"> 
+                                <i class="fas fa-dollar-sign"></i>${formatCash(Captital)}<span style="margin-left: 5px">VND</span>
+                            </span>
+                        </h6>
+                    </td>
+                </tr>    
+            `);
+
+            if (result[i].type_trans == 1 || result[i].type_trans == 3) {
+                $(`.fw-normal${i}`).append(`
+                    <td class="align-middle">
+                        <h6 class="mb-0">
+                            <span class="badge" style="background-color:#fb2e2e"> 
+                                -  <i class="fas fa-dollar-sign"></i>${formatCash(result[i].amount)}<span style="margin-left: 5px">VND</span>
+                            </span>
+                        </h6>
+                    </td>
+    
+                    <td class="align-middle">
+                        <h6 class="mb-0">
+                            <span class="badge bg-danger"> 
+                                <i class="fas fa-dollar-sign"></i>${formatCash(surplus)}<span style="margin-left: 5px">VND</span>
+                            </span>
+                        </h6>
+                    </td>
+                `);
+            } else {
+                $(`.fw-normal${i}`).append(`
+                    <td class="align-middle">
+                        <h6 class="mb-0">
+                            <span class="badge" style="background-color:#3da13d"> 
+                                + <i class="fas fa-dollar-sign"></i>${formatCash(result[i].amount)}<span style="margin-left: 5px">VND</span>
+                            </span>
+                        </h6>
+                    </td>
+    
+                    <td class="align-middle">
+                        <h6 class="mb-0">
+                            <span class="badge bg-success"> 
+                                <i class="fas fa-dollar-sign"></i>${formatCash(surplus)}<span style="margin-left: 5px">VND</span>
+                            </span>
+                        </h6>
+                    </td>
+                `);
+            };
+
+            $(`.fw-normal${i}`).append(`
+                <td class="align-middle">
+                    <h6 class="mb-0"><span class="badge">
+                        <img src="${window.location.origin}/${result[i].symbol}" class="icon-transaction"></span>
+                        ${result[i].name}
+                    </h6>
+                </td>
+
+                 <td class="align-middle">
+                    <div class="details-description">${result[i].description}</div>
+                </td>
+    
+                <td class="align-middle">
+                    <a data-mdb-toggle="tooltip" title="Remove"><i
+                        class="fas fa-trash-alt fa-lg text-warning delete-wallet-details-${result[i].id}"></i></a>
+                </td>
+            `);
+        }
+    });
 }

@@ -1,4 +1,4 @@
-$(document).ready(function () {
+$(document).ready(function() {
     if (window.location.hash == '' || window.location.hash == '#wallet') {
         addWalletLayouts();
         getWallets('/wallet');
@@ -6,11 +6,12 @@ $(document).ready(function () {
         delWalletLayouts();
         addTransactionLayouts();
         if (isExistWalletDefault() == true) {
+            let id_default = $('.default-wallet').val();
             getWalletDetails(id_default);
         }
     };
 
-    jQuery(window).on("hashchange", function () {
+    jQuery(window).on("hashchange", function() {
         var router = window.location.hash.trim();
         var url;
         if (router == '') {
@@ -38,7 +39,7 @@ $(document).ready(function () {
 
     ////// thẻ default wallet
     var checkWalletDefault = 0;
-    $('.total-down').click(async function (e) {
+    $('.total-down').click(async function(e) {
         if (checkWalletDefault == 0) {
             checkWalletDefault = 1;
             $('.layout-modal').removeClass('inactive');
@@ -49,7 +50,7 @@ $(document).ready(function () {
     });
 
     /// tắt default wallet 
-    $('.wallet-default-exit').click(function () {
+    $('.wallet-default-exit').click(function() {
         $('.badge-wallet').remove();
         $('.wallet-default-script').remove();
         $('.box-modal-wallet-default').addClass('inactive');
@@ -110,7 +111,7 @@ async function getWallets(url) {
         processData: false,
         mimeType: "multipart/form-data",
         contentType: false,
-        success: function (response) {
+        success: function(response) {
             let result = JSON.parse(response);
             //cần check xem có thay đổi nội dung hay không
             //khi thay đổi ở 1 máy khác thì máy hiện tại xử lí thế nào
@@ -155,7 +156,7 @@ async function getWallets(url) {
                 $('.row-layouts-wallet').append(`<script src="${window.location.origin}/js/walletLayouts/walletLayouts.js" class="wallet-layouts-script"></script>`);
             }
         },
-        error: function (e) {
+        error: function(e) {
             console.log(e);
         }
     });
@@ -193,19 +194,19 @@ function addCardDetailWalletLayouts() {
     `)
 }
 
-function caculate(type, budget, amount){
-    if(type == 1 || type == 3){
+function caculate(type, budget, amount) {
+    if (type == 1 || type == 3) {
         return budget + amount;
-    } else if (type == 2 || type == 4){
+    } else if (type == 2 || type == 4) {
         return budget - amount;
     }
 }
 
 // get wallet detail 
-function getWalletDetails(id,page) {
+function getWalletDetails(id, page) {
     addCardDetailWalletLayouts();
     let url;
-    if(page == null || page <= 0){
+    if (page == null || page <= 0) {
         url = `/api/moneyApp/walletDetails/${id}/1`;
     } else {
         url = `/api/moneyApp/walletDetails/${id}/${page}`;
@@ -213,14 +214,14 @@ function getWalletDetails(id,page) {
     }
     axios.get(url).then(response => {
         let result = response.data;
-        console.log(result);
+        // console.log(result);
         let budget = result[0].budget_real;
 
         for (let i = 0; i < result.length; i++) {
             let surplus = budget;
-            let Captital =  caculate(result[i].type_trans, budget, result[i].amount);
+            let Captital = caculate(result[i].type_trans, budget, result[i].amount);
             budget = Captital;
-            
+
             $('.transactions-wallet-details').append(`
                 <tr class="fw-normal${i}">
                     <td class="align-middle">
@@ -237,7 +238,7 @@ function getWalletDetails(id,page) {
                 </tr>    
             `);
 
-            if(result[i].type_trans == 1 || result[i].type_trans == 3){
+            if (result[i].type_trans == 1 || result[i].type_trans == 3) {
                 $(`.fw-normal${i}`).append(`
                     <td class="align-middle">
                         <h6 class="mb-0">
@@ -278,13 +279,13 @@ function getWalletDetails(id,page) {
             $(`.fw-normal${i}`).append(`
                 <td class="align-middle">
                     <h6 class="mb-0"><span class="badge">
-                    ${result[i].name}
                         <img src="${window.location.origin}/${result[i].symbol}" class="icon-transaction"></span>
+                        ${result[i].name}
                     </h6>
                 </td>
 
                  <td class="align-middle">
-                    <span>${result[i].description}</span>
+                    <div class="details-description">${result[i].description}</div>
                 </td>
     
                 <td class="align-middle">
@@ -298,14 +299,14 @@ function getWalletDetails(id,page) {
 
 
 //get wallet default box
-const getWalletDefault = async () => {
+const getWalletDefault = async() => {
     await $.ajax({
         type: "GET",
         url: "/api/moneyApp/wallet",
         processData: false,
         mimeType: "multipart/form-data",
         contentType: false,
-        success: function (response) {
+        success: function(response) {
             let result = JSON.parse(response);
 
             if (result.length != 0) {
@@ -323,7 +324,7 @@ const getWalletDefault = async () => {
                 $('.row-wallet-default').append(`<script src="${window.location.origin}/js/walletBox/defaultBox.js" class="wallet-default-script"></script>`);
             };
         },
-        error: function (e) {
+        error: function(e) {
             console.log(e);
         }
     });
@@ -335,7 +336,7 @@ const getWalletDefault = async () => {
 
 //format currency vnd
 function formatCash(str) {
-    if(typeof(str) !== 'string'){
+    if (typeof(str) !== 'string') {
         str = str.toString();
     }
     return str.split('').reverse().reduce((prev, next, index) => {

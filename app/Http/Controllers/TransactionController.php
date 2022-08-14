@@ -134,7 +134,6 @@ class TransactionController extends Controller
     {
         $user_id = auth()->user()->id;
         $walletID = $request->walletID;
-
         $walletOrigin = Wallet::where('id', '=', $walletID)->where('user_id', '=', $user_id)->first();
 
         if ($walletOrigin == null) {
@@ -184,7 +183,10 @@ class TransactionController extends Controller
                 'noted' => $request->noted,
             ]);
             DB::commit();
-
+            $symbol = DB::table('transactions')->where('id','=',$request->transactionID)->get();
+            $walletDetails['budget_total'] = $money;
+            $walletDetails['symbol'] = $symbol[0]->symbol;
+            $walletDetails['name'] = $symbol[0]->name;
             return response()->json($walletDetails);
 
         } else if ($typeTrans == ActionTransaction::TRANSFER) {
@@ -223,25 +225,34 @@ class TransactionController extends Controller
                 'budget_real' =>  $moneyTransfer,
             ]);
 
+            $description0= '[Chuyển Khoản Ví '.$walletTransfer->name.'] ';
+            $description1= '[Nhận Từ Ví '.$walletOrigin->name.'] ';
+            $symbol = DB::table('transactions')->select('transactions.symbol')->where('id','=','1')->get();
             $wallet0 = WalletDetail::create([
                 'wallet_id' => $request->walletID,
                 'transaction_id' => 1,
                 'amount' => $budgetAmount,
                 'day_spending' => $request->daySpending,
-                'description' => $request->description,
+                'description' => $description0.$request->description,
                 'type_trans' => $request->typeTrans,
                 'noted' => $request->noted,
             ]);
+            $wallet0['budget_total'] = $moneyOrigin;
+            $wallet0['symbol'] = $symbol[0]->symbol;
+            $wallet0['name'] = $symbol[0]->name;
 
             $wallet1 = WalletDetail::create([
                 'wallet_id' =>  $request->walletTransferID,
                 'transaction_id' => 1,
                 'amount' => $budgetAmount,
                 'day_spending' => $request->daySpending,
-                'description' => $request->description,
+                'description' => $description1.$request->description,
                 'type_trans' => 4,
                 'noted' => $request->noted,
             ]);
+            $wallet1['budget_total'] = $moneyTransfer;
+            $wallet1['symbol'] = $symbol[0]->symbol;
+            $wallet1['name'] = $symbol[0]->name;
             DB::commit();
 
             return response()->json([
