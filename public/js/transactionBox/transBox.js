@@ -373,7 +373,7 @@ function isNumeric() {
     return true;
 }
 
-function caculate(type, budget, amount) {
+function calculate(type, budget, amount) {
     if (type == 1 || type == 3) {
         return budget + amount;
     } else if (type == 2 || type == 4) {
@@ -401,7 +401,7 @@ function createWalletDetails() {
 
             let id_default = $('.default-wallet').val();
             let id_result = result.wallet_id;
-            let Captital = caculate(result.type_trans, result.budget_total, parseInt(result.amount));
+            let capital = calculate(result.type_trans, result.budget_total, parseInt(result.amount));
             let i = $('tr').length - 1;
             if (window.location.hash == '#transaction' && id_default == id_result) {
                 $('.transactions-wallet-details').prepend(`
@@ -413,7 +413,7 @@ function createWalletDetails() {
                     <td class="align-middle">
                         <h6 class="mb-0">
                             <span class="badge" style="background-color: #005fff"> 
-                                <i class="fas fa-dollar-sign"></i>${formatCash(Captital)}<span style="margin-left: 5px">VND</span>
+                                <i class="fas fa-dollar-sign"></i>${formatCash(capital)}<span style="margin-left: 5px">VND</span>
                             </span>
                         </h6>
                     </td>

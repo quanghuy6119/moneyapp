@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(document).ready(function () {
     if (window.location.hash == '' || window.location.hash == '#wallet') {
         addWalletLayouts();
         getWallets('/wallet');
@@ -11,7 +11,7 @@ $(document).ready(function() {
         }
     };
 
-    jQuery(window).on("hashchange", function() {
+    jQuery(window).on("hashchange", function () {
         var router = window.location.hash.trim();
         var url;
         if (router == '') {
@@ -39,7 +39,7 @@ $(document).ready(function() {
 
     ////// thẻ default wallet
     var checkWalletDefault = 0;
-    $('.total-down').click(async function(e) {
+    $('.total-down').click(async function (e) {
         if (checkWalletDefault == 0) {
             checkWalletDefault = 1;
             $('.layout-modal').removeClass('inactive');
@@ -50,7 +50,7 @@ $(document).ready(function() {
     });
 
     /// tắt default wallet 
-    $('.wallet-default-exit').click(function() {
+    $('.wallet-default-exit').click(function () {
         $('.badge-wallet').remove();
         $('.wallet-default-script').remove();
         $('.box-modal-wallet-default').addClass('inactive');
@@ -111,7 +111,7 @@ async function getWallets(url) {
         processData: false,
         mimeType: "multipart/form-data",
         contentType: false,
-        success: function(response) {
+        success: function (response) {
             let result = JSON.parse(response);
             //cần check xem có thay đổi nội dung hay không
             //khi thay đổi ở 1 máy khác thì máy hiện tại xử lí thế nào
@@ -131,7 +131,9 @@ async function getWallets(url) {
                                 <h3>Loại: Ví gốc </h3>
                                 <p>Số tiền ban đầu: <span>${formatCash(result[i].budget_init)}</span>  <span> VND </span> <br>
                                     Số tiền hiện tại: <span>${formatCash(result[i].budget_real)}</span> <span> VND </span></p>
-                                <div class="btn btn-success btn-wallet-layouts btn-wallet-layouts${result[i].id}">Chọn ví</div>
+                                <div class="btn btn-success btn-wallet-layouts btn-wallet-layouts${result[i].id}">
+                                    <a href="#transaction" style="text-decoration:none;color:white">Chọn ví</a>
+                                </div>
                             </figcaption>
                     </figure>
                         `);
@@ -147,7 +149,9 @@ async function getWallets(url) {
                                 <h3>Thuộc ví: Ví ${result[i].parent_name}</h3>
                                 <p>Số tiền ban đầu: <span>${formatCash(result[i].budget_init)}</span> <span> VND </span> <br>
                                     Số tiền hiện tại: <span>${formatCash(result[i].budget_real)}</span> <span> VND </span></p>
-                                <div class="btn btn-success btn-wallet-layouts btn-wallet-layouts${result[i].id}">Chọn ví</div>
+                                <div class="btn btn-success btn-wallet-layouts btn-wallet-layouts${result[i].id}">
+                                    <a href="#transaction" style="text-decoration:none;color:white">Chọn ví</a>
+                                </div>
                             </figcaption>
                         </figure>
                         `);
@@ -156,7 +160,7 @@ async function getWallets(url) {
                 $('.row-layouts-wallet').append(`<script src="${window.location.origin}/js/walletLayouts/walletLayouts.js" class="wallet-layouts-script"></script>`);
             }
         },
-        error: function(e) {
+        error: function (e) {
             console.log(e);
         }
     });
@@ -178,7 +182,7 @@ function addCardDetailWalletLayouts() {
                 <thead>
                     <tr>
                         <th scope="col">Day</th>
-                        <th scope="col">Captital</th>
+                        <th scope="col">Capital</th>
                         <th scope="col">Money Cash</th>
                         <th scope="col">Surplus</th>
                         <th scope="col">Transaction</th>
@@ -194,7 +198,7 @@ function addCardDetailWalletLayouts() {
     `)
 }
 
-function caculate(type, budget, amount) {
+function calculate(type, budget, amount) {
     if (type == 1 || type == 3) {
         return budget + amount;
     } else if (type == 2 || type == 4) {
@@ -215,12 +219,11 @@ function getWalletDetails(id, page) {
     axios.get(url).then(response => {
         let result = response.data;
         // console.log(result);
-        let budget = result[0].budget_real;
-
         for (let i = 0; i < result.length; i++) {
+            let budget = result[0].budget_real;
             let surplus = budget;
-            let Captital = caculate(result[i].type_trans, budget, result[i].amount);
-            budget = Captital;
+            let Capital = calculate(result[i].type_trans, budget, result[i].amount);
+            budget = Capital;
 
             $('.transactions-wallet-details').append(`
                 <tr class="fw-normal${i}">
@@ -231,7 +234,7 @@ function getWalletDetails(id, page) {
                     <td class="align-middle">
                         <h6 class="mb-0">
                             <span class="badge" style="background-color: #005fff"> 
-                                <i class="fas fa-dollar-sign"></i>${formatCash(Captital)}<span style="margin-left: 5px">VND</span>
+                                <i class="fas fa-dollar-sign"></i>${formatCash(Capital)}<span style="margin-left: 5px">VND</span>
                             </span>
                         </h6>
                     </td>
@@ -299,14 +302,14 @@ function getWalletDetails(id, page) {
 
 
 //get wallet default box
-const getWalletDefault = async() => {
+const getWalletDefault = async () => {
     await $.ajax({
         type: "GET",
         url: "/api/moneyApp/wallet",
         processData: false,
         mimeType: "multipart/form-data",
         contentType: false,
-        success: function(response) {
+        success: function (response) {
             let result = JSON.parse(response);
 
             if (result.length != 0) {
@@ -324,7 +327,7 @@ const getWalletDefault = async() => {
                 $('.row-wallet-default').append(`<script src="${window.location.origin}/js/walletBox/defaultBox.js" class="wallet-default-script"></script>`);
             };
         },
-        error: function(e) {
+        error: function (e) {
             console.log(e);
         }
     });
@@ -336,7 +339,7 @@ const getWalletDefault = async() => {
 
 //format currency vnd
 function formatCash(str) {
-    if (typeof(str) !== 'string') {
+    if (typeof (str) !== 'string') {
         str = str.toString();
     }
     return str.split('').reverse().reduce((prev, next, index) => {

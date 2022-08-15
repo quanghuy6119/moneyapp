@@ -75,7 +75,7 @@ function addCardDetailWalletLayouts() {
                 <thead>
                     <tr>
                         <th scope="col">Day</th>
-                        <th scope="col">Captital</th>
+                        <th scope="col">Capital</th>
                         <th scope="col">Money Cash</th>
                         <th scope="col">Surplus</th>
                         <th scope="col">Transaction</th>
@@ -91,7 +91,7 @@ function addCardDetailWalletLayouts() {
     `)
 }
 
-function caculate(type, budget, amount) {
+function calculate(type, budget, amount) {
     if (type == 1 || type == 3) {
         return budget + amount;
     } else if (type == 2 || type == 4) {
@@ -112,12 +112,11 @@ function getWalletDetails(id, page) {
     axios.get(url).then(response => {
         let result = response.data;
         // console.log(result);
-        let budget = result[0].budget_real;
-
         for (let i = 0; i < result.length; i++) {
+            let budget = result[0].budget_real;
             let surplus = budget;
-            let Captital = caculate(result[i].type_trans, budget, result[i].amount);
-            budget = Captital;
+            let capital = calculate(result[i].type_trans, budget, result[i].amount);
+            budget = capital;
 
             $('.transactions-wallet-details').append(`
                 <tr class="fw-normal${i}">
@@ -128,7 +127,7 @@ function getWalletDetails(id, page) {
                     <td class="align-middle">
                         <h6 class="mb-0">
                             <span class="badge" style="background-color: #005fff"> 
-                                <i class="fas fa-dollar-sign"></i>${formatCash(Captital)}<span style="margin-left: 5px">VND</span>
+                                <i class="fas fa-dollar-sign"></i>${formatCash(capital)}<span style="margin-left: 5px">VND</span>
                             </span>
                         </h6>
                     </td>
