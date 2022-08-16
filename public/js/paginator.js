@@ -1,38 +1,34 @@
 ﻿$(document).ready(function() {
-    axios.get("/api/moneyApp/idWallet").then(response => {
-        let result = response.data;
-        for (let i = 0; i < result.length; i++) {
-            $(`.badge-wallet-default${result[i].id}`).click(function() {
-
-                // gan id wallet vo the input
-                let idWallet = $(`.badge-wallet-default-id${result[i].id}`).val();
-                $('.default-wallet').val(idWallet);
-
-                // gan name vo button
-                let nameWallet = $(`.badge-wallet-default-name${result[i].id}`).text();
-                $('.total-down-name').text(nameWallet);
-
-                // gan so tien cua vi 
-                let budgetReal = $(`.badge-wallet-default-budget${result[i].id}`).val();
-                $('.total-budget').text(formatCash(budgetReal));
-
-                if (window.location.hash == '#transaction') {
-                    delTransactionLayouts();
-                    addTransactionLayouts();
-                    let id_default = $('.default-wallet').val();
-                    getWalletDetails(id_default);
-                }
-
-                //chon wallet xong tat
-                $('.badge-wallet').remove();
-                $('.wallet-default-script').remove();
-                $('.box-modal-wallet-default').addClass('inactive');
-                $('.layout-modal').addClass('inactive');
-            });
-        }
-    });
+    let total = parseInt($('.pagination-total').val());
+    for (let i = 1; i <= total; i++) {
+        $(`.paginator${i}`).click(function(e) {
+            e.preventDefault();
+            let page = i;
+            let id = $('.default-wallet').val();
+            delTransactionLayouts();
+            addTransactionLayouts();
+            getWalletDetails(id, page);
+        })
+    }
+    $(`.first-child`).click(function(e) {
+        e.preventDefault();
+        let curPage = parseInt($(`.pagination-active`).text());
+        let page = curPage == 1 ? 1 : curPage - 1;
+        let id = $('.default-wallet').val();
+        delTransactionLayouts();
+        addTransactionLayouts();
+        getWalletDetails(id, page);
+    })
+    $(`.last-child`).click(function(e) {
+        e.preventDefault();
+        let curPage = parseInt($(`.pagination-active`).text());
+        let page = curPage == total ? total : curPage + 1;
+        let id = $('.default-wallet').val();
+        delTransactionLayouts();
+        addTransactionLayouts();
+        getWalletDetails(id, page);
+    })
 });
-
 
 //format currency vnd
 function formatCash(str) {
@@ -113,7 +109,7 @@ function getWalletDetails(id, page) {
     }
     axios.get(url).then(response => {
         let result = response.data;
-        console.log(result);
+        // console.log(result);
         let total = result[1];
         result = result[0];
         let budget = result[0].budget_real;
@@ -121,8 +117,8 @@ function getWalletDetails(id, page) {
             let surplus = budget;
             let capital = calculate(result[i].type_trans, budget, result[i].amount);
             budget = capital;
-
-            $('.transactions-wallet-details').append(`
+            if (i >= page * 10 - 10) {
+                $('.transactions-wallet-details').append(`
                 <tr class="fw-normal${i}">
                     <td class="align-middle">
                          <h6 class="mb-0"><span class="badge bg-info">${result[i].day_spending}</span></h6>
@@ -136,10 +132,10 @@ function getWalletDetails(id, page) {
                         </h6>
                     </td>
                 </tr>    
-            `);
+                `);
 
-            if (result[i].type_trans == 1 || result[i].type_trans == 3) {
-                $(`.fw-normal${i}`).append(`
+                if (result[i].type_trans == 1 || result[i].type_trans == 3) {
+                    $(`.fw-normal${i}`).append(`
                     <td class="align-middle">
                         <h6 class="mb-0">
                             <span class="badge" style="background-color:#fb2e2e"> 
@@ -156,8 +152,8 @@ function getWalletDetails(id, page) {
                         </h6>
                     </td>
                 `);
-            } else {
-                $(`.fw-normal${i}`).append(`
+                } else {
+                    $(`.fw-normal${i}`).append(`
                     <td class="align-middle">
                         <h6 class="mb-0">
                             <span class="badge" style="background-color:#3da13d"> 
@@ -174,9 +170,9 @@ function getWalletDetails(id, page) {
                         </h6>
                     </td>
                 `);
-            };
+                };
 
-            $(`.fw-normal${i}`).append(`
+                $(`.fw-normal${i}`).append(`
                 <td class="align-middle">
                     <h6 class="mb-0"><span class="badge">
                         <img src="${window.location.origin}/${result[i].symbol}" class="icon-transaction"></span>
@@ -192,7 +188,8 @@ function getWalletDetails(id, page) {
                     <a data-mdb-toggle="tooltip" title="Remove"><i
                         class="fas fa-trash-alt fa-lg text-warning delete-wallet-details-${result[i].id}"></i></a>
                 </td>
-            `);
+                `);
+            }
         }
         //add pagination
         addPagination(total, page);

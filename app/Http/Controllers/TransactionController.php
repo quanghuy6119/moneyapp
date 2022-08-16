@@ -127,7 +127,13 @@ class TransactionController extends Controller
             ->offset(0)
             ->limit($page * 10)
             ->get();
-        return response()->json($wallet);
+        $total = DB::table('wallet_details')
+        ->join('wallets', 'wallet_details.wallet_id', '=', 'wallets.id')
+        ->where('wallets.user_id', '=', $user_id) // wallets.id = id;
+        ->where('wallet_details.wallet_id', '=', $walletID)
+        ->get()
+        ->count();
+        return response()->json([$wallet,$total]);
     }
 
     public function createWalletDetails(Request $request)
