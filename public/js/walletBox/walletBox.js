@@ -1,35 +1,35 @@
-﻿$(document).ready(function() {
+﻿$(document).ready(function () {
 
     // định dạng tiền cho các hộp box
     var checkTyping = 0;
-    $('.money-trans').keyup(function() {
-        if(checkTyping == 0) {
+    $('.money-trans').keyup(function () {
+        if (checkTyping == 0) {
             checkTyping = 1;
             let money = $('.money-trans').val();
             $('.money-trans').val(format(money));
             checkTyping = 0;
         }
-    }); 
+    });
 
-    $('.money-wallet').keyup(function() {
-        if(checkTyping == 0) {
+    $('.money-wallet').keyup(function () {
+        if (checkTyping == 0) {
             checkTyping = 1;
             let money = $('.money-wallet').val();
             $('.money-wallet').val(format(money));
             checkTyping = 0;
         }
-    }); 
+    });
 
 
     // mở wallet box
-    $('.add-wallet').click(function() {
+    $('.add-wallet').click(function () {
         // $('#load').toggle("inactive");
         $('.layout-modal').removeClass('inactive');
         $('.box-modal-wallet').removeClass('inactive');
     });
 
     //tắt wallet box
-    $('.wallet-exit').click(function() {
+    $('.wallet-exit').click(function () {
         // reset - reset - reset - reset
         $('input[name="name"]').val("");
         $('input[name="budgetInit"]').val("");
@@ -46,18 +46,18 @@
     });
 
     ////// thẻ modal icon wallet
-    $('.wallet-icon').click(function(e) {
+    $('.wallet-icon').click(function (e) {
         e.preventDefault();
         $('#load').toggleClass("inactive");
 
-        const getCategory = async() => {
+        const getCategory = async () => {
             await $.ajax({
                 type: "GET",
                 url: "/api/moneyApp/category",
                 processData: false,
                 mimeType: "multipart/form-data",
                 contentType: false,
-                success: function(response) {
+                success: function (response) {
                     let result = JSON.parse(response);
                     if (result.length != 0) {
                         for (let i = 0; i < result.length; i++) {
@@ -76,7 +76,7 @@
                         $('.row-wallet').append(`<script src="${window.location.origin}/js/walletBox/walletIcon.js" class="wallet-icon-script"></script>`);
                     }
                 },
-                error: function(e) {
+                error: function (e) {
                     console.log(e);
                 }
             });
@@ -88,7 +88,7 @@
     });
 
     /// tắt wallet icon
-    $('.wallet-icon-exit').click(function() {
+    $('.wallet-icon-exit').click(function () {
         $('.badge-wallet').remove();
         $('.wallet-icon-length').remove();
         $('.wallet-icon-script').remove();
@@ -96,25 +96,25 @@
     });
 
     // budget real
-    $('.wallet-budget').blur(function() {
+    $('.wallet-budget').blur(function () {
         let budgetInit = $('.wallet-budget').val();
         $('.wallet-budget-real').val(budgetInit);
     });
 
 
     ////// thẻ modal parent wallet
-    $('.wallet-parent').click(function(e) {
+    $('.wallet-parent').click(function (e) {
         e.preventDefault();
         $('#load').toggleClass("inactive");
 
-        const getWallet = async() => {
+        const getWallet = async () => {
             await $.ajax({
                 type: "GET",
                 url: "/api/moneyApp/wallet",
                 processData: false,
                 mimeType: "multipart/form-data",
                 contentType: false,
-                success: function(response) {
+                success: function (response) {
                     let result = JSON.parse(response);
                     if (result.length != 0) {
 
@@ -142,7 +142,7 @@
                     $('.row-wallet-parent').append(`<input type="hidden" class="wallet-parent-length" value="${result.length}">`);
                     $('.row-wallet-parent').append(`<script src="${window.location.origin}/js/walletBox/walletList.js" class="wallet-parent-script"></script>`);
                 },
-                error: function(e) {
+                error: function (e) {
                     console.log(e);
                 }
             });
@@ -154,7 +154,7 @@
     });
 
     /// tắt wallet parent
-    $('.wallet-parent-exit').click(function() {
+    $('.wallet-parent-exit').click(function () {
         $('.badge-wallet').remove();
         $('.wallet-parent-length').remove();
         $('.wallet-parent-script').remove();
@@ -165,7 +165,7 @@
 
     //// tạo wallet 
 
-    $('.btn-form-wallet').click(function(e) {
+    $('.btn-form-wallet').click(function (e) {
         e.preventDefault();
         var formData = new FormData($('.form-wallet')[0]);
         //Post to server
@@ -176,7 +176,7 @@
             mimeType: "multipart/form-data",
             contentType: false,
             data: formData,
-            success: function(response) {
+            success: function (response) {
                 let result = JSON.parse(response);
                 // console.log(response);
                 if (result[0].parent_id == null) {
@@ -190,7 +190,9 @@
                             <h3>Loại: Ví gốc </h3>
                             <p>Số tiền ban đầu: <span>${formatCash(result[0].budget_init)}</span> <span> VND </span> <br>
                                 Số tiền hiện tại: <span>${formatCash(result[0].budget_real)}</span> <span> VND </span></p>
-                            <div class="btn btn-success btn-wallet-layouts${result[0].id}">Chọn ví</div>
+                                <div class="btn btn-success btn-wallet-layouts btn-wallet-layouts${result[0].id}">
+                                <a href="#transaction" style="text-decoration:none;color:white;width:100%;height:100%;display:inline-block">Chọn ví</a>
+                            </div>
                         </figcaption>
                 </figure>
                     `);
@@ -206,11 +208,20 @@
                             <h3>Thuộc ví: Ví ${result[1]}</h3>
                             <p>Số tiền ban đầu: <span>${formatCash(result[0].budget_init)}</span> <span> VND </span>  <br>
                                 Số tiền hiện tại: <span>${formatCash(result[0].budget_real)}</span><span> VND </span></p>
-                                <div class="btn btn-success btn-wallet-layouts${result[0].id}">Chọn ví</div>
+                                <div class="btn btn-success btn-wallet-layouts btn-wallet-layouts${result[0].id}">
+                                <a href="#transaction" style="text-decoration:none;color:white;width:100%;height:100%;display:inline-block">Chọn ví</a>
+                            </div>
                         </figcaption>
                     </figure>
                     `);
                 }
+
+                $('.row-layouts-wallet').append(`
+                <input type="hidden"  class="btn-wallet-name-layouts${result[0].id}" value="${result[0].name}">
+                <input type="hidden"  class="btn-wallet-budget-layouts${result[0].id}" value="${result[0].budget_real}">
+                `);
+
+                $('.row-layouts-wallet').append(`<script src="${window.location.origin}/js/walletLayouts/walletLayouts.js" class="wallet-layouts-script"></script>`);
 
                 //reset js click
                 $('wallet-layouts-script').remove();
@@ -227,7 +238,7 @@
                 $('.wallet-parent-name').text('Origin Wallet');
 
             },
-            error: function(e) {
+            error: function (e) {
                 console.log(e);
             }
         });
@@ -236,7 +247,7 @@
 
 //format currency vnd
 function formatCash(str) {
-    if(typeof(str) !== 'string'){
+    if (typeof (str) !== 'string') {
         str = str.toString();
     }
     return str.split('').reverse().reduce((prev, next, index) => {
@@ -244,8 +255,8 @@ function formatCash(str) {
     })
 }
 
-function format(str){
-    str = str.replace(/,/g,'');
+function format(str) {
+    str = str.replace(/,/g, '');
     const format = str.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     return format;
 }

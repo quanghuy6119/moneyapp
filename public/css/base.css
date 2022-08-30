@@ -131,6 +131,10 @@ section {
     display: none!important;
 }
 
+.delete-wallet {
+    cursor: pointer;
+}
+
 .modal1 {
     position: fixed;
     top: 0;

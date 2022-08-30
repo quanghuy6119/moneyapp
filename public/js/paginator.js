@@ -1,7 +1,7 @@
-﻿$(document).ready(function() {
+﻿$(document).ready(function () {
     let total = parseInt($('.pagination-total').val());
     for (let i = 1; i <= total; i++) {
-        $(`.paginator${i}`).click(function(e) {
+        $(`.paginator${i}`).click(function (e) {
             e.preventDefault();
             let page = i;
             let id = $('.default-wallet').val();
@@ -10,7 +10,7 @@
             getWalletDetails(id, page);
         })
     }
-    $(`.first-child`).click(function(e) {
+    $(`.first-child`).click(function (e) {
         e.preventDefault();
         let curPage = parseInt($(`.pagination-active`).text());
         let page = curPage == 1 ? 1 : curPage - 1;
@@ -19,7 +19,7 @@
         addTransactionLayouts();
         getWalletDetails(id, page);
     })
-    $(`.last-child`).click(function(e) {
+    $(`.last-child`).click(function (e) {
         e.preventDefault();
         let curPage = parseInt($(`.pagination-active`).text());
         let page = curPage == total ? total : curPage + 1;
@@ -32,7 +32,7 @@
 
 //format currency vnd
 function formatCash(str) {
-    if (typeof(str) !== 'string') {
+    if (typeof (str) !== 'string') {
         str = str.toString();
     }
     return str.split('').reverse().reduce((prev, next, index) => {
@@ -186,15 +186,36 @@ function getWalletDetails(id, page) {
     
                 <td class="align-middle">
                     <a data-mdb-toggle="tooltip" title="Remove"><i
-                        class="fas fa-trash-alt fa-lg text-warning delete-wallet-details-${result[i].id}"></i></a>
+                        class="fas fa-trash-alt fa-lg text-warning delete-wallet delete-wallet-details-${result[i].id}"></i></a>
                 </td>
                 `);
             }
         }
         //add pagination
         addPagination(total, page);
+        deleteWalletDetails();
     });
 }
+
+function deleteWalletDetails() {
+    axios.get("/api/moneyApp/idWallet").then(response => {
+        let result = response.data;
+        for (let i = 0; i < result.length; i++) {
+            $(`.delete-wallet-details-${result[i].id}`).click(function () {
+                if (confirm("Bạn có muốn xóa") == true) {
+                    axios.delete(`/api/moneyApp/walletDetails/${result[i].id}`)
+                        .then(response => {
+                            let result = response.data;
+                            console.log(result);
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+                }
+            });
+        }
+    });
+};
 
 //add pagination
 function addPagination(total, page) {

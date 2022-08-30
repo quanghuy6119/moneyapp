@@ -26,7 +26,6 @@
                 </ul>
                 <!-- End -->
 
-
                 <!-- Credit card form content -->
                 <div class="tab-content">
 

@@ -1,8 +1,8 @@
-﻿$(document).ready(function() {
+﻿$(document).ready(function () {
     axios.get("/api/moneyApp/idWallet").then(response => {
         let result = response.data;
         for (let i = 0; i < result.length; i++) {
-            $(`.badge-wallet-default${result[i].id}`).click(function() {
+            $(`.badge-wallet-default${result[i].id}`).click(function () {
 
                 // gan id wallet vo the input
                 let idWallet = $(`.badge-wallet-default-id${result[i].id}`).val();
@@ -36,7 +36,7 @@
 
 //format currency vnd
 function formatCash(str) {
-    if (typeof(str) !== 'string') {
+    if (typeof (str) !== 'string') {
         str = str.toString();
     }
     return str.split('').reverse().reduce((prev, next, index) => {
@@ -113,16 +113,17 @@ function getWalletDetails(id, page) {
     }
     axios.get(url).then(response => {
         let result = response.data;
-        console.log(result);
-        let total = result[1];
-        result = result[0];
-        let budget = result[0].budget_real;
-        for (let i = 0; i < result.length; i++) {
-            let surplus = budget;
-            let capital = calculate(result[i].type_trans, budget, result[i].amount);
-            budget = capital;
+        // console.log(result);
+        if (result[0].length != 0) {
+            let total = result[1];
+            result = result[0];
+            let budget = result[0].budget_real;
+            for (let i = 0; i < result.length; i++) {
+                let surplus = budget;
+                let capital = calculate(result[i].type_trans, budget, result[i].amount);
+                budget = capital;
 
-            $('.transactions-wallet-details').append(`
+                $('.transactions-wallet-details').append(`
                 <tr class="fw-normal${i}">
                     <td class="align-middle">
                          <h6 class="mb-0"><span class="badge bg-info">${result[i].day_spending}</span></h6>
@@ -138,8 +139,8 @@ function getWalletDetails(id, page) {
                 </tr>    
             `);
 
-            if (result[i].type_trans == 1 || result[i].type_trans == 3) {
-                $(`.fw-normal${i}`).append(`
+                if (result[i].type_trans == 1 || result[i].type_trans == 3) {
+                    $(`.fw-normal${i}`).append(`
                     <td class="align-middle">
                         <h6 class="mb-0">
                             <span class="badge" style="background-color:#fb2e2e"> 
@@ -156,8 +157,8 @@ function getWalletDetails(id, page) {
                         </h6>
                     </td>
                 `);
-            } else {
-                $(`.fw-normal${i}`).append(`
+                } else {
+                    $(`.fw-normal${i}`).append(`
                     <td class="align-middle">
                         <h6 class="mb-0">
                             <span class="badge" style="background-color:#3da13d"> 
@@ -174,9 +175,9 @@ function getWalletDetails(id, page) {
                         </h6>
                     </td>
                 `);
-            };
+                };
 
-            $(`.fw-normal${i}`).append(`
+                $(`.fw-normal${i}`).append(`
                 <td class="align-middle">
                     <h6 class="mb-0"><span class="badge">
                         <img src="${window.location.origin}/${result[i].symbol}" class="icon-transaction"></span>
@@ -190,14 +191,28 @@ function getWalletDetails(id, page) {
     
                 <td class="align-middle">
                     <a data-mdb-toggle="tooltip" title="Remove"><i
-                        class="fas fa-trash-alt fa-lg text-warning delete-wallet-details-${result[i].id}"></i></a>
+                        class="fas fa-trash-alt fa-lg text-warning delete-wallet delete-wallet-details-${result[i].id}"></i></a>
                 </td>
             `);
+            }
+            //add pagination
+            addPagination(total, page);
+            deleteWalletDetails();
         }
-        //add pagination
-        addPagination(total, page);
     });
 }
+
+function deleteWalletDetails() {
+    let result = response.data;
+    for (let i = 0; i < result.length; i++) {
+        $(`.delete-wallet-details-${result[i].id}`).click(function () {
+            if (confirm("Bạn có muốn xóa") == true) {
+                return console.log('huy');
+            }
+        });
+    };
+}
+
 
 //add pagination
 function addPagination(total, page) {

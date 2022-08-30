@@ -186,6 +186,7 @@ class TransactionController extends Controller
                 'day_spending' => $request->daySpending,
                 'description' => $request->description,
                 'type_trans' => $request->typeTrans,
+                'transfer_id' => null,
                 'noted' => $request->noted,
             ]);
             DB::commit();
@@ -241,6 +242,7 @@ class TransactionController extends Controller
                 'day_spending' => $request->daySpending,
                 'description' => $description0.$request->description,
                 'type_trans' => $request->typeTrans,
+                'transfer_id' => null,
                 'noted' => $request->noted,
             ]);
             $wallet0['budget_total'] = $moneyOrigin;
@@ -254,11 +256,16 @@ class TransactionController extends Controller
                 'day_spending' => $request->daySpending,
                 'description' => $description1.$request->description,
                 'type_trans' => 4,
+                'transfer_id' => null,
                 'noted' => $request->noted,
             ]);
             $wallet1['budget_total'] = $moneyTransfer;
             $wallet1['symbol'] = $symbol[0]->symbol;
             $wallet1['name'] = $symbol[0]->name;
+            
+            // update wallet details transfer id
+            $wallet0->update(['transfer_id' => $wallet1->id]);
+            $wallet1->update(['transfer_id' => $wallet0->id]);
             DB::commit();
 
             return response()->json([
@@ -266,5 +273,39 @@ class TransactionController extends Controller
                 $wallet1,
             ]);
         }
+    }
+
+    public function deleteWalletDetails($id){
+        $walletDetails = WalletDetail::where('id',$id)->get(); // collection
+        $walletDetails = $walletDetails->all()[0];
+        $moneySpending = $walletDetails->amount;
+
+        $wallet = $walletDetails->wallet;
+        $budgetReal = $wallet->budget_real;
+
+        if($walletDetails->type_trans == 1){
+            $total = $moneySpending + $budgetReal;
+        } else if($walletDetails->type_trans == 2) {
+            $total = $budgetReal - $moneySpending;
+        } else {
+            $walletDetailsTransfer = WalletDetail::where('id',$walletDetails->transfer_id)->get();
+            $walletDetailsTransfer = $walletDetailsTransfer->all()[0];
+            $moneyTransfer =  $walletDetailsTransfer->amount;
+
+            $walletTransfer  = $walletDetailsTransfer->wallet;
+            $budgetTransferReal = $walletTransfer ->budget_real;
+
+            if($walletDetails->type_trans == 3){
+                $total = $moneySpending + $budgetReal;
+                $totalTransfer = $budgetTransferReal - $moneyTransfer;
+            } else if ($walletDetails->type_trans == 4){
+                $total = $budgetReal - $moneySpending;
+                $totalTransfer = $budgetTransferReal + $moneyTransfer;
+            }
+            $walletDetailsTransfer->update(['budget_real' => $totalTransfer]);
+        }
+
+        $wallet->update(['budget_real' => $total]);
+        $rs = WalletDetail::destroy($id);
     }
 }
