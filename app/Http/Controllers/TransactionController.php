@@ -105,6 +105,15 @@ class TransactionController extends Controller
         return response()->json($wallet);
     }
 
+    public function idWalletDetails($walletId)
+    {
+        $walletDetails = DB::table('wallet_details')
+            ->select('wallet_details.id')
+            ->where('wallet_id', '=', $walletId)
+            ->get();
+        return response()->json($walletDetails);
+    }
+
     public function idCategory()
     {
         $id = DB::table('transactions')
@@ -307,5 +316,8 @@ class TransactionController extends Controller
 
         $wallet->update(['budget_real' => $total]);
         $rs = WalletDetail::destroy($id);
+        return response()->json([
+            $total,
+        ]);
     }
 }

@@ -307,23 +307,36 @@ function getWalletDetails(id, page) {
             }
             //add pagination
             addPagination(total, page);
-            deleteWalletDetails();
+            deleteWalletDetails(id);
         }
     });
 }
 
-function deleteWalletDetails(){
-    axios.get("/api/moneyApp/idWallet").then(response => {
+function deleteWalletDetails(id) {
+    axios.get(`/api/moneyApp/idWalletDetails/${id}`).then(response => {
         let result = response.data;
+        // console.log(result);
         for (let i = 0; i < result.length; i++) {
             $(`.delete-wallet-details-${result[i].id}`).click(function () {
-                if(confirm("Bạn có muốn xóa") == true){
-                    return console.log('huy');
+                if (confirm("Do you want delete") == true) {
+                    axios.delete(`/api/moneyApp/walletDetails/${result[i].id}`)
+                        .then(response => {
+                            let result = response.data;
+                            // gắn money update
+                            $('.total-budget').text(formatCash(result[0]));
+                            //reset transaction layouts
+                            delTransactionLayouts();
+                            addTransactionLayouts();
+                            getWalletDetails(id);
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
                 }
             });
-        };
+        }
     });
-}
+};
 
 //add pagination
 function addPagination(total, page) {
