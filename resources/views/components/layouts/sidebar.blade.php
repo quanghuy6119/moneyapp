@@ -18,6 +18,11 @@
                 <div>Budget</div>
             </li>
         </a>
+        <a href="#note">
+            <li class="list-group-item"><i class="fas fa-comment-dots"></i>
+                <div>Note</div>
+            </li>
+        </a>
         <a href="#report">
             <li class="list-group-item"><i class="fas fa-chart-line"></i>
                 <div>Report</div>

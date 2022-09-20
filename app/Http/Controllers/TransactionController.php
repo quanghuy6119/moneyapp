@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Action\ActionTransaction;
+use App\Models\NoteSocial;
 use App\Models\Transaction;
 use App\Models\Wallet;
 use App\Models\WalletDetail;
@@ -319,5 +320,43 @@ class TransactionController extends Controller
         return response()->json([
             $total,
         ]);
+    }
+
+    public function createNote(Request $request){
+        $user_id = auth()->user()->id;
+        $note = NoteSocial::create([
+            'title' => $request->title,
+            'description' => $request->description,
+            'user_id' => $user_id,
+        ]);
+        return response()->json([
+            $note,
+        ]);
+    }
+
+    public function getNote(Request $request){
+        $user_id = auth()->user()->id;
+        $wallet = DB::table('wallet_details')
+        ->select('wallets.name', 'wallet_details.*', 'transactions.name as action', 'transactions.symbol')
+        ->join('wallets', 'wallet_details.wallet_id', '=', 'wallets.id')
+        ->join('transactions', 'wallet_details.transaction_id', '=', 'transactions.id')
+        ->where('wallets.user_id', '=', $user_id) // wallets.id = id
+        ->where('wallet_details.noted', '=', 1)
+        ->get();
+        $note = DB::table('note_socials')
+        ->where('user_id', '=', $user_id)
+        ->get();
+        return response()->json([
+            $wallet, $note
+        ]);
+    }
+
+    public function deleteNote($id){
+        $user_id = auth()->user()->id;
+        $note = NoteSocial::Where('id', '=', $id)->get();
+        if($note->user_id != $user_id)
+            return response('invalid', 400);
+        $note->delete($id);
+            return response('oke', 200);
     }
 }

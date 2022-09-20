@@ -21,6 +21,7 @@
     <link rel="stylesheet" href="{{ asset('css/walletBoxModal.css') }}">
     <link rel="stylesheet" href="{{ asset('css/walletlayout.css') }}">
     <link rel="stylesheet" href="{{ asset('css/transactionModal.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/note.css') }}">
     {{-- file js --}}
     <script src="{{ asset('js/js.js') }}"></script>
 
@@ -38,13 +39,14 @@
                 {{-- content --}}
                 <x-Wallet> </x-Wallet>
                 <x-Transaction> </x-Transaction>
+                <x-Note></x-Note>
             </div>
         </div>
     </div>
 
     {{-- modal box --}}
-    {{-- <div class="layout-modal inactive"> --}}
     <div class="layout-modal inactive">
+    {{-- <div class="layout-modal"> --}}
         <x-CategoryModal> </x-CategoryModal>
         <x-WalletModal> </x-WalletModal>
         <x-TransactionModal> </x-TransactionModal>

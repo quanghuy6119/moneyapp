@@ -1,14 +1,22 @@
 $(document).ready(function () {
     if (window.location.hash == '' || window.location.hash == '#wallet') {
+        delTransactionLayouts();
+        delNoteLayouts();
         addWalletLayouts();
         getWallets('/wallet');
     } else if (window.location.hash == '#transaction') {
         delWalletLayouts();
+        delNoteLayouts();
         addTransactionLayouts();
         if (isExistWalletDefault() == true) {
             let id_default = $('.default-wallet').val();
             getWalletDetails(id_default);
         }
+    } else if (window.location.hash == '#note') {
+        delWalletLayouts();
+        delTransactionLayouts();
+        addNoteLayouts();
+        getNotes();
     };
 
     jQuery(window).on("hashchange", function () {
@@ -22,18 +30,22 @@ $(document).ready(function () {
 
         if (url == '/wallet') {
             delTransactionLayouts();
+            delNoteLayouts();
             addWalletLayouts();
             getWallets(url);
         } else if (url == '/transaction') {
             delWalletLayouts();
+            delNoteLayouts();
             addTransactionLayouts();
             if (isExistWalletDefault() == true) {
                 let id_default = $('.default-wallet').val();
                 getWalletDetails(id_default);
             }
-        } else {
+        } else if (url == '/note') {
             delWalletLayouts();
             delTransactionLayouts();
+            addNoteLayouts();
+            getNotes()
         }
     });
 
@@ -87,6 +99,11 @@ function addTransactionLayouts() {
     $('.transaction-layouts').removeClass('inactive');
 }
 
+//add Note
+function addNoteLayouts() {
+    $('.note-layouts').removeClass('inactive');
+}
+
 //del wallet layouts
 function delWalletLayouts() {
     $('.container-wallet-layouts').remove();
@@ -96,9 +113,13 @@ function delWalletLayouts() {
 
 //del Transaction wallet
 function delTransactionLayouts() {
-    // function delTransactionLayouts() {
     $('.container-transaction-layouts').remove();
     $('.transaction-layouts').addClass('inactive');
+}
+
+//del Note layouts
+function delNoteLayouts() {
+    $('.note-layouts').addClass('inactive');
 }
 
 
@@ -413,3 +434,81 @@ function isExistWalletDefault() {
     }
     return true;
 }
+
+// get notes in database
+async function getNotes() {
+    $(".note-script").remove();
+    $('#load').toggleClass("inactive");
+    await $.ajax({
+        type: "GET",
+        url: "/api/moneyApp/note",
+        processData: false,
+        mimeType: "multipart/form-data",
+        contentType: false,
+        success: function (response) {
+            let result = JSON.parse(response);
+            console.log(result);
+            // api trả về 2 array 1 array cho wallet và 1 array cho note social
+            for (let i = 0; i < result.length; i++) {
+                for (let x = 0; x < result[i].length; x++) {
+                    if (i == 0) {
+                    $('#note-full-container').append(`
+                    <div class="col-md-4 single-note-item all-category note-business" value="${result[i][x].id}">
+                        <div class="card card-note card-body card-note">
+                            <span class="side-stick"></span>
+                            <h5 class="note-title text-truncate w-75 mb-0" 
+                                data-noteheading="Ví ${result[i][x].name}">Ví ${result[i][x].name}
+                                <i class="point fa fa-circle ms-1 font-10"></i>
+                            </h5>
+                            <p class="note-date font-12 text-muted">${result[i][x].created_at}</p>
+                            <div class="note-content">
+                                <p class="note-inner-content text-muted"
+                                    data-notecontent="
+                                        ${result[i][x].amount}. </br>
+                                        ${result[i][x].description}. </br>
+                                    ">
+                                    Day : ${result[i][x].day_spending} - Cost : ${result[i][x].amount} VND. </br>
+                                    Action: ${result[i][x].action} - Description: ${result[i][x].description}. </br>
+                                </p>
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <span class="me-1 mx-1"><i class="fa fa-star favourite-note"></i></span>
+                                <span class="me-1 mx-1"><i class="fa fa-trash remove-note remove-note-business"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                    `);
+                    } else {
+                        $('#note-full-container').append(`
+                        <div class="col-md-4 single-note-item all-category note-social" value="${result[i][x].id}">
+                            <div class="card card-note card-body card-note">
+                                <span class="side-stick"></span>
+                                <h5 class="note-title text-truncate w-75 mb-0" 
+                                    data-noteheading="${result[i][x].title}">${result[i][x].title}
+                                    <i class="point fa fa-circle ms-1 font-10"></i>
+                                </h5>
+                                <p class="note-date font-12 text-muted">${result[i][x].created_at}</p>
+                                <div class="note-content">
+                                    <p class="note-inner-content text-muted"
+                                        data-notecontent="${result[i][x].description}.">
+                                        ${result[i][x].description}.
+                                    </p>
+                                </div>
+                                <div class="d-flex align-items-center">
+                                    <span class="me-1 mx-1"><i class="fa fa-star favourite-note"></i></span>
+                                    <span class="me-1 mx-1"><i class="fa fa-trash remove-note remove-note-social"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                `);
+                    }
+                }
+            }
+        },
+        error: function (e) {
+            console.log(e);
+        }
+    });
+    await $('#load').toggleClass("inactive");
+    $('#note-full-container').append(`<script src="${window.location.origin}/js/note.js" class="note-script"></script>`);
+};

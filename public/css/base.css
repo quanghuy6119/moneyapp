@@ -90,6 +90,11 @@ section {
     color: aliceblue;
 }
 
+.note-background{
+    background: #d1e8ff;
+    padding-top: 50px;
+}
+
 .gradient-custom-2 {
     /* fallback for old browsers */
     background: #7e40f6;
