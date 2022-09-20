@@ -365,7 +365,7 @@ class TransactionController extends Controller
 
     public function deleteNoteWalletDetail($id)
     {
-        $note = WalletDetail::Where('id', '=', $id)->get();
+        $note = WalletDetail::Where('id', '=', $id)->get()->all()[0];
         $note->update([
             'noted' => null,
         ]);

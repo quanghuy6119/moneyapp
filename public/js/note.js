@@ -20,7 +20,7 @@ $(function () {
             if (confirm("Do you want delete") == true) {
                 event.stopPropagation();
                 let $id = $(this).parents('.single-note-item').attr('value');
-                axios.delete(`/api/moneyApp//walletDetails/note/${$id}`)
+                axios.delete(`/api/moneyApp/walletDetails/note/${$id}`)
                 .then(response => {
                     let result = response.data;
                     console.log(result);
