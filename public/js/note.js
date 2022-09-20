@@ -1,10 +1,35 @@
 $(function () {
     function removeNote() {
         $(".remove-note-social").off('click').on('click', function (event) {
-            event.stopPropagation();
-            console.log($(this).parents('.single-note-item'));
-            console.log($(this).parents('.single-note-item').attr('value'));
-            $(this).parents('.single-note-item').remove();
+            if (confirm("Do you want delete") == true) {
+                event.stopPropagation();
+                let $id = $(this).parents('.single-note-item').attr('value');
+                axios.delete(`/api/moneyApp/note/${$id}`)
+                .then(response => {
+                    let result = response.data;
+                    console.log(result);
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+                $(this).parents('.single-note-item').remove();
+            }
+        })
+
+        $(".remove-note-business").off('click').on('click', function (event) {
+            if (confirm("Do you want delete") == true) {
+                event.stopPropagation();
+                let $id = $(this).parents('.single-note-item').attr('value');
+                axios.delete(`/api/moneyApp//walletDetails/note/${$id}`)
+                .then(response => {
+                    let result = response.data;
+                    console.log(result);
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+                $(this).parents('.single-note-item').remove();
+            }
         })
     }
 

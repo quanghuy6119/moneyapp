@@ -123,10 +123,10 @@ class TransactionController extends Controller
         return response()->json($id);
     }
 
-    public function showWalletDetails($walletID,$page)
+    public function showWalletDetails($walletID, $page)
     {
         $user_id = auth()->user()->id;
-    
+
         $wallet = DB::table('wallet_details')
             ->select('wallets.name', 'wallets.budget_init', 'wallets.budget_real', 'wallet_details.*', 'transactions.name', 'transactions.symbol')
             ->join('wallets', 'wallet_details.wallet_id', '=', 'wallets.id')
@@ -138,12 +138,12 @@ class TransactionController extends Controller
             ->limit($page * 10)
             ->get();
         $total = DB::table('wallet_details')
-        ->join('wallets', 'wallet_details.wallet_id', '=', 'wallets.id')
-        ->where('wallets.user_id', '=', $user_id) // wallets.id = id;
-        ->where('wallet_details.wallet_id', '=', $walletID)
-        ->get()
-        ->count();
-        return response()->json([$wallet,$total]);
+            ->join('wallets', 'wallet_details.wallet_id', '=', 'wallets.id')
+            ->where('wallets.user_id', '=', $user_id) // wallets.id = id;
+            ->where('wallet_details.wallet_id', '=', $walletID)
+            ->get()
+            ->count();
+        return response()->json([$wallet, $total]);
     }
 
     public function createWalletDetails(Request $request)
@@ -200,12 +200,11 @@ class TransactionController extends Controller
                 'noted' => $request->noted,
             ]);
             DB::commit();
-            $symbol = DB::table('transactions')->where('id','=',$request->transactionID)->get();
+            $symbol = DB::table('transactions')->where('id', '=', $request->transactionID)->get();
             $walletDetails['budget_total'] = $money;
             $walletDetails['symbol'] = $symbol[0]->symbol;
             $walletDetails['name'] = $symbol[0]->name;
             return response()->json($walletDetails);
-
         } else if ($typeTrans == ActionTransaction::TRANSFER) {
             $walletTransfer = Wallet::where('id', '=', $request->walletTransferID)->where('user_id', '=', $user_id)->first();
 
@@ -242,15 +241,15 @@ class TransactionController extends Controller
                 'budget_real' =>  $moneyTransfer,
             ]);
 
-            $description0= '[Chuyển Khoản Ví '.$walletTransfer->name.'] ';
-            $description1= '[Nhận Từ Ví '.$walletOrigin->name.'] ';
-            $symbol = DB::table('transactions')->select('transactions.symbol')->where('id','=','1')->get();
+            $description0 = '[Chuyển Khoản Ví ' . $walletTransfer->name . '] ';
+            $description1 = '[Nhận Từ Ví ' . $walletOrigin->name . '] ';
+            $symbol = DB::table('transactions')->select('transactions.symbol')->where('id', '=', '1')->get();
             $wallet0 = WalletDetail::create([
                 'wallet_id' => $request->walletID,
                 'transaction_id' => 1,
                 'amount' => $budgetAmount,
                 'day_spending' => $request->daySpending,
-                'description' => $description0.$request->description,
+                'description' => $description0 . $request->description,
                 'type_trans' => $request->typeTrans,
                 'transfer_id' => null,
                 'noted' => $request->noted,
@@ -264,7 +263,7 @@ class TransactionController extends Controller
                 'transaction_id' => 1,
                 'amount' => $budgetAmount,
                 'day_spending' => $request->daySpending,
-                'description' => $description1.$request->description,
+                'description' => $description1 . $request->description,
                 'type_trans' => 4,
                 'transfer_id' => null,
                 'noted' => $request->noted,
@@ -272,7 +271,7 @@ class TransactionController extends Controller
             $wallet1['budget_total'] = $moneyTransfer;
             $wallet1['symbol'] = $symbol[0]->symbol;
             $wallet1['name'] = $symbol[0]->name;
-            
+
             // update wallet details transfer id
             $wallet0->update(['transfer_id' => $wallet1->id]);
             $wallet1->update(['transfer_id' => $wallet0->id]);
@@ -285,30 +284,31 @@ class TransactionController extends Controller
         }
     }
 
-    public function deleteWalletDetails($id){
-        $walletDetails = WalletDetail::where('id',$id)->get(); // collection
+    public function deleteWalletDetails($id)
+    {
+        $walletDetails = WalletDetail::where('id', $id)->get(); // collection
         $walletDetails = $walletDetails->all()[0];
         $moneySpending = $walletDetails->amount;
 
         $wallet = $walletDetails->wallet;
         $budgetReal = $wallet->budget_real;
 
-        if($walletDetails->type_trans == 1){
+        if ($walletDetails->type_trans == 1) {
             $total = $moneySpending + $budgetReal;
-        } else if($walletDetails->type_trans == 2) {
+        } else if ($walletDetails->type_trans == 2) {
             $total = $budgetReal - $moneySpending;
         } else {
-            $walletDetailsTransfer = WalletDetail::where('id',$walletDetails->transfer_id)->get();
+            $walletDetailsTransfer = WalletDetail::where('id', $walletDetails->transfer_id)->get();
             $walletDetailsTransfer = $walletDetailsTransfer->all()[0];
             $moneyTransfer =  $walletDetailsTransfer->amount;
 
             $walletTransfer  = $walletDetailsTransfer->wallet;
-            $budgetTransferReal = $walletTransfer ->budget_real;
+            $budgetTransferReal = $walletTransfer->budget_real;
 
-            if($walletDetails->type_trans == 3){
+            if ($walletDetails->type_trans == 3) {
                 $total = $moneySpending + $budgetReal;
                 $totalTransfer = $budgetTransferReal - $moneyTransfer;
-            } else if ($walletDetails->type_trans == 4){
+            } else if ($walletDetails->type_trans == 4) {
                 $total = $budgetReal - $moneySpending;
                 $totalTransfer = $budgetTransferReal + $moneyTransfer;
             }
@@ -322,7 +322,8 @@ class TransactionController extends Controller
         ]);
     }
 
-    public function createNote(Request $request){
+    public function createNote(Request $request)
+    {
         $user_id = auth()->user()->id;
         $note = NoteSocial::create([
             'title' => $request->title,
@@ -334,29 +335,40 @@ class TransactionController extends Controller
         ]);
     }
 
-    public function getNote(Request $request){
+    public function getNote(Request $request)
+    {
         $user_id = auth()->user()->id;
         $wallet = DB::table('wallet_details')
-        ->select('wallets.name', 'wallet_details.*', 'transactions.name as action', 'transactions.symbol')
-        ->join('wallets', 'wallet_details.wallet_id', '=', 'wallets.id')
-        ->join('transactions', 'wallet_details.transaction_id', '=', 'transactions.id')
-        ->where('wallets.user_id', '=', $user_id) // wallets.id = id
-        ->where('wallet_details.noted', '=', 1)
-        ->get();
+            ->select('wallets.name', 'wallet_details.*', 'transactions.name as action', 'transactions.symbol')
+            ->join('wallets', 'wallet_details.wallet_id', '=', 'wallets.id')
+            ->join('transactions', 'wallet_details.transaction_id', '=', 'transactions.id')
+            ->where('wallets.user_id', '=', $user_id) // wallets.id = id
+            ->where('wallet_details.noted', '=', 1)
+            ->get();
         $note = DB::table('note_socials')
-        ->where('user_id', '=', $user_id)
-        ->get();
+            ->where('user_id', '=', $user_id)
+            ->get();
         return response()->json([
             $wallet, $note
         ]);
     }
 
-    public function deleteNote($id){
+    public function deleteNote($id)
+    {
         $user_id = auth()->user()->id;
-        $note = NoteSocial::Where('id', '=', $id)->get();
-        if($note->user_id != $user_id)
+        $note = NoteSocial::Where('id', '=', $id)->get()->all()[0];
+        if ($note->user_id != $user_id)
             return response('invalid', 400);
         $note->delete($id);
-            return response('oke', 200);
+        return response('oke', 200);
+    }
+
+    public function deleteNoteWalletDetail($id)
+    {
+        $note = WalletDetail::Where('id', '=', $id)->get();
+        $note->update([
+            'noted' => null,
+        ]);
+        return response('oke', 200);
     }
 }

@@ -38,5 +38,6 @@ Route::prefix('/moneyApp')->middleware('auth:sanctum')->group(function () {
     Route::post('/note', [TransactionController::class, 'createNote']);
     Route::get('/note', [TransactionController::class, 'getNote']);
     Route::delete('/note/{id}', [TransactionController::class, 'deleteNote']);
+    Route::delete('/walletDetails/note/{id}', [TransactionController::class, 'deleteNoteWalletDetail'])->where('id', '[0-9]+');
 });
 
