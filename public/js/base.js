@@ -454,7 +454,7 @@ async function getNotes() {
                     if (i == 0) {
                     $('#note-full-container').append(`
                     <div class="col-md-4 single-note-item all-category note-business" value="${result[i][x].id}">
-                        <div class="card card-note card-body card-note">
+                        <div class="card card-note card-body">
                             <span class="side-stick"></span>
                             <h5 class="note-title text-truncate w-75 mb-0" 
                                 data-noteheading="Ví ${result[i][x].name}">Ví ${result[i][x].name}
@@ -481,7 +481,7 @@ async function getNotes() {
                     } else {
                         $('#note-full-container').append(`
                         <div class="col-md-4 single-note-item all-category note-social" value="${result[i][x].id}">
-                            <div class="card card-note card-body card-note">
+                            <div class="card card-note card-body">
                                 <span class="side-stick"></span>
                                 <h5 class="note-title text-truncate w-75 mb-0" 
                                     data-noteheading="${result[i][x].title}">${result[i][x].title}

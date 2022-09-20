@@ -97,7 +97,7 @@ $(function () {
         var $_noteTitle = document.getElementById('note-has-title').value;
         var $_noteDescription = document.getElementById('note-has-description').value;
 
-        $html = '<div class="col-md-4 single-note-item all-category"><div class="card card-note card-body">' +
+        $html = '<div class="col-md-4 single-note-item all-category note-social"><div class="card card-note card-body">' +
             '<span class="side-stick"></span>' +
             '<h5 class="note-title text-truncate w-75 mb-0" data-noteHeading="' + $_noteTitle + '">' + $_noteTitle + '<i class="point fa fa-circle ml-1 font-10 mx-1"></i></h5>' +
             '<p class="note-date font-12 text-muted">' + today + '</p>' +
