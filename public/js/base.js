@@ -119,6 +119,7 @@ function delTransactionLayouts() {
 
 //del Note layouts
 function delNoteLayouts() {
+    $('.all-category').remove();
     $('.note-layouts').addClass('inactive');
 }
 
@@ -323,6 +324,9 @@ function getWalletDetails(id, page) {
                 <td class="align-middle">
                     <a data-mdb-toggle="tooltip" title="Remove"><i
                         class="fas fa-trash-alt fa-lg text-warning delete-wallet delete-wallet-details-${result[i].id}"></i></a>
+                    <a data-mdb-toggle="tooltip" title="Noted"><i
+                        class="fas fa-trash-alt fa-lg text-warning note note-wallet note-wallet-details-${result[i].id}"></i></a>
+                    
                 </td>
             `);
             }

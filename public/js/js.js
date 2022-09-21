@@ -5,7 +5,6 @@ $(document).ready(function() {
         <script src="${window.location.origin}/js/walletBox/walletBox.js"></script>
         <script src="${window.location.origin}/js/transactionBox/transBox.js"></script>
         <script src="${window.location.origin}/js/base.js"></script>
-        <script src="${window.location.origin}/js/note.js"></script>
         `
     )
 });
