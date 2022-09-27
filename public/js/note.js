@@ -158,10 +158,10 @@ function createNote() {
         data: formData,
         success: function (response) {
             let result = JSON.parse(response);
-            console.log(result);
+            // console.log(result);
         },
         error: function (e) {
-            console.log(e);
+            // console.log(e);
         }
     });
 }

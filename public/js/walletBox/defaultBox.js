@@ -192,12 +192,15 @@ function getWalletDetails(id, page) {
                 <td class="align-middle">
                     <a data-mdb-toggle="tooltip" title="Remove"><i
                         class="fas fa-trash-alt fa-lg text-warning delete-wallet delete-wallet-details-${result[i].id}"></i></a>
+                        <a data-mdb-toggle="tooltip" title="Noted"><i
+                        class="fas fa-sticky-note fa-lg text-danger note note-wallet note-wallet-details-${result[i].id}"></i></a>
                 </td>
                 `);
             }
             //add pagination
             addPagination(total, page);
             deleteWalletDetails(id);
+            noteWalletDetails(id);
         }
     });
 }
@@ -218,6 +221,27 @@ function deleteWalletDetails(id) {
                             delTransactionLayouts();
                             addTransactionLayouts();
                             getWalletDetails(id);
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+                }
+            });
+        }
+    });
+};
+
+function noteWalletDetails(id) {
+    axios.get(`/api/moneyApp/idWalletDetails/${id}`).then(response => {
+        let result = response.data;
+        // console.log(result);
+        for (let i = 0; i < result.length; i++) {
+            $(`.note-wallet-details-${result[i].id}`).click(function () {
+                if (confirm("Do you want noted") == true) {
+                    axios.get(`/api/moneyApp/walletDetails/note/${result[i].id}`)
+                        .then(response => {
+                            let result = response.data;
+                            console.log(result);
                         })
                         .catch(function (error) {
                             console.log(error);

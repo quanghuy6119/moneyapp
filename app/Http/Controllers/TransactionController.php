@@ -371,4 +371,13 @@ class TransactionController extends Controller
         ]);
         return response('oke', 200);
     }
+
+    public function noteWalletDetail($id)
+    {
+        $note = WalletDetail::Where('id', '=', $id)->get()->all()[0];
+        $note->update([
+            'noted' => 1,
+        ]);
+        return response('oke', 200);
+    }
 }
