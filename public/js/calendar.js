@@ -32,6 +32,7 @@
                 delWalletLayouts();
                 delTransactionLayouts();
                 addTransactionLayouts();
+                dellPagination();
                 if ($('.default-wallet').val() == "") {
                     alert("Please choose your wallet");
                 }
@@ -170,3 +171,33 @@ function deleteWalletDetails(id) {
         }
     });
 };
+
+//add Transaction wallet
+function addTransactionLayouts() {
+    $('.transaction-layouts').append(`    
+    <div class="container h-100 container-transaction-layouts">
+        <div class="row d-flex justify-content-center">
+            <div class="col-md-12 col-xl-10 mt-5 row-transactions-layouts">
+            </div>
+        </div>
+    </div>`)
+    $('.transaction-layouts').removeClass('inactive');
+}
+
+//del wallet layouts
+function delWalletLayouts() {
+    $('.container-wallet-layouts').remove();
+    $('.wallet-layouts').addClass('inactive');
+}
+
+
+//del Transaction wallet
+function delTransactionLayouts() {
+    $('.container-transaction-layouts').remove();
+    $('.transaction-layouts').addClass('inactive');
+}
+
+//del pagination
+function dellPagination() {
+    $('.pagination').remove();
+}

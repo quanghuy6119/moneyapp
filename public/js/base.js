@@ -9,6 +9,11 @@ $(document).ready(function() {
             let id_default = $('.default-wallet').val();
             getWalletDetails(id_default);
         }
+    } else if (window.location.hash == '#calendar') {
+        delWalletLayouts();
+        delTransactionLayouts();
+        addTransactionLayouts();
+        dellPagination();
     };
 
     jQuery(window).on("hashchange", function() {
@@ -32,7 +37,10 @@ $(document).ready(function() {
                 let id_default = $('.default-wallet').val();
                 getWalletDetails(id_default);
             }
-        } else if (url == '/calendar') {} else {
+        } else if (url == '/calendar') {
+            // thực hiện bên calendar js
+            dellPagination();
+        } else {
             delWalletLayouts();
             delTransactionLayouts();
         }
@@ -93,7 +101,6 @@ function delWalletLayouts() {
 
 //del Transaction wallet
 function delTransactionLayouts() {
-    // function delTransactionLayouts() {
     $('.container-transaction-layouts').remove();
     $('.transaction-layouts').addClass('inactive');
 }
