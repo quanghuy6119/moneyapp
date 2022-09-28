@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\transaction;
 use App\Http\Controllers\TransactionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -40,5 +39,7 @@ Route::prefix('/moneyApp')->middleware('auth:sanctum')->group(function () {
     Route::get('/note', [TransactionController::class, 'getNote']);
     Route::delete('/note/{id}', [TransactionController::class, 'deleteNote']);
     Route::delete('/walletDetails/note/{id}', [TransactionController::class, 'deleteNoteWalletDetail'])->where('id', '[0-9]+');
+    Route::post('/searchByCalendar/{id}', [TransactionController::class, 'searchByCalendar']);
+
 });
 

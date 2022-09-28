@@ -1,4 +1,4 @@
-$(document).ready(function () {
+$(document).ready(function() {
     if (window.location.hash == '' || window.location.hash == '#wallet') {
         delTransactionLayouts();
         delNoteLayouts();
@@ -17,13 +17,19 @@ $(document).ready(function () {
         delTransactionLayouts();
         addNoteLayouts();
         getNotes();
+    } else if (window.location.hash == '#calendar') {
+        delWalletLayouts();
+        delNoteLayouts();
+        delTransactionLayouts();
+        addTransactionLayouts();
+        dellPagination();
     } else {
         delWalletLayouts();
         delTransactionLayouts();
         delNoteLayouts();
     };
 
-    jQuery(window).on("hashchange", function () {
+    jQuery(window).on("hashchange", function() {
         var router = window.location.hash.trim();
         var url;
         if (router == '') {
@@ -38,6 +44,7 @@ $(document).ready(function () {
             addWalletLayouts();
             getWallets(url);
         } else if (url == '/transaction') {
+            $('.container-transaction-layouts').remove();
             delWalletLayouts();
             delNoteLayouts();
             addTransactionLayouts();
@@ -50,6 +57,10 @@ $(document).ready(function () {
             delTransactionLayouts();
             addNoteLayouts();
             getNotes()
+        } else if (url == '/calendar') {
+            // thực hiện bên calendar js
+            dellPagination();
+            delNoteLayouts();
         } else {
             delWalletLayouts();
             delTransactionLayouts();
@@ -59,7 +70,7 @@ $(document).ready(function () {
 
     ////// thẻ default wallet
     var checkWalletDefault = 0;
-    $('.total-down').click(async function (e) {
+    $('.total-down').click(async function(e) {
         if (checkWalletDefault == 0) {
             checkWalletDefault = 1;
             $('.layout-modal').removeClass('inactive');
@@ -70,17 +81,13 @@ $(document).ready(function () {
     });
 
     /// tắt default wallet 
-    $('.wallet-default-exit').click(function () {
+    $('.wallet-default-exit').click(function() {
         $('.badge-wallet').remove();
         $('.wallet-default-script').remove();
         $('.box-modal-wallet-default').addClass('inactive');
         $('.layout-modal').addClass('inactive');
     });
 });
-
-
-
-
 
 
 //add row wallet
@@ -220,7 +227,7 @@ async function getWallets(url) {
         processData: false,
         mimeType: "multipart/form-data",
         contentType: false,
-        success: function (response) {
+        success: function(response) {
             let result = JSON.parse(response);
             //cần check xem có thay đổi nội dung hay không
             //khi thay đổi ở 1 máy khác thì máy hiện tại xử lí thế nào
@@ -273,7 +280,7 @@ async function getWallets(url) {
                 $('.row-layouts-wallet').append(`<script src="${window.location.origin}/js/walletLayouts/walletLayouts.js" class="wallet-layouts-script"></script>`);
             }
         },
-        error: function (e) {
+        error: function(e) {
             console.log(e);
         }
     });
@@ -429,7 +436,7 @@ function deleteWalletDetails(id) {
         let result = response.data;
         // console.log(result);
         for (let i = 0; i < result.length; i++) {
-            $(`.delete-wallet-details-${result[i].id}`).click(function () {
+            $(`.delete-wallet-details-${result[i].id}`).click(function() {
                 if (confirm("Do you want delete") == true) {
                     axios.delete(`/api/moneyApp/walletDetails/${result[i].id}`)
                         .then(response => {
@@ -441,7 +448,7 @@ function deleteWalletDetails(id) {
                             addTransactionLayouts();
                             getWalletDetails(id);
                         })
-                        .catch(function (error) {
+                        .catch(function(error) {
                             console.log(error);
                         });
                 }
@@ -493,14 +500,14 @@ function dellPagination() {
 }
 
 //get wallet default box
-const getWalletDefault = async () => {
+const getWalletDefault = async() => {
     await $.ajax({
         type: "GET",
         url: "/api/moneyApp/wallet",
         processData: false,
         mimeType: "multipart/form-data",
         contentType: false,
-        success: function (response) {
+        success: function(response) {
             let result = JSON.parse(response);
 
             if (result.length != 0) {
@@ -518,7 +525,7 @@ const getWalletDefault = async () => {
                 $('.row-wallet-default').append(`<script src="${window.location.origin}/js/walletBox/defaultBox.js" class="wallet-default-script"></script>`);
             };
         },
-        error: function (e) {
+        error: function(e) {
             console.log(e);
         }
     });
@@ -530,7 +537,7 @@ const getWalletDefault = async () => {
 
 //format currency vnd
 function formatCash(str) {
-    if (typeof (str) !== 'string') {
+    if (typeof(str) !== 'string') {
         str = str.toString();
     }
     return str.split('').reverse().reduce((prev, next, index) => {

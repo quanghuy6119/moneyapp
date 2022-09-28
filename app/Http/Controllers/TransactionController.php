@@ -7,6 +7,7 @@ use App\Models\NoteSocial;
 use App\Models\Transaction;
 use App\Models\Wallet;
 use App\Models\WalletDetail;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -316,7 +317,7 @@ class TransactionController extends Controller
         }
 
         $wallet->update(['budget_real' => $total]);
-        $rs = WalletDetail::destroy($id);
+        WalletDetail::destroy($id);
         return response()->json([
             $total,
         ]);
@@ -379,5 +380,27 @@ class TransactionController extends Controller
             'noted' => 1,
         ]);
         return response('oke', 200);
+    }
+    
+    public function searchByCalendar(Request $request, $id){
+        $time = $request->validate([
+            'startDate' => 'required|date',
+            'endDate' => 'required|date',
+        ]);
+
+        $startDate = Carbon::parse($time['startDate']);
+        $endDate = Carbon::parse($time['endDate']);
+
+        $rs = DB::table('wallet_details')
+        ->select('wallet_details.*', 'transactions.name', 'transactions.symbol')
+        ->join('transactions', 'wallet_details.transaction_id', '=', 'transactions.id')
+        ->where('wallet_id','=',$id)
+        ->whereBetween('day_spending', [$startDate, $endDate])
+        ->orderBy('day_spending','DESC')
+        ->get();
+
+        return response()->json([   
+            $rs
+        ]);
     }
 }
