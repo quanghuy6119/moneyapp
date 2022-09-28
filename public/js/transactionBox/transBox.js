@@ -474,10 +474,10 @@ function createWalletDetails() {
                 </td>
     
                 <td class="align-middle">
-                    <a data-mdb-toggle="tooltip" title="Remove"><i
-                        class="fas fa-trash-alt fa-lg text-warning delete-wallet delete-wallet-details-${result.id}"></i></a>
                     <a data-mdb-toggle="tooltip" title="Noted"><i
-                        class="fas fa-sticky-note fa-lg text-danger note note-wallet note-wallet-details-${result.id}"></i></a>
+                        class="fas fa-sticky-note fa-lg text-warning note note-wallet note-wallet-details-${result[i].id}"></i></a>
+                    <a data-mdb-toggle="tooltip" title="Remove"><i
+                        class="fas fa-trash-alt fa-lg text-danger delete-wallet delete-wallet-details-${result[i].id}"></i></a>
                 </td>
                 `);
                 // gan so tien cua vi 
