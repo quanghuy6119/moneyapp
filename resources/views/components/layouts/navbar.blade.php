@@ -17,7 +17,7 @@
             </div>
         </div>
         <ul class="list-group list-group-horizontal">
-            <li class="list-group-item"><i class="fas fa-calendar"></i>
+            <li class="list-group-item search-calendar"><i class="fas fa-calendar"></i>
                 <div>Day</div>
             </li>
             <li class="list-group-item list-group-item-category"><i class="fas fa-cat"></i>

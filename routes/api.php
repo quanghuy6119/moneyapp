@@ -34,5 +34,8 @@ Route::prefix('/moneyApp')->middleware('auth:sanctum')->group(function () {
     Route::get('/walletDetails/{walletID}/{page}', [TransactionController::class, 'showWalletDetails']);
     Route::post('/walletDetails', [TransactionController::class, 'createWalletDetails']);
     Route::delete('/walletDetails/{id}', [TransactionController::class, 'deleteWalletDetails'])->where('id', '[0-9]+');
+
+    Route::post('/searchByCalendar/{id}', [TransactionController::class, 'searchByCalendar']);
+
 });
 
