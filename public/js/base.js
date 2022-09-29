@@ -1,12 +1,14 @@
-$(document).ready(function() {
+$(document).ready(function () {
     if (window.location.hash == '' || window.location.hash == '#wallet') {
         delTransactionLayouts();
         delNoteLayouts();
+        delChartLayouts();
         addWalletLayouts();
         getWallets('/wallet');
     } else if (window.location.hash == '#transaction') {
         delWalletLayouts();
         delNoteLayouts();
+        delChartLayouts();
         addTransactionLayouts();
         if (isExistWalletDefault() == true) {
             let id_default = $('.default-wallet').val();
@@ -15,21 +17,31 @@ $(document).ready(function() {
     } else if (window.location.hash == '#note') {
         delWalletLayouts();
         delTransactionLayouts();
+        delChartLayouts();
         addNoteLayouts();
         getNotes();
     } else if (window.location.hash == '#calendar') {
         delWalletLayouts();
         delNoteLayouts();
+        delChartLayouts();
         delTransactionLayouts();
         addTransactionLayouts();
         dellPagination();
-    } else {
+    } else if (window.location.hash == '#report') {
         delWalletLayouts();
         delTransactionLayouts();
         delNoteLayouts();
+        addChartLayouts();
+        getReportChart()
+    }
+    else {
+        delWalletLayouts();
+        delTransactionLayouts();
+        delNoteLayouts();
+        delChartLayouts();
     };
 
-    jQuery(window).on("hashchange", function() {
+    jQuery(window).on("hashchange", function () {
         var router = window.location.hash.trim();
         var url;
         if (router == '') {
@@ -41,12 +53,14 @@ $(document).ready(function() {
         if (url == '/wallet') {
             delTransactionLayouts();
             delNoteLayouts();
+            delChartLayouts();
             addWalletLayouts();
             getWallets(url);
         } else if (url == '/transaction') {
             $('.container-transaction-layouts').remove();
             delWalletLayouts();
             delNoteLayouts();
+            delChartLayouts();
             addTransactionLayouts();
             if (isExistWalletDefault() == true) {
                 let id_default = $('.default-wallet').val();
@@ -55,22 +69,34 @@ $(document).ready(function() {
         } else if (url == '/note') {
             delWalletLayouts();
             delTransactionLayouts();
+            delChartLayouts();
             addNoteLayouts();
             getNotes()
         } else if (url == '/calendar') {
             // thực hiện bên calendar js
             dellPagination();
             delNoteLayouts();
+            delChartLayouts();
+        } else if (url == '/report') {
+            delWalletLayouts();
+            delTransactionLayouts();
+            delNoteLayouts();
+            addChartLayouts();
+            if (isExistWalletDefault() == true) {
+                let id_default = $('.default-wallet').val();
+                getReportChart(id_default)
+            }
         } else {
             delWalletLayouts();
             delTransactionLayouts();
             delNoteLayouts();
+            delChartLayouts();
         };
     });
 
     ////// thẻ default wallet
     var checkWalletDefault = 0;
-    $('.total-down').click(async function(e) {
+    $('.total-down').click(async function (e) {
         if (checkWalletDefault == 0) {
             checkWalletDefault = 1;
             $('.layout-modal').removeClass('inactive');
@@ -81,7 +107,7 @@ $(document).ready(function() {
     });
 
     /// tắt default wallet 
-    $('.wallet-default-exit').click(function() {
+    $('.wallet-default-exit').click(function () {
         $('.badge-wallet').remove();
         $('.wallet-default-script').remove();
         $('.box-modal-wallet-default').addClass('inactive');
@@ -112,6 +138,14 @@ function addTransactionLayouts() {
         </div>
     </div>`)
     $('.transaction-layouts').removeClass('inactive');
+}
+
+//add row wallet
+function addChartLayouts() {
+    $('.chart-layouts').append(`    
+    <canvas id="myChart" width="400" height="400"></canvas>
+    `);
+    $('.chart-layouts').removeClass('inactive');
 }
 
 //add Note
@@ -217,6 +251,12 @@ function delNoteLayouts() {
     $(".note-script").remove();
 }
 
+//del Chart Layouts
+function delChartLayouts() {
+    $('#myChart').remove();
+    $('.chart-layouts').addClass('inactive');
+}
+
 
 // get wallet in database
 async function getWallets(url) {
@@ -227,7 +267,7 @@ async function getWallets(url) {
         processData: false,
         mimeType: "multipart/form-data",
         contentType: false,
-        success: function(response) {
+        success: function (response) {
             let result = JSON.parse(response);
             //cần check xem có thay đổi nội dung hay không
             //khi thay đổi ở 1 máy khác thì máy hiện tại xử lí thế nào
@@ -280,7 +320,7 @@ async function getWallets(url) {
                 $('.row-layouts-wallet').append(`<script src="${window.location.origin}/js/walletLayouts/walletLayouts.js" class="wallet-layouts-script"></script>`);
             }
         },
-        error: function(e) {
+        error: function (e) {
             console.log(e);
         }
     });
@@ -436,7 +476,7 @@ function deleteWalletDetails(id) {
         let result = response.data;
         // console.log(result);
         for (let i = 0; i < result.length; i++) {
-            $(`.delete-wallet-details-${result[i].id}`).click(function() {
+            $(`.delete-wallet-details-${result[i].id}`).click(function () {
                 if (confirm("Do you want delete") == true) {
                     axios.delete(`/api/moneyApp/walletDetails/${result[i].id}`)
                         .then(response => {
@@ -448,7 +488,7 @@ function deleteWalletDetails(id) {
                             addTransactionLayouts();
                             getWalletDetails(id);
                         })
-                        .catch(function(error) {
+                        .catch(function (error) {
                             console.log(error);
                         });
                 }
@@ -500,14 +540,14 @@ function dellPagination() {
 }
 
 //get wallet default box
-const getWalletDefault = async() => {
+const getWalletDefault = async () => {
     await $.ajax({
         type: "GET",
         url: "/api/moneyApp/wallet",
         processData: false,
         mimeType: "multipart/form-data",
         contentType: false,
-        success: function(response) {
+        success: function (response) {
             let result = JSON.parse(response);
 
             if (result.length != 0) {
@@ -525,7 +565,7 @@ const getWalletDefault = async() => {
                 $('.row-wallet-default').append(`<script src="${window.location.origin}/js/walletBox/defaultBox.js" class="wallet-default-script"></script>`);
             };
         },
-        error: function(e) {
+        error: function (e) {
             console.log(e);
         }
     });
@@ -537,7 +577,7 @@ const getWalletDefault = async() => {
 
 //format currency vnd
 function formatCash(str) {
-    if (typeof(str) !== 'string') {
+    if (typeof (str) !== 'string') {
         str = str.toString();
     }
     return str.split('').reverse().reduce((prev, next, index) => {
@@ -630,4 +670,46 @@ async function getNotes() {
     });
     await $('#load').toggleClass("inactive");
     $('#note-full-container').append(`<script src="${window.location.origin}/js/note.js" class="note-script"></script>`);
+};
+
+// get notes in database
+async function getReportChart() {
+    $('#load').toggleClass("inactive");
+    const ctx = $('#myChart')[0];
+
+    const myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+            datasets: [{
+                label: '# of Votes',
+                data: [12, 19, 3, 5, 2, 3],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+    await $('#load').toggleClass("inactive");
 };
