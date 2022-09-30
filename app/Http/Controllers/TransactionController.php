@@ -403,4 +403,17 @@ class TransactionController extends Controller
             $rs
         ]);
     }
+
+    public function reportByMonth ($id, $month) {
+        $rs = DB::table('wallet_details')
+        ->select('wallet_details.*')
+        ->where('wallet_id','=',$id)
+        ->whereMonth('day_spending', '=' , $month)
+        ->orderBy('day_spending','ASC')
+        ->get();
+
+        return response()->json([   
+            $rs
+        ]);
+    }
 }
