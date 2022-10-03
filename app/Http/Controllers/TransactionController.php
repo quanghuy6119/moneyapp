@@ -7,6 +7,7 @@ use App\Models\NoteSocial;
 use App\Models\Transaction;
 use App\Models\Wallet;
 use App\Models\WalletDetail;
+use App\Object\Report;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -336,7 +337,7 @@ class TransactionController extends Controller
         ]);
     }
 
-    public function getNote(Request $request)
+    public function getNote()
     {
         $user_id = auth()->user()->id;
         $wallet = DB::table('wallet_details')
@@ -366,7 +367,10 @@ class TransactionController extends Controller
 
     public function deleteNoteWalletDetail($id)
     {
+        $user_id = auth()->user()->id;
         $note = WalletDetail::Where('id', '=', $id)->get()->all()[0];
+        if ($note->user_id != $user_id)
+            return response('invalid', 400);
         $note->update([
             'noted' => null,
         ]);
@@ -375,14 +379,19 @@ class TransactionController extends Controller
 
     public function noteWalletDetail($id)
     {
+        $user_id = auth()->user()->id;
         $note = WalletDetail::Where('id', '=', $id)->get()->all()[0];
+        if ($note->user_id != $user_id)
+            return response('invalid', 400);
         $note->update([
             'noted' => 1,
         ]);
         return response('oke', 200);
     }
-    
-    public function searchByCalendar(Request $request, $id){
+
+    public function searchByCalendar(Request $request, $id)
+    {
+        $user_id = auth()->user()->id;
         $time = $request->validate([
             'startDate' => 'required|date',
             'endDate' => 'required|date',
@@ -392,28 +401,83 @@ class TransactionController extends Controller
         $endDate = Carbon::parse($time['endDate']);
 
         $rs = DB::table('wallet_details')
-        ->select('wallet_details.*', 'transactions.name', 'transactions.symbol')
-        ->join('transactions', 'wallet_details.transaction_id', '=', 'transactions.id')
-        ->where('wallet_id','=',$id)
-        ->whereBetween('day_spending', [$startDate, $endDate])
-        ->orderBy('day_spending','DESC')
-        ->get();
+            ->select('wallet_details.*', 'transactions.name', 'transactions.symbol')
+            ->join('transactions', 'wallet_details.transaction_id', '=', 'transactions.id')
+            ->where('wallet_id', '=', $id)
+            ->whereBetween('day_spending', [$startDate, $endDate])
+            ->where('wallets.user_id', '=', $user_id) // wallets.id = id
+            ->orderBy('day_spending', 'DESC')
+            ->get();
 
-        return response()->json([   
+        return response()->json([
             $rs
         ]);
     }
 
-    public function reportByMonth ($id, $month) {
-        $rs = DB::table('wallet_details')
-        ->select('wallet_details.*')
-        ->where('wallet_id','=',$id)
-        ->whereMonth('day_spending', '=' , $month)
-        ->orderBy('day_spending','ASC')
-        ->get();
+    public function reportByMonth(Request $request)
+    {
+        $user_id = auth()->user()->id;
+        $id = $request->id;
+        $month = $request->month;
 
-        return response()->json([   
-            $rs
+        // query
+        $rs = DB::table('wallet_details')
+            ->select('wallet_details.*')
+            ->join('wallets', 'wallet_details.wallet_id', '=', 'wallets.id')
+            ->where('wallet_id', '=', $id)
+            ->whereMonth('day_spending', '=', $month)
+            ->where('wallets.user_id', '=', $user_id) // wallets.id = id
+            ->orderBy('day_spending', 'ASC')
+            ->get();
+
+        // tinh toan tong so tien moi ngay
+        $data = [];
+        foreach ($rs as $day) {
+            $date = Carbon::parse($day->day_spending)->day;
+            $index = $this->searchDay($date, $data);
+            if ($index === null) {
+                $data[] = new Report($date, $day->amount, $day->type_trans);
+            } else {
+                $data[$index]->setMoney($day->amount, $day->type_trans);
+            };
+        }
+
+        $dataDate = [];
+        $dataMoney = [];
+        $dataDate = $this->toArrayDateArray($data);
+        $dataMoney = $this->toArrayMoneyArray($data);
+
+        return response()->json([
+            $dataDate,
+            $dataMoney
         ]);
+    }
+
+    private function searchDay($day, array $data)
+    {
+        foreach ($data as $index => $dt) {
+            if ($dt->getDate() == $day) {
+                return $index;
+            }
+        }
+        return null;
+    }
+
+    private function toArrayDateArray($arrayObj)
+    {
+        $data = [];
+        foreach ($arrayObj as $obj) {
+            $data[] = $obj->getDate();
+        }
+        return $data;
+    }
+
+    private function toArrayMoneyArray($arrayObj)
+    {
+        $data = [];
+        foreach ($arrayObj as $obj) {
+            $data[] = $obj->getMoney();
+        }
+        return $data;
     }
 }

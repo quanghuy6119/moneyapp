@@ -40,7 +40,7 @@ Route::prefix('/moneyApp')->middleware('auth:sanctum')->group(function () {
     Route::delete('/note/{id}', [TransactionController::class, 'deleteNote']);
     Route::delete('/walletDetails/note/{id}', [TransactionController::class, 'deleteNoteWalletDetail'])->where('id', '[0-9]+');
     Route::post('/searchByCalendar/{id}', [TransactionController::class, 'searchByCalendar']);
-    Route::post('/report/{id}', [TransactionController::class, 'reportByMonth']);
+    Route::get('/report', [TransactionController::class, 'reportByMonth']);
 
 });
 

@@ -1,41 +1,42 @@
 $(document).ready(function() {
-    $(".button-chart-report").click(function () {
+    $(".button-chart-report").click(function() {
         if ($('.default-wallet').val() == "") {
             return alert("Vui lòng chọn ví");
         } else if ($(".select-month-report").val() == "") {
             return alert("Vui lòng chọn tháng");
-            getReportChart(id_default)
+        } else {;
+            let id = $('.default-wallet').val();
+            let month = $(".select-month-report").val();
+            getReportChart(id, month);
         }
     });
 });
-    // get notes in database
-async function getReportChart(id) {
+// get notes in database
+async function getReportChart(id, month) {
 
-    // $('#load').toggleClass("inactive");
-    // await $.ajax({
-    //     type: "GET",
-    //     url: "/api/moneyApp/note",
-    //     processData: false,
-    //     mimeType: "multipart/form-data",
-    //     contentType: false,
-    //     success: function (response) {
-    //         let result = JSON.parse(response);
-    //         console.log(result);
-    //     }
-    // })
-
-
-    // $('#load').toggleClass("inactive");
+    $('#load').toggleClass("inactive");
+    let rs;
+    await $.ajax({
+        type: "GET",
+        url: `/api/moneyApp/report?id=${id}&month=${month}`,
+        processData: false,
+        mimeType: "multipart/form-data",
+        contentType: false,
+        success: function(response) {
+            let result = JSON.parse(response);
+            console.log(result);
+            rs = result;
+        }
+    })
 
     const ctx = $('#myChart')[0];
-
     const myChart = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+            labels: rs[0],
             datasets: [{
-                label: '# of Votes',
-                data: [12, 19, 3, 5, 2, 3],
+                label: 'Date',
+                data: rs[1],
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.2)',
                     'rgba(54, 162, 235, 0.2)',
@@ -63,9 +64,5 @@ async function getReportChart(id) {
         //     }
         // }
     });
-    // await $('#load').toggleClass("inactive");
+    await $('#load').toggleClass("inactive");
 };
-
-$(".select-month-report").click(function () {
-    console.log($(".select-month-report").val())
-});

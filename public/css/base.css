@@ -90,7 +90,7 @@ section {
     color: aliceblue;
 }
 
-.note-background{
+.note-background {
     background: #d1e8ff;
     padding-top: 50px;
 }
@@ -248,7 +248,7 @@ section {
     border-radius: 0 40px 40px 0;
 }
 
-.form-select{
+.form-select {
     width: 60%;
     margin: 0 auto;
     align-items: center;
@@ -257,10 +257,10 @@ section {
     font-weight: 600;
 }
 
-.button-chart-report{
-    margin: 0 auto;
+.button-chart-report {
+    margin: 20px 45%;
     width: 10%;
-    height: 50px;
+    height: 40px;
     border: 2px solid #dc3545;
     font-weight: 600;
 }
