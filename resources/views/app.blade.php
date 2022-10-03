@@ -46,6 +46,7 @@
                 <x-Transaction> </x-Transaction>
                 <x-Note></x-Note>
                 <x-Chart></x-Chart>
+                <x-Budget></x-Budget>
             </div>
         </div>
     </div>
