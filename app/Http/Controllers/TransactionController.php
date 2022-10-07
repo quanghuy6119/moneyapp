@@ -9,6 +9,7 @@ use App\Models\Wallet;
 use App\Models\WalletDetail;
 use App\Object\Report;
 use Carbon\Carbon;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -479,5 +480,38 @@ class TransactionController extends Controller
             $data[] = $obj->getMoney();
         }
         return $data;
+    }
+
+    public function reportBudgetByMonth(Request $request)
+    {
+        $user_id = auth()->user()->id;
+        $id = $request->id;
+        $month = $request->month;
+        $type = $request->type;
+        if($type == 1){
+            $type1 = 3;
+        } else {
+            $type1 = 4;
+        }
+
+        // query
+        $rs = DB::table('wallet_details')
+            ->select('transactions.name', DB::raw('SUM(wallet_details.amount) AS cost'))
+            ->join('wallets', 'wallet_details.wallet_id', '=', 'wallets.id')
+            ->join('transactions', 'wallet_details.transaction_id', '=', 'transactions.id')
+            ->where('wallet_id', '=', $id)
+            ->whereMonth('day_spending', '=', $month)
+            ->where('wallets.user_id', '=', $user_id) // wallets.id = id
+            ->where('wallet_id', '=', $id)
+            ->where(function (Builder $query) use($type, $type1) {
+                $query->where('type_trans', $type1)
+                    ->orWhere('type_trans', $type);
+            })
+            ->groupBy('transactions.name', 'wallet_details.amount')
+            ->get();
+
+        return response()->json([
+            $rs
+        ]);
     }
 }

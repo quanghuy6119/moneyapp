@@ -3,12 +3,14 @@ $(document).ready(function () {
         delTransactionLayouts();
         delNoteLayouts();
         delChartLayouts();
+        delBudgetLayouts();
         addWalletLayouts();
         getWallets('/wallet');
     } else if (window.location.hash == '#transaction') {
         delWalletLayouts();
         delNoteLayouts();
         delChartLayouts();
+        delBudgetLayouts();
         addTransactionLayouts();
         if (isExistWalletDefault() == true) {
             let id_default = $('.default-wallet').val();
@@ -18,12 +20,14 @@ $(document).ready(function () {
         delWalletLayouts();
         delTransactionLayouts();
         delChartLayouts();
+        delBudgetLayouts();
         addNoteLayouts();
         getNotes();
     } else if (window.location.hash == '#calendar') {
         delWalletLayouts();
         delNoteLayouts();
         delChartLayouts();
+        delBudgetLayouts();
         delTransactionLayouts();
         addTransactionLayouts();
         dellPagination();
@@ -31,18 +35,21 @@ $(document).ready(function () {
         delWalletLayouts();
         delTransactionLayouts();
         delNoteLayouts();
+        delBudgetLayouts();
         addChartLayouts();
     } else if (window.location.hash == '#budget') {
         delWalletLayouts();
         delTransactionLayouts();
         delNoteLayouts();
-        addChartLayouts();
+        delChartLayouts();
+        addBudgetLayouts();
     }
     else {
         delWalletLayouts();
         delTransactionLayouts();
         delNoteLayouts();
         delChartLayouts();
+        delBudgetLayouts();
     };
 
     jQuery(window).on("hashchange", function () {
@@ -58,6 +65,7 @@ $(document).ready(function () {
             delTransactionLayouts();
             delNoteLayouts();
             delChartLayouts();
+            delBudgetLayouts();
             addWalletLayouts();
             getWallets(url);
         } else if (url == '/transaction') {
@@ -65,6 +73,7 @@ $(document).ready(function () {
             delWalletLayouts();
             delNoteLayouts();
             delChartLayouts();
+            delBudgetLayouts();
             addTransactionLayouts();
             if (isExistWalletDefault() == true) {
                 let id_default = $('.default-wallet').val();
@@ -74,6 +83,7 @@ $(document).ready(function () {
             delWalletLayouts();
             delTransactionLayouts();
             delChartLayouts();
+            delBudgetLayouts();
             addNoteLayouts();
             getNotes()
         } else if (url == '/calendar') {
@@ -81,16 +91,25 @@ $(document).ready(function () {
             dellPagination();
             delNoteLayouts();
             delChartLayouts();
+            delBudgetLayouts();
         } else if (url == '/report') {
             delWalletLayouts();
             delTransactionLayouts();
             delNoteLayouts();
+            delBudgetLayouts();
             addChartLayouts();
+        } else if (url == '/budget') {
+            delWalletLayouts();
+            delTransactionLayouts();
+            delNoteLayouts();
+            delChartLayouts();
+            addBudgetLayouts();
         } else {
             delWalletLayouts();
             delTransactionLayouts();
             delNoteLayouts();
             delChartLayouts();
+            delBudgetLayouts();
         };
     });
 
@@ -265,8 +284,14 @@ function delNoteLayouts() {
 
 //del Chart Layouts
 function delChartLayouts() {
-    $('#myChart').remove();
+    $('#myBudget').remove();
     $('.chart-layouts').addClass('inactive');
+}
+
+//del Budget Layouts
+function delBudgetLayouts() {
+    $('#myChart').remove();
+    $('.budget-layouts').addClass('inactive');
 }
 
 

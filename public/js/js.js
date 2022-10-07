@@ -7,6 +7,7 @@ $(document).ready(function() {
         <script src="${window.location.origin}/js/base.js"></script>
         <script src="${window.location.origin}/js/calendar.js"></script>
         <script src="${window.location.origin}/js/report.js"></script>
+        <script src="${window.location.origin}/js/budget.js"></script>
         `
     )
 });

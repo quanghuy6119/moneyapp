@@ -257,6 +257,11 @@ section {
     font-weight: 600;
 }
 
+.form-select-budget{
+    display: inline-block;
+    width: 25%;
+}
+
 .button-chart-report {
     margin: 20px 45%;
     width: 10%;
