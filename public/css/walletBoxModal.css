@@ -170,3 +170,62 @@
     cursor: pointer;
     opacity: 0.7;
 }
+
+@media screen and (max-width: 680px) {
+    .box-modal-wallet {
+        top: 100px;
+        left: 20px;
+        width: 360px;
+        height: 400px;
+        border-radius: 5px;
+        box-shadow: 10px 10px 20px 10px rgba(0, 0, 0, 0.3);
+        background-color: rgb(255, 255, 255);
+    }
+
+    .box-modal-wallet-icon {
+        top: 100px;
+        left: 20px;
+        width: 360px;
+        height: 400px;
+        border-radius: 5px;
+        box-shadow: 10px 10px 20px 10px rgba(0, 0, 0, 0.3);
+        background-color: rgb(255, 255, 255);
+    }
+
+    .box-modal-wallet-parent {
+        top: 100px;
+        left: 20px;
+        width: 360px;
+        height: 400px;
+        border-radius: 5px;
+        box-shadow: 10px 10px 20px 10px rgba(0, 0, 0, 0.3);
+        background-color: rgb(255, 255, 255);
+    }
+
+    .wallet-name{
+        width: 90%;
+        margin-left: 20px;
+    }
+
+    .wallet-currency {
+        width: 100%;
+        padding: 5px 5px 5px 20px;
+    }
+
+    .row-wallet-default {
+        flex-wrap: wrap;
+    }
+
+    .wallet-parent {
+        width: 100%;
+        padding-top: 15px;
+        text-align: left;
+    }
+
+    .wallet-parent span {
+        font-size: 16px;
+        padding: 0 0px 15px 0px;
+        font-weight: bold;
+        width: 100%;
+    }
+}

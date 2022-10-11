@@ -132,6 +132,15 @@ $(document).ready(function () {
         $('.box-modal-wallet-default').addClass('inactive');
         $('.layout-modal').addClass('inactive');
     });
+
+    /// mở
+    $('.menu-toggle').click(function () {
+        $('.list-dashboard').css('display', 'block');
+    })
+
+    $('.exit-list-sidebar').click(function () {
+        $('.list-dashboard').css('display', 'none');
+    })
 });
 
 
@@ -162,7 +171,7 @@ function addTransactionLayouts() {
 //add row wallet
 function addChartLayouts() {
     $('.chart-layouts').append(`
-    <div style="width=80%;margin-left:100px">
+    <div class="container-chart" style="width=80%;margin-left:100px">
         <canvas id="myChart" width="400" height="400"></canvas>
     </div>    
     `);
@@ -172,8 +181,8 @@ function addChartLayouts() {
 //add row wallet
 function addBudgetLayouts() {
     $('.budget-layouts').append(`
-    <div style="width=80%;margin-left:100px">
-        <canvas id="myBudget" width="400" height="400"></canvas>
+    <div class="container-budget" style="width=80%; height: 50%; margin-left:100px">
+    <canvas id="myBudget" width="1000" height="1000"></canvas>
     </div>    
     `);
     $('.budget-layouts').removeClass('inactive');
@@ -284,13 +293,13 @@ function delNoteLayouts() {
 
 //del Chart Layouts
 function delChartLayouts() {
-    $('#myBudget').remove();
+    $('.container-chart').remove();
     $('.chart-layouts').addClass('inactive');
 }
 
 //del Budget Layouts
 function delBudgetLayouts() {
-    $('#myChart').remove();
+    $('.container-budget').remove();
     $('.budget-layouts').addClass('inactive');
 }
 

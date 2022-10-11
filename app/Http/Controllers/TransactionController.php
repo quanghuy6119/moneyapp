@@ -496,22 +496,38 @@ class TransactionController extends Controller
 
         // query
         $rs = DB::table('wallet_details')
-            ->select('transactions.name', DB::raw('SUM(wallet_details.amount) AS cost'))
+            ->select(['transactions.name', DB::raw('SUM(wallet_details.amount) AS cost')])
             ->join('wallets', 'wallet_details.wallet_id', '=', 'wallets.id')
             ->join('transactions', 'wallet_details.transaction_id', '=', 'transactions.id')
             ->where('wallet_id', '=', $id)
-            ->whereMonth('day_spending', '=', $month)
+            ->whereMonth('wallet_details.day_spending', '=', $month)
             ->where('wallets.user_id', '=', $user_id) // wallets.id = id
-            ->where('wallet_id', '=', $id)
-            ->where(function (Builder $query) use($type, $type1) {
-                $query->where('type_trans', $type1)
-                    ->orWhere('type_trans', $type);
-            })
-            ->groupBy('transactions.name', 'wallet_details.amount')
+            ->whereIn('wallet_details.type_trans', [$type, $type1])
+            ->groupBy(['transactions.name', 'wallet_details.amount'])
             ->get();
 
+        $arrayRs = $rs->all();
+        $dataName = $this->toArrayNamePieChart($arrayRs);
+        $dataMoney = $this->toArrayMoneyPieChart($arrayRs);
+
         return response()->json([
-            $rs
+            $dataName, $dataMoney
         ]);
+    }
+
+    private function toArrayNamePieChart($arrayObj){
+        $data = [];
+        foreach ($arrayObj as $obj) {
+            $data[] = $obj->name;
+        }
+        return $data;
+    }
+
+    private function toArrayMoneyPieChart($arrayObj){
+        $data = [];
+        foreach ($arrayObj as $obj) {
+            $data[] = $obj->cost;
+        }
+        return $data;
     }
 }

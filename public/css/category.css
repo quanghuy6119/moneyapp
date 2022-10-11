@@ -53,3 +53,19 @@
 .category-title img {
     height: 60px;
 }
+
+@media screen and (max-width: 680px) {
+    .box-modal-category {
+        top: 100px;
+        left: 20px;
+        width: 360px;
+        height: 400px;
+        border-radius: 5px;
+        box-shadow: 10px 10px 20px 10px rgba(0, 0, 0, 0.3);
+        background-color: rgb(255, 255, 255);
+    }
+
+    .row-wallet-default {
+        flex-wrap: wrap;
+    }
+}

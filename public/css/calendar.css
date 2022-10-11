@@ -156,3 +156,12 @@ thead tr:nth-child(3) th {
     cursor: pointer;
     opacity: 0.5;
 }
+
+@media screen and (max-width: 680px) {
+    .box-modal-calendar {
+        left: 10%;
+        padding-top: 30px;
+        width: 350px;
+        height: 140px;
+    }
+}

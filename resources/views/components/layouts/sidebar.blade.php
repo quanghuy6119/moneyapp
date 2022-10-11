@@ -28,5 +28,8 @@
                 <div>Report</div>
             </li>
         </a>
+        <li class="list-group-item exit-list-sidebar"><i class="fas fa-times-circle" style="color: red"></i>
+            <div>Exit</div>
+        </li>
     </ul>
 </div>

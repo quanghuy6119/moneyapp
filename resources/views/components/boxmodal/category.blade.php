@@ -16,7 +16,7 @@
                     style="background-color: rgb(54, 230, 243)">
             </div>
             <div class="form-outline control-group col-3 mb-4">
-                <input type="text" class="form-control form-control-sm" name="title" style="width: 100px">
+                <input type="text" class="form-control form-control-sm" name="title" style="width: 80px">
             </div>
             <div class="form-outline control-group col-2">
                 <input type="submit" class="btn btn-primary btn-category" style="height: 31px">
