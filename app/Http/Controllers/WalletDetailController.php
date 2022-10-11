@@ -13,7 +13,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class TransactionController extends Controller
+class WalletDetailController extends Controller
 {
     protected TransactionServiceInterface $transactionService;
     public function __construct(TransactionServiceInterface $transactionService)
