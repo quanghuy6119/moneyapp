@@ -39,7 +39,7 @@
                     Việt Nam Đồng <img src='{{ asset('img/vietnam-svgrepo-com.svg') }}' height="40px" width="60px">
                 </div>
             </div>
-            <div class="col-6 mb-3">
+            <div class="col-8 col-md-6 mb-3">
                 <label class="wallet-budget-label">Wallet origin</label>
                 <button class="wallet-form-input wallet-parent">
                     <img src="{{ asset('img/wallet-svgrepo-com.svg') }}" height="40px" width="60px"
@@ -49,7 +49,7 @@
                     <input type="hidden" class="wallet-parent-name-input" name="walletParentName" value="Origin Wallet">
                 </button>
             </div>
-            <div class="col-6 mb-3">
+            <div class="col-4 col-md-6 mb-3">
                 <input type="submit" class="btn btn-primary btn-form-wallet">
             </div>
         </div>

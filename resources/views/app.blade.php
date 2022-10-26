@@ -35,10 +35,10 @@
 <body>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-1" style="padding: 0;">
+            <div class="col-0 col-md-1" style="padding: 0;">
                 <x-Sidebar> </x-Sidebar>
             </div>
-            <div class="col-11 app-content" style="padding: 0;">
+            <div class="col-12 col-md-11 app-content" style="padding: 0;">
                 <x-Navbar> </x-Navbar>
 
                 {{-- content --}}

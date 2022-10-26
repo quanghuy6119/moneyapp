@@ -1,9 +1,10 @@
 <div class="navbar-dashboard">
-    <div class="d-flex justify-content-between">
+    <div class="navbar-container">
         <div>
+            <div class="menu-toggle"><i class="fas fa-bars"></i></div>
             <div class="total">
                 <div class="total-img">
-                    <img src="{{ asset('img/money-bag-svgrepo-com.svg') }}" height="50" width="50">
+                    <img src="{{ asset('img/money-bag-svgrepo-com.svg') }}">
                 </div>
                 <div class="total-wallet">
                     <div class="total-down"> 
@@ -22,9 +23,6 @@
             </li>
             <li class="list-group-item list-group-item-category"><i class="fas fa-cat"></i>
                 <div>Category</div>
-            </li>
-            <li class="list-group-item"><i class="fas fa-search-dollar"></i>
-                <div>Search</div>
             </li>
             <li class="list-group-item"><button type="button" class="btn btn-success add-wallet-details">Add
                     transation</button>

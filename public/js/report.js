@@ -1,10 +1,12 @@
-$(document).ready(function() {
-    $(".button-chart-report").click(function() {
+$(document).ready(function () {
+    $(".button-chart-report").click(function () {
         if ($('.default-wallet').val() == "") {
             return alert("Vui lòng chọn ví");
         } else if ($(".select-month-report").val() == "") {
             return alert("Vui lòng chọn tháng");
-        } else {;
+        } else {
+            delChartLayouts();
+            addChartLayouts();
             let id = $('.default-wallet').val();
             let month = $(".select-month-report").val();
             getReportChart(id, month);
@@ -22,15 +24,18 @@ async function getReportChart(id, month) {
         processData: false,
         mimeType: "multipart/form-data",
         contentType: false,
-        success: function(response) {
+        success: function (response) {
             let result = JSON.parse(response);
             console.log(result);
             rs = result;
+        },
+        error: function (e) {
+            console.log(e);
         }
     })
 
     const ctx = $('#myChart')[0];
-    const myChart = new Chart(ctx, {
+    var myChart = new Chart(ctx, {
         type: 'bar',
         data: {
             labels: rs[0],
@@ -55,14 +60,23 @@ async function getReportChart(id, month) {
                 ],
                 borderWidth: 1
             }]
-        },
-        // options: {
-        //     scales: {
-        //         y: {
-        //             beginAtZero: true
-        //         }
-        //     }
-        // }
+        }
     });
     await $('#load').toggleClass("inactive");
 };
+
+//del Chart Layouts
+function delChartLayouts() {
+    $('.container-chart').remove();
+    $('.chart-layouts').addClass('inactive');
+}
+
+//add row wallet
+function addChartLayouts() {
+    $('.chart-layouts').append(`
+    <div class="container-chart" style="width=80%;margin-left:100px">
+        <canvas id="myChart" width="400" height="400"></canvas>
+    </div>    
+    `);
+    $('.chart-layouts').removeClass('inactive');
+}

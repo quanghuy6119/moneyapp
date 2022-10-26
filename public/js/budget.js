@@ -7,9 +7,11 @@ $(document).ready(function () {
         } else if ($(".select-type-budget").val() == "") {
             return alert("Vui lòng chọn loại chi tiêu");
         } else {
+            delBudgetLayouts();
+            addBudgetLayouts();
             let id = $('.default-wallet').val();
             let month = $(".select-month-budget").val();
-            let type = $(".select-type-budget")
+            let type = $(".select-type-budget").val();
             getBudgetChart(id, month, type);
         }
     });
@@ -26,6 +28,7 @@ async function getBudgetChart(id, month, type) {
         mimeType: "multipart/form-data",
         contentType: false,
         success: function (response) {
+            console.log(response);
             let result = JSON.parse(response);
             console.log(result);
             rs = result;
@@ -35,40 +38,49 @@ async function getBudgetChart(id, month, type) {
         }
     })
 
-    // const ctx = $('#myChart')[0];
-    // const myChart = new Chart(ctx, {
-    //     type: 'bar',
-    //     data: {
-    //         labels: rs[0],
-    //         datasets: [{
-    //             label: 'Date',
-    //             data: rs[1],
-    //             backgroundColor: [
-    //                 'rgba(255, 99, 132, 0.2)',
-    //                 'rgba(54, 162, 235, 0.2)',
-    //                 'rgba(255, 206, 86, 0.2)',
-    //                 'rgba(75, 192, 192, 0.2)',
-    //                 'rgba(153, 102, 255, 0.2)',
-    //                 'rgba(255, 159, 64, 0.2)'
-    //             ],
-    //             borderColor: [
-    //                 'rgba(255, 99, 132, 1)',
-    //                 'rgba(54, 162, 235, 1)',
-    //                 'rgba(255, 206, 86, 1)',
-    //                 'rgba(75, 192, 192, 1)',
-    //                 'rgba(153, 102, 255, 1)',
-    //                 'rgba(255, 159, 64, 1)'
-    //             ],
-    //             borderWidth: 1
-    //         }]
-    //     },
-        // options: {
-        //     scales: {
-        //         y: {
-        //             beginAtZero: true
-        //         }
-        //     }
-        // }
-    // });
+    const ctx = $('#myBudget')[0];
+    const myBudget = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: rs[0],
+            datasets: [{
+                label: 'Money',
+                data: rs[1],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1
+            }]
+        }
+    });
     await $('#load').toggleClass("inactive");
 };
+
+//del Budget Layouts
+function delBudgetLayouts() {
+    $('.container-budget').remove();
+    $('.budget-layouts').addClass('inactive');
+}
+
+//add row wallet
+function addBudgetLayouts() {
+    $('.budget-layouts').append(`
+    <div class="container-budget" style="width=80%;margin-left:100px">
+        <canvas id="myBudget" width="1000" height="1000"></canvas>
+    </div>    
+    `);
+    $('.budget-layouts').removeClass('inactive');
+}

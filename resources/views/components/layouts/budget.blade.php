@@ -1,5 +1,5 @@
 <section class="budget-layouts inactive">
-    <div style="margin-left: 25%;margin-top:10px">
+    <div style="margin-left: 25%;margin-top:10px;">
         <select class="form-select select-month-budget form-select-budget">
             <option value="" selected>Select Month</option>
             <option value="1">January</option>

@@ -1,6 +1,10 @@
 <?php
 
+use App\Http\Controllers\NoteController;
+use App\Http\Controllers\ReportController;
+use App\Http\Controllers\TransactionCategoryController;
 use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\WalletController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -21,26 +25,27 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 
 Route::prefix('/moneyApp')->middleware('auth:sanctum')->group(function () {
-    Route::get('/category', [TransactionController::class, 'showCategoryTrans']);
-    Route::post('/category', [TransactionController::class, 'createCategoryTrans']);
-    Route::get('/idCategory', [TransactionController::class, 'idCategory']);
+    Route::get('/category', [TransactionCategoryController::class, 'show']);
+    Route::post('/category', [TransactionCategoryController::class, 'create']);
+    Route::get('/idCategory', [TransactionCategoryController::class, 'idCategory']);
 
-    Route::get('/wallet', [TransactionController::class, 'showWallet']);
-    Route::post('/wallet', [TransactionController::class, 'createWallet']);
-    Route::get('/idWallet', [TransactionController::class, 'idWallet']);
+    Route::get('/wallet', [WalletController::class, 'show']);
+    Route::post('/wallet', [WalletController::class, 'create']);
+    Route::get('/idWallet', [WalletController::class, 'idWallet']);
 
-    Route::get('/walletDetails/note/{id}', [TransactionController::class, 'noteWalletDetail'])->where('id', '[0-9]+');
+    Route::post('/walletDetails', [TransactionController::class, 'create']);
+    Route::get('/walletDetails/note/{id}', [NoteController::class, 'markedNoteTransaction'])->where('id', '[0-9]+');
+    Route::delete('/walletDetails/note/{id}', [NoteController::class, 'deleteTransaction'])->where('id', '[0-9]+');
     Route::get('/idWalletDetails/{walletId}', [TransactionController::class, 'idWalletDetails']);
-    Route::get('/walletDetails/{walletID}/{page}', [TransactionController::class, 'showWalletDetails']);
-    Route::post('/walletDetails', [TransactionController::class, 'createWalletDetails']);
-    Route::delete('/walletDetails/{id}', [TransactionController::class, 'deleteWalletDetails'])->where('id', '[0-9]+');
+    Route::get('/walletDetails/{walletID}/{page}', [TransactionController::class, 'index']);
+    Route::delete('/walletDetails/{id}', [TransactionController::class, 'delete'])->where('id', '[0-9]+');
 
-    Route::post('/note', [TransactionController::class, 'createNote']);
-    Route::get('/note', [TransactionController::class, 'getNote']);
-    Route::delete('/note/{id}', [TransactionController::class, 'deleteNote']);
-    Route::delete('/walletDetails/note/{id}', [TransactionController::class, 'deleteNoteWalletDetail'])->where('id', '[0-9]+');
-    Route::post('/searchByCalendar/{id}', [TransactionController::class, 'searchByCalendar']);
-    Route::get('/report', [TransactionController::class, 'reportByMonth']);
-    Route::get('/reportBudget', [TransactionController::class, 'reportBudgetByMonth']);
+    Route::post('/note', [NoteController::class, 'create']);
+    Route::get('/note', [NoteController::class, 'show']);
+    Route::delete('/note/{id}', [NoteController::class, 'delete']);
+
+    Route::get('/report', [ReportController::class, 'reportByMonth']);
+    Route::get('/reportBudget', [ReportController::class, 'reportBudgetByMonth']);
+    Route::post('/searchByCalendar/{id}', [ReportController::class, 'searchByCalendar']);
 });
 
