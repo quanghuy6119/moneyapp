@@ -26,8 +26,11 @@ async function getReportChart(id, month) {
         contentType: false,
         success: function (response) {
             let result = JSON.parse(response);
-            // console.log(result);
+            console.log(result);
             rs = result;
+        },
+        error: function (e) {
+            console.log(e);
         }
     })
 

@@ -1,21 +1,21 @@
-$(document).ready(function() {
+$(document).ready(function () {
 
     /// mở details wallet
-    $('.add-wallet-details').click(function() {
+    $('.add-wallet-details').click(function () {
         $('.layout-modal').removeClass('inactive');
         $('.box-modal-transaction').removeClass('inactive');
         activePayment();
     });
 
     /// tắt details wallet
-    $('.wallet-modal-details-exit').click(function() {
+    $('.wallet-modal-details-exit').click(function () {
         $('.box-modal-transaction').addClass('inactive');
         $('.layout-modal').addClass('inactive');
         resetBoxDetail();
     });
 
     // box payment
-    $('.nav-item-payment').click(function() {
+    $('.nav-item-payment').click(function () {
         resetBoxDetail();
         $('.layout-modal').removeClass('inactive');
         $('.box-modal-transaction').removeClass('inactive');
@@ -23,7 +23,7 @@ $(document).ready(function() {
     });
 
     // box income
-    $('.nav-item-income').click(function() {
+    $('.nav-item-income').click(function () {
         resetBoxDetail();
         $('.layout-modal').removeClass('inactive');
         $('.box-modal-transaction').removeClass('inactive');
@@ -31,7 +31,7 @@ $(document).ready(function() {
     });
 
     // box transfer
-    $('.nav-item-transfer').click(function() {
+    $('.nav-item-transfer').click(function () {
         resetBoxDetail();
         $('.layout-modal').removeClass('inactive');
         $('.box-modal-transaction').removeClass('inactive');
@@ -41,7 +41,7 @@ $(document).ready(function() {
 
     ////// thẻ  details wallet
     var checkWalletDetails = 0;
-    $('.wallet-details-origin').click(async function(e) {
+    $('.wallet-details-origin').click(async function (e) {
         e.preventDefault();
         if (checkWalletDetails == 0) {
             checkWalletDetails = 1;
@@ -53,7 +53,7 @@ $(document).ready(function() {
 
     ////// thẻ  details wallet transfer
     var checkWalletTransfer = 0;
-    $('.wallet-details-transfer').click(async function(e) {
+    $('.wallet-details-transfer').click(async function (e) {
         e.preventDefault();
         if (checkWalletTransfer == 0) {
             checkWalletTransfer = 1;
@@ -64,7 +64,7 @@ $(document).ready(function() {
     });
 
     /// tắt details wallet 
-    $('.wallet-details-exit').click(function() {
+    $('.wallet-details-exit').click(function () {
         $('.badge-wallet').remove();
         $('.wallet-details-script').remove();
         $('.box-modal-wallet-details').addClass('inactive');
@@ -72,7 +72,7 @@ $(document).ready(function() {
 
     ////// thẻ modal details icon
     var checkIconDetails = 0;
-    $('.wallet-details-transaction').click(async function(e) {
+    $('.wallet-details-transaction').click(async function (e) {
         e.preventDefault();
         if (checkIconDetails == 0) {
             checkIconDetails = 1;
@@ -83,19 +83,19 @@ $(document).ready(function() {
     });
 
     /// tắt details icon
-    $('.icon-details-exit').click(function() {
+    $('.icon-details-exit').click(function () {
         $('.badge-wallet').remove();
         $('.icon-details-script').remove();
         $('.box-modal-icon-details').addClass('inactive');
     });
 
     //đổi ví
-    $('.swap-wallet').click(function() {
+    $('.swap-wallet').click(function () {
         swapWallet();
     });
 
     //submit details
-    $('.btn-wallet-details').click(function(e) {
+    $('.btn-wallet-details').click(function (e) {
         e.preventDefault();
         if (isNumeric() == true) {
             if (isMoneyLargerAmountOrigin() == false) {
@@ -105,20 +105,20 @@ $(document).ready(function() {
     });
 
     //reset input money
-    $('.wallet-details-input-money').focus(function() {
+    $('.wallet-details-input-money').focus(function () {
         resetInputMoney();
     });
 });
 
 
-const getWallet = async() => {
+const getWallet = async () => {
     await $.ajax({
         type: "GET",
         url: "/api/moneyApp/wallet",
         processData: false,
         mimeType: "multipart/form-data",
         contentType: false,
-        success: function(response) {
+        success: function (response) {
             let result = JSON.parse(response);
             let idTransfer = $('.wallet-details-transfer-id').val();
 
@@ -140,7 +140,7 @@ const getWallet = async() => {
 
             $('.row-wallet-details').append(`<script src="${window.location.origin}/js/transactionBox/transWallet.js" class="wallet-details-script"></script>`);
         },
-        error: function(e) {
+        error: function (e) {
             console.log(e);
         }
     });
@@ -150,14 +150,14 @@ const getWallet = async() => {
 };
 
 
-const getWalletTransfer = async() => {
+const getWalletTransfer = async () => {
     await $.ajax({
         type: "GET",
         url: "/api/moneyApp/wallet",
         processData: false,
         mimeType: "multipart/form-data",
         contentType: false,
-        success: function(response) {
+        success: function (response) {
             let result = JSON.parse(response);
             let idOrigin = $('.wallet-details-origin-id').val();
             if (result.length != 0) {
@@ -177,7 +177,7 @@ const getWalletTransfer = async() => {
             };
             $('.row-wallet-details').append(`<script src="${window.location.origin}/js/transactionBox/transTransfer.js" class="wallet-details-script"></script>`);
         },
-        error: function(e) {
+        error: function (e) {
             console.log(e);
         }
     });
@@ -187,14 +187,14 @@ const getWalletTransfer = async() => {
 };
 
 
-const getCategory = async() => {
+const getCategory = async () => {
     await $.ajax({
         type: "GET",
         url: "/api/moneyApp/category",
         processData: false,
         mimeType: "multipart/form-data",
         contentType: false,
-        success: function(response) {
+        success: function (response) {
             let result = JSON.parse(response);
             for (let i = 0; i < result.length; i++) {
                 $('.row-icon-details').append(
@@ -208,7 +208,7 @@ const getCategory = async() => {
             };
             $('.row-wallet-details').append(`<script src="${window.location.origin}/js/transactionBox/transIcon.js" class="icon-details-script"></script>`);
         },
-        error: function(e) {
+        error: function (e) {
             console.log(e);
         }
     });
@@ -321,7 +321,7 @@ function swapWallet() {
 }
 
 function formatCash(str) {
-    if (typeof(str) !== 'string') {
+    if (typeof (str) !== 'string') {
         str = str.toString();
     }
 
@@ -394,15 +394,28 @@ function createWalletDetails() {
         mimeType: "multipart/form-data",
         contentType: false,
         data: formData,
-        success: function(response) {
+        success: function (response) {
             let result = JSON.parse(response);
-            // console.log(result);
+            console.log(result);
             //error
             if (result.error != null) {
                 alert(`Thất bại , ${result.error}`);
             }
-
+            // id default
             let id_default = $('.default-wallet').val();
+            // set result
+            if (result.length == 1) {
+                result = result[0];
+            } else {
+                if (result[0].wallet_id == id_default) {
+                    result = result[0];
+                }
+                else if (result[1].wallet_id == id_default) {
+                    result = result[1];
+                }
+            }
+
+            //////////
             let id_result = result.wallet_id;
             let capital = calculate(result.type_trans, result.budget_total, parseInt(result.amount));
             let i = $('tr').length - 1;
@@ -475,71 +488,22 @@ function createWalletDetails() {
     
                 <td class="align-middle">
                     <a data-mdb-toggle="tooltip" title="Noted"><i
-                        class="fas fa-sticky-note fa-lg text-warning note note-wallet note-wallet-details-${result[i].id}"></i></a>
+                        class="fas fa-sticky-note fa-lg text-warning note note-wallet note-wallet-details-${result.id}"></i></a>
                     <a data-mdb-toggle="tooltip" title="Remove"><i
-                        class="fas fa-trash-alt fa-lg text-danger delete-wallet delete-wallet-details-${result[i].id}"></i></a>
+                        class="fas fa-trash-alt fa-lg text-danger delete-wallet delete-wallet-details-${result.id}"></i></a>
                 </td>
                 `);
                 // gan so tien cua vi 
                 $('.total-budget').text(formatCash(result.budget_total));
             };
             resetBoxDetail();
-            deleteWalletDetails(result.id);
-            noteWalletDetails(result.id);
         },
-        error: function(e) {
-            // console.log(e);
+        error: function (e) {
+            console.log(e);
             alert("Thất bại ,vui lòng nhập đầy đủ và đúng yêu cầu");
         }
     });
 }
-
-function deleteWalletDetails(id) {
-    axios.get(`/api/moneyApp/idWalletDetails/${id}`).then(response => {
-        let result = response.data;
-        // console.log(result);
-        for (let i = 0; i < result.length; i++) {
-            $(`.delete-wallet-details-${result[i].id}`).click(function() {
-                if (confirm("Do you want delete") == true) {
-                    axios.delete(`/api/moneyApp/walletDetails/${result[i].id}`)
-                        .then(response => {
-                            let result = response.data;
-                            // gắn money update
-                            $('.total-budget').text(formatCash(result[0]));
-                            //reset transaction layouts
-                            delTransactionLayouts();
-                            addTransactionLayouts();
-                            getWalletDetails(id);
-                        })
-                        .catch(function(error) {
-                            console.log(error);
-                        });
-                }
-            });
-        }
-    });
-};
-
-function noteWalletDetails(id) {
-    axios.get(`/api/moneyApp/idWalletDetails/${id}`).then(response => {
-        let result = response.data;
-        // console.log(result);
-        for (let i = 0; i < result.length; i++) {
-            $(`.note-wallet-details-${result[i].id}`).click(function () {
-                if (confirm("Do you want noted") == true) {
-                    axios.get(`/api/moneyApp/walletDetails/note/${result[i].id}`)
-                        .then(response => {
-                            let result = response.data;
-                            console.log(result);
-                        })
-                        .catch(function (error) {
-                            console.log(error);
-                        });
-                }
-            });
-        }
-    });
-};
 
 function resetBoxDetail() {
     originButton()
@@ -549,9 +513,6 @@ function resetBoxDetail() {
     $('input[name="daySpending"]').val('');
     $('input[name="transactionID"]').val('');
     $('input[name="walletID"]').val('');
-    $('.wallet-form-input').removeClass('payment-color');
-    $('.wallet-form-input').removeClass('income-color');
-    $('.wallet-form-input').removeClass('transfer-color');
 }
 
 function originButton() {

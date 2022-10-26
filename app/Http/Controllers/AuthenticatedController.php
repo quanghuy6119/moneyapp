@@ -9,13 +9,18 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthenticatedController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         $default_wallet_id = auth()->user()->wallet_default_id;
-        $default_wallet = Wallet::where('id',$default_wallet_id);
+        $default_wallet = Wallet::where('id', $default_wallet_id);
         return view('app', ['default' => $default_wallet,]);
     }
 
-
+    /**
+     * Register
+     * 
+     * @return redirect
+     */
     public function register(Request $request)
     {
         $fields = $request->validate([
@@ -33,6 +38,11 @@ class AuthenticatedController extends Controller
         return view('login');
     }
 
+    /**
+     * Log in
+     * 
+     * @return redirect
+     */
     public function login(Request $request)
     {
         $fields = $request->validate([
@@ -42,8 +52,6 @@ class AuthenticatedController extends Controller
 
         if (Auth::attempt($fields, $request->remember != null)) {
             $request->session()->regenerate();
-            // $user = User::where('email', $fields['email'])->first();
-            // $token = $user->createToken('myAppToken')->plainTextToken;
             return redirect('/moneyApp');
         } else {
             return response([
@@ -52,11 +60,13 @@ class AuthenticatedController extends Controller
         }
     }
 
+    /**
+     * Log out
+     * 
+     * @return redirect
+     */
     public function logout(Request $request)
     {
-        // $request->user()->tokens()->delete();
-        // $request->user()->currentAccessToken()->delete();  
-
         Auth::logout();
 
         $request->session()->invalidate();

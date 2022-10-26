@@ -87,7 +87,6 @@ function searchByCalendar() {
         success: function(response) {
             let result = JSON.parse(response);
             console.log(result);
-            result = result[0];
             for (let i = 0; i < result.length; i++) {
 
                 $('.transactions-wallet-details').append(`

@@ -28,6 +28,7 @@ async function getBudgetChart(id, month, type) {
         mimeType: "multipart/form-data",
         contentType: false,
         success: function (response) {
+            console.log(response);
             let result = JSON.parse(response);
             console.log(result);
             rs = result;
