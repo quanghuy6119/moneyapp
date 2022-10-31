@@ -1,1 +1,0 @@
-web: vendor/pin/heroku-php-apache2
