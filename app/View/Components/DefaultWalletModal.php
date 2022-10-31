@@ -23,6 +23,6 @@ class DefaultWalletModal extends Component
      */
     public function render()
     {
-        return view('components.boxmodal.DefaultWalletModal');
+        return view('components.boxmodal.defaultWalletModal');
     }
 }
