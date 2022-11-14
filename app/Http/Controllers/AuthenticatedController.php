@@ -67,14 +67,9 @@ class AuthenticatedController extends Controller
      */
     public function logout(Request $request)
     {
-        $user = request()->user();
-        $user->tokens()->where('id', $user->currentAccessToken()->id)->delete();
-
         Auth::logout();
 
         $request->session()->invalidate();
-
-        $request->session()->regenerateToken();
 
         return redirect(env('APP_URL') . '/moneyApp/login');
     }
