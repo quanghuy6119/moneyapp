@@ -33,5 +33,5 @@ Route::prefix('/moneyApp')->group(function () {
 
     Route::post('/register', [AuthenticatedController::class,'register']);
 
-    Route::get('/logout', [AuthenticatedController::class,'logout']);
+    Route::get('/logout', [AuthenticatedController::class,'logout'])->middleware('auth');
 });
