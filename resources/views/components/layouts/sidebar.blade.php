@@ -28,8 +28,9 @@
                 <div>Report</div>
             </li>
         </a>
+        @php $URL = env('APP_URL'); @endphp
         <li class="list-group-item exit-list-sidebar" style="display: block"><i class="fas fa-times-circle"></i>
-            <a href="/logout" style="text-decoration: none;color:rgb(151, 155, 155);">Exit</a>
+            <a href=`{{ $URL }}/moneyApp/logout` style="text-decoration: none;color:rgb(151, 155, 155);">Exit</a>
         </li>
     </ul>
 </div>
