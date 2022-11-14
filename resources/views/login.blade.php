@@ -11,7 +11,7 @@
 
 <body>
     <div class="loginBox"> <img class="user"
-            {{-- src="https://img.freepik.com/free-vector/cute-panda-with-bamboo_138676-3053.jpg?t=st=1657874937~exp=1657875537~hmac=22555d6de46d3e119f3c0c61b7325de470da36a687993fa77d0d03be9d065971&w=740" --}}
+            src="https://img.freepik.com/free-vector/cute-panda-with-bamboo_138676-3053.jpg?t=st=1657874937~exp=1657875537~hmac=22555d6de46d3e119f3c0c61b7325de470da36a687993fa77d0d03be9d065971&w=740"
             height="100px" width="100px">
         <h3>Sign in here</h3>
         <form action="/moneyApp/login" method="post">

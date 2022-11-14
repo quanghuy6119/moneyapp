@@ -28,8 +28,10 @@
                 <div>Report</div>
             </li>
         </a>
-        <li class="list-group-item exit-list-sidebar" style="display: block"><i class="fas fa-times-circle"></i>
-            <a href="/moneyApp/logout" style="text-decoration: none;color:rgb(151, 155, 155);">Exit</a>
-        </li>
+        <a href="/moneyApp/logout" style="text-decoration: none;color:rgb(151, 155, 155);">
+            <li class="list-group-item exit-list-sidebar" style="display: block"><i class="fas fa-times-circle"></i>
+                <div>Exit</div>
+            </li>
+        </a>
     </ul>
 </div>

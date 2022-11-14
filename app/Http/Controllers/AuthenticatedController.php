@@ -73,9 +73,9 @@ class AuthenticatedController extends Controller
 
         $request->session()->regenerateToken();
 
-        $request->user()->currentAccessToken()->delete();
+        auth()->user()->currentAccessToken()->delete();
 
-        $request->user()->tokens()->delete();
+        auth()->user()->tokens()->delete();
 
         return redirect(env('APP_URL').'/moneyApp/login');
     }
