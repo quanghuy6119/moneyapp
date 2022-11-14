@@ -14,6 +14,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/', function () {
+    return view('login');
+})->name('index');
 
 Route::prefix('/moneyApp')->group(function () {
     Route::get('/', [AuthenticatedController::class,'index'])->middleware('auth');

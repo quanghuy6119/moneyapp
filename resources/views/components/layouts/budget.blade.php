@@ -16,7 +16,7 @@
             <option value="12">December</option>
         </select>
         <select class="form-select select-type-budget form-select-budget">
-            <option value="" selected>Select Month</option>
+            <option value="" selected>Select Type</option>
             <option value="1">Spending</option>
             <option value="2">Income</option>
         </select>
