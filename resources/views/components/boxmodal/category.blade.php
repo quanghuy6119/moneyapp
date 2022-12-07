@@ -6,7 +6,7 @@
         </div>
         <div class="category-exit"><i class="fas fa-times-circle"></i></div>
     </div>
-    <div class="row row-category" style="width:100%;margin-left:12px">
+    <div class="row row-category" style="width:100%;margin-left:12px;height:240px;overflow:scroll">
     </div>
     <form enctype="multipart/form-data" class="form-icon-trans">
         @csrf

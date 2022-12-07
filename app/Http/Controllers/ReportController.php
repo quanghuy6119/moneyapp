@@ -110,8 +110,9 @@ class ReportController extends Controller
         $rs = $this->transactionService->getTotalAmountWithCategory($id, $month, $type);
         $arrayRs = $rs->all();
         $dataName = $this->toArrayNamePieChart($arrayRs);
-        $dataMoney = $this->toArrayMoneyPieChart($arrayRs);
-        $data = [$dataName, $dataMoney];
+        $dataMoney = $this->toArrayMoneyPieChart($arrayRs, $dataName);
+        $totalType = $this->toTotalMoneyPieChart($arrayRs);
+        $data = [$dataName, $dataMoney, $totalType];
         return $this->sendResponse($data);
     }
 
@@ -121,15 +122,30 @@ class ReportController extends Controller
         foreach ($arrayObj as $obj) {
             $data[] = $obj->name;
         }
+        $data = array_unique($data);
+        return array_values($data);
+    }
+
+    private function toArrayMoneyPieChart($arrayObj, $arrayName)
+    {
+        $data = [];
+        foreach ($arrayName as $name) {
+            $cost = 0;
+            foreach ($arrayObj as $obj) {
+                if ($obj->name == $name)
+                    $cost += $obj->cost;
+            }
+            $data[] = $cost;
+        }
         return $data;
     }
 
-    private function toArrayMoneyPieChart($arrayObj)
+    private function toTotalMoneyPieChart($arrayObj)
     {
-        $data = [];
+        $total = 0;
         foreach ($arrayObj as $obj) {
-            $data[] = $obj->cost;
+            $total += $obj->cost;
         }
-        return $data;
+        return $total;
     }
 }

@@ -19,7 +19,7 @@ class CreateWalletDetailsTable extends Migration
             $table->integer('transaction_id');
             $table->bigInteger('amount');
             $table->string('description');
-            $table->date('day_spending');
+            $table->dateTime('day_spending');
             $table->integer('type_trans');
             $table->integer('transfer_id')->nullable();
             $table->integer('noted')->nullable();

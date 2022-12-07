@@ -120,78 +120,78 @@ function getWalletDetails(id, page) {
                 budget = capital;
                 if (i >= page * 10 - 10) {
                     $('.transactions-wallet-details').append(`
-                <tr class="fw-normal${i}">
-                    <td class="align-middle">
-                         <h6 class="mb-0"><span class="badge bg-info">${result[i].day_spending}</span></h6>
-                    </td>
+                        <tr class="fw-normal${i}">
+                            <td class="align-middle">
+                                <h6 class="mb-0"><span class="badge bg-info">${result[i].day_spending}</span></h6>
+                            </td>
 
-                    <td class="align-middle">
-                        <h6 class="mb-0">
-                            <span class="badge" style="background-color: #005fff"> 
-                                <i class="fas fa-dollar-sign"></i>${formatCash(capital)}<span style="margin-left: 5px">VND</span>
-                            </span>
-                        </h6>
-                    </td>
-                </tr>    
-                `);
+                            <td class="align-middle">
+                                <h6 class="mb-0">
+                                    <span class="badge" style="background-color: #005fff"> 
+                                        <i class="fas fa-dollar-sign"></i>${formatCash(capital)}<span style="margin-left: 5px">VND</span>
+                                    </span>
+                                </h6>
+                            </td>
+                        </tr>    
+                    `);
 
                     if (result[i].type_trans == 1 || result[i].type_trans == 3) {
                         $(`.fw-normal${i}`).append(`
-                    <td class="align-middle">
-                        <h6 class="mb-0">
-                            <span class="badge" style="background-color:#fb2e2e"> 
-                                -  <i class="fas fa-dollar-sign"></i>${formatCash(result[i].amount)}<span style="margin-left: 5px">VND</span>
-                            </span>
-                        </h6>
-                    </td>
+                            <td class="align-middle">
+                                <h6 class="mb-0">
+                                    <span class="badge" style="background-color:#fb2e2e"> 
+                                        -  <i class="fas fa-dollar-sign"></i>${formatCash(result[i].amount)}<span style="margin-left: 5px">VND</span>
+                                    </span>
+                                </h6>
+                            </td>
     
-                    <td class="align-middle">
-                        <h6 class="mb-0">
-                            <span class="badge bg-danger"> 
-                                <i class="fas fa-dollar-sign"></i>${formatCash(surplus)}<span style="margin-left: 5px">VND</span>
-                            </span>
-                        </h6>
-                    </td>
-                `);
+                            <td class="align-middle">
+                                <h6 class="mb-0">
+                                    <span class="badge bg-danger"> 
+                                        <i class="fas fa-dollar-sign"></i>${formatCash(surplus)}<span style="margin-left: 5px">VND</span>
+                                    </span>
+                                </h6>
+                            </td>
+                        `);
                     } else {
                         $(`.fw-normal${i}`).append(`
-                    <td class="align-middle">
-                        <h6 class="mb-0">
-                            <span class="badge" style="background-color:#3da13d"> 
-                                + <i class="fas fa-dollar-sign"></i>${formatCash(result[i].amount)}<span style="margin-left: 5px">VND</span>
-                            </span>
-                        </h6>
-                    </td>
+                            <td class="align-middle">
+                                <h6 class="mb-0">
+                                    <span class="badge" style="background-color:#3da13d"> 
+                                        + <i class="fas fa-dollar-sign"></i>${formatCash(result[i].amount)}<span style="margin-left: 5px">VND</span>
+                                    </span>
+                                </h6>
+                            </td>
     
-                    <td class="align-middle">
-                        <h6 class="mb-0">
-                            <span class="badge bg-success"> 
-                                <i class="fas fa-dollar-sign"></i>${formatCash(surplus)}<span style="margin-left: 5px">VND</span>
-                            </span>
-                        </h6>
-                    </td>
-                `);
+                            <td class="align-middle">
+                                <h6 class="mb-0">
+                                    <span class="badge bg-success"> 
+                                        <i class="fas fa-dollar-sign"></i>${formatCash(surplus)}<span style="margin-left: 5px">VND</span>
+                                    </span>
+                                </h6>
+                            </td>
+                        `);
                     };
 
                     $(`.fw-normal${i}`).append(`
-                <td class="align-middle">
-                    <h6 class="mb-0"><span class="badge">
-                        <img src="${window.location.origin}/${result[i].symbol}" class="icon-transaction"></span>
-                        ${result[i].name}
-                    </h6>
-                </td>
+                        <td class="align-middle">
+                            <h6 class="mb-0"><span class="badge">
+                                <img src="${window.location.origin}/${result[i].symbol}" class="icon-transaction"></span>
+                                ${result[i].name}
+                            </h6>
+                        </td>
 
-                 <td class="align-middle">
-                    <div class="details-description">${result[i].description}</div>
-                </td>
+                        <td class="align-middle">
+                            <div class="details-description">${result[i].description}</div>
+                        </td>
     
-                <td class="align-middle">
-                    <a data-mdb-toggle="tooltip" title="Noted"><i
-                        class="fas fa-sticky-note fa-lg text-warning note note-wallet note-wallet-details-${result[i].id}"></i></a>
-                    <a data-mdb-toggle="tooltip" title="Remove"><i
-                        class="fas fa-trash-alt fa-lg text-danger delete-wallet delete-wallet-details-${result[i].id}"></i></a>
-                </td>
-                `);
+                        <td class="align-middle">
+                            <a data-mdb-toggle="tooltip" title="Noted"><i
+                                class="fas fa-sticky-note fa-lg text-warning note note-wallet note-wallet-details-${result[i].id}"></i></a>
+                            <a data-mdb-toggle="tooltip" title="Remove"><i
+                                class="fas fa-trash-alt fa-lg text-danger delete-wallet delete-wallet-details-${result[i].id}"></i></a>
+                        </td>
+                    `);
                 }
             }
             //add pagination

@@ -16,7 +16,7 @@ $(document).ready(function () {
         }
     });
 });
-// get notes in database
+// get budget in database
 async function getBudgetChart(id, month, type) {
 
     $('#load').toggleClass("inactive");
@@ -30,8 +30,10 @@ async function getBudgetChart(id, month, type) {
         success: function (response) {
             console.log(response);
             let result = JSON.parse(response);
-            console.log(result);
+            // console.log(result);
             rs = result;
+            //
+            alert("Tổng số tiền chi tiêu: " + formatCash(rs[2]) + " VND");
         },
         error: function (e) {
             console.log(e);
@@ -83,4 +85,14 @@ function addBudgetLayouts() {
     </div>    
     `);
     $('.budget-layouts').removeClass('inactive');
+}
+
+//format currency vnd
+function formatCash(str) {
+    if (typeof (str) !== 'string') {
+        str = str.toString();
+    }
+    return str.split('').reverse().reduce((prev, next, index) => {
+        return ((index % 3) ? next : (next + ',')) + prev
+    })
 }
